@@ -1,0 +1,121 @@
+{
+    "activeFile": "test.tmx",
+    "expandedProjectPaths": [
+        ".",
+        "Tiled_files"
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Tiled_files/Interior1.tmx": {
+            "expandedObjectLayers": [
+                25,
+                24
+            ],
+            "scale": 4,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 24,
+                "y": 82.25
+            }
+        },
+        "Tiled_files/Interior1.tmx#Doors_windows_animation": {
+            "scaleInDock": 1.5
+        },
+        "Tiled_files/Interior1.tmx#Interior": {
+            "scaleInDock": 1.5
+        },
+        "Tiled_files/Interior1.tmx#walls_floor": {
+            "scaleInDock": 2
+        },
+        "test.tmx": {
+            "expandedObjectLayers": [
+                61
+            ],
+            "scale": 11,
+            "selectedLayer": 14,
+            "viewCenter": {
+                "x": 464.0909090909091,
+                "y": 312.54545454545456
+            }
+        },
+        "test.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#Smoke_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#Trees_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#bird_fly_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#bird_jump_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#cat_animation": {
+            "scaleInDock": 1
+        },
+        "test.tmx#exterior": {
+            "scaleInDock": 1
+        },
+        "test.tmx#ground_grass_details": {
+            "scaleInDock": 1
+        },
+        "test.tmx#house_details": {
+            "scaleInDock": 1
+        },
+        "test2.tmx": {
+            "scale": 1.7960937499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -128.05567638103525,
+                "y": 79.06046107003044
+            }
+        },
+        "test2.tmx#Doors_windows_animation": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test2.tmx#Interior": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test2.tmx#walls_floor": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tests.tmx": {
+            "expandedObjectLayers": [
+                25
+            ],
+            "scale": 11,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 276.27272727272725,
+                "y": 272.04545454545456
+            }
+        },
+        "tests.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "tests.tmx#Interior": {
+            "scaleInDock": 2
+        },
+        "tests.tmx#walls_floor": {
+            "scaleInDock": 2
+        }
+    },
+    "last.imagePath": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/Tiled_files",
+    "openFiles": [
+        "test.tmx",
+        "tests.tmx"
+    ],
+    "project": "test.tiled-project",
+    "recentFiles": [
+        "tests.tmx",
+        "test.tmx",
+        "test2.tmx",
+        "Tiled_files/Interior1.tmx"
+    ]
+}
