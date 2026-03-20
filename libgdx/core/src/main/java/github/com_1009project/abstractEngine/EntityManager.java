@@ -109,6 +109,8 @@ public class EntityManager implements MovementEntity, MapEntity{
 
     // Renders all active entities using the provided SpriteBatch
     public void render(SpriteBatch batch) {
+        renderableEntities.sort((r1, r2) -> Float.compare(r2.getY(), r1.getY())); // sort all renderable entities by their Y position for correct rendering order
+
 		for (IRenderable entity : renderableEntities) {
 			if (((Entity) entity).isActive()) {
 				entity.render(batch);

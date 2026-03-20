@@ -23,7 +23,9 @@ public class EntityFactory {
         switch (type) {
             // Add cases for other entity types as needed
             case Player:
-                return new Player(200, 200, 50, 50, assetManager.get("imgs/boy_down_1.png", Texture.class));
+                Texture idleSheet = assetManager.get("imgs/human_idle.png", Texture.class);
+                Texture runSheet = assetManager.get("imgs/human_run.png", Texture.class);
+                return new Player(200, 200, 50, 50, idleSheet, runSheet);
             default:
                 return null;
         }
@@ -60,7 +62,9 @@ public class EntityFactory {
         // Create new entity based on type
         switch (type) {
             case "Player":
-                entity = new Player(x, y, width, height, assetManager.get("imgs/boy_down_1.png", Texture.class));
+                Texture idleSheet = assetManager.get("imgs/human_idle.png", Texture.class);
+                Texture runSheet = assetManager.get("imgs/human_run.png", Texture.class);
+                entity = new Player(x, y, width, height, idleSheet, runSheet);
                 break;
 
             case "Door":

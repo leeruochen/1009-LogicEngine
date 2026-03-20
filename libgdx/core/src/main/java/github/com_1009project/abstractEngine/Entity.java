@@ -41,7 +41,7 @@ public abstract class Entity {
 
     // check if entity is collidable and active
     public boolean isCollidable() { return this.collisionComponent != null && this.collisionComponent.isActive();}
-    
+
     // Getters and Setters
     public CollisionComponent getCollisionComponent() {return this.collisionComponent;}
     public void setPosition(float x, float y) {this.position.set(x, y);}
@@ -59,6 +59,8 @@ public abstract class Entity {
     public void setInputEnabled(boolean inputEnabled) {this.inputEnabled = inputEnabled;}
 
     public void onDestroy(){} // method to be called when the entity is destroyed, can be overridden by subclasses for cleanup
+
+    public float getY() { return position.y;}
 
     public Entity copy(){return this;}; // method for creating a copy of the entity
 }
