@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import github.com_1009project.logicEngine.Door;
 import github.com_1009project.logicEngine.PauseScene;
+import github.com_1009project.logicEngine.Player;
 import github.com_1009project.logicEngine.TestScene;
-import github.com_1009project.logicEngine.testEntity;
 
 public class SceneManager implements EventObserver {
     private Map<Integer, Scene> scenes = new HashMap<>();
@@ -115,8 +115,8 @@ public class SceneManager implements EventObserver {
 
         if (!isUp) { // Key Pressed
             if (event == Event.PlayerInteract) {
-                if (entity instanceof testEntity) {
-                    testEntity player = (testEntity) entity;
+                if (entity instanceof Player) {
+                    Player player = (Player) entity;
                     Door door = player.nearbyDoor;
                     if (door != null) {
                         String dest = door.getDestination();

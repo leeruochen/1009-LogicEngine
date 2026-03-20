@@ -2,26 +2,26 @@ package github.com_1009project;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
-import github.com_1009project.abstractEngine.MapManager;
-import github.com_1009project.abstractEngine.EntityManager;
 import github.com_1009project.abstractEngine.Entity;
+import github.com_1009project.abstractEngine.EntityManager;
+import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.testEntity;
-import github.com_1009project.abstractEngine.Event;
-import com.badlogic.gdx.Input;
+import github.com_1009project.logicEngine.Player;
 
 public class GameMaster extends ApplicationAdapter{
     private EntityManager entityManager;
@@ -34,7 +34,7 @@ public class GameMaster extends ApplicationAdapter{
     private CameraManager camera;
     private MapManager mapManager;
     private SpriteBatch batch;
-    private testEntity player;
+    private Player player;
 
     // camera properties
     private int width, height;
@@ -154,8 +154,8 @@ public class GameMaster extends ApplicationAdapter{
 
         // find player entity and set camera target to player.
         for (Entity entity : entityManager.getEntities()) {
-            if (entity instanceof testEntity) {
-                player = (testEntity) entity;
+            if (entity instanceof Player) {
+                player = (Player) entity;
                 break;
             }
         }

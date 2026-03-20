@@ -1,14 +1,14 @@
 package github.com_1009project.logicEngine;
 
+import java.util.Map;
+
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
 import github.com_1009project.abstractEngine.Entity;
-
-import com.badlogic.gdx.assets.AssetManager;
-import java.util.Map;
 
 public class EntityFactory {
 
@@ -23,7 +23,7 @@ public class EntityFactory {
         switch (type) {
             // Add cases for other entity types as needed
             case Player:
-                return new testEntity(200, 200, 50, 50, assetManager.get("imgs/boy_down_1.png", Texture.class));
+                return new Player(200, 200, 50, 50, assetManager.get("imgs/boy_down_1.png", Texture.class));
             default:
                 return null;
         }
@@ -60,7 +60,7 @@ public class EntityFactory {
         // Create new entity based on type
         switch (type) {
             case "Player":
-                entity = new testEntity(x, y, width, height, assetManager.get("imgs/boy_down_1.png", Texture.class));
+                entity = new Player(x, y, width, height, assetManager.get("imgs/boy_down_1.png", Texture.class));
                 break;
 
             case "Door":
