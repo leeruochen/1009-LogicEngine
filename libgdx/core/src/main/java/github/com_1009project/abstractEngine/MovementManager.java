@@ -1,11 +1,9 @@
 package github.com_1009project.abstractEngine;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class MovementManager implements EventObserver {
-    private EntityManager entityManager;
+    private MovementEntity entityManager;
     
-    public MovementManager(EntityManager entityManager) {
+    public MovementManager(MovementEntity entityManager) {
     	this.entityManager = entityManager;
     }
     

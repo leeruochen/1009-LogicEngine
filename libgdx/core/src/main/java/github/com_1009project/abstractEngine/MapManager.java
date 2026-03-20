@@ -1,18 +1,17 @@
 package github.com_1009project.abstractEngine;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
-
-import com.badlogic.gdx.Gdx;
 //https://libgdx.com/wiki/graphics/2d/tile-maps
 
 public class MapManager implements Disposable {
 
-    private EntityManager entityManager;
+    private MapEntity entityManager;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private float map_scale;
@@ -20,7 +19,7 @@ public class MapManager implements Disposable {
 
     // constructor initializes map manager with entity manager and default scale
     // also sets up a static camera for rendering the map if needed
-    public MapManager(EntityManager entityManager) {
+    public MapManager(MapEntity entityManager) {
         this.map_scale = 1.0f;
         this.entityManager = entityManager;
         this.staticCam = new OrthographicCamera();

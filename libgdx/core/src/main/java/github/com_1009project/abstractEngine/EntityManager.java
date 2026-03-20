@@ -1,10 +1,10 @@
 package github.com_1009project.abstractEngine;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.maps.MapObject;
 import github.com_1009project.logicEngine.EntityFactory;
 import github.com_1009project.logicEngine.EntityType;
 
-public class EntityManager{
+public class EntityManager implements MovementEntity, MapEntity{
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<Entity> toRemove = new ArrayList<>();
