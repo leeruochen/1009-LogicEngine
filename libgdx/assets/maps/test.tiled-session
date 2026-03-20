@@ -1,11 +1,78 @@
 {
-    "activeFile": "test.tmx",
+    "activeFile": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
     "expandedProjectPaths": [
         ".",
         "Tiled_files"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "16x16.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx": {
+            "scale": 2,
+            "selectedLayer": 14,
+            "viewCenter": {
+                "x": 559.5,
+                "y": 188.5
+            }
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#Smoke_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#Trees_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#bird_fly_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#bird_jump_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#cat_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#exterior": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#ground_grass_details": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#house_details": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx": {
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -21.75,
+                "y": -7.25
+            }
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Customer": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Doors_windows_animations": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Forge": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Interior_objects": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Light_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Master": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Walls_interior": {
+            "scaleInDock": 1
+        },
         "Tiled_files/Interior1.tmx": {
             "expandedObjectLayers": [
                 25,
@@ -27,15 +94,35 @@
         "Tiled_files/Interior1.tmx#walls_floor": {
             "scaleInDock": 2
         },
+        "interior free.tsx": {
+            "scaleInDock": 1
+        },
+        "kitchen.tmx": {
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 199,
+                "y": 178.5
+            }
+        },
+        "kitchen.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "kitchen.tmx#Interior": {
+            "scaleInDock": 1
+        },
+        "kitchen.tmx#walls_floor": {
+            "scaleInDock": 1
+        },
         "test.tmx": {
             "expandedObjectLayers": [
                 61
             ],
-            "scale": 11,
+            "scale": 3,
             "selectedLayer": 14,
             "viewCenter": {
-                "x": 464.0909090909091,
-                "y": 312.54545454545456
+                "x": 383.66666666666663,
+                "y": 356
             }
         },
         "test.tmx#Doors_windows_animation": {
@@ -93,7 +180,7 @@
             "selectedLayer": 7,
             "viewCenter": {
                 "x": 276.27272727272725,
-                "y": 272.04545454545456
+                "y": 272.0909090909091
             }
         },
         "tests.tmx#Doors_windows_animation": {
@@ -108,13 +195,16 @@
     },
     "last.imagePath": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/Tiled_files",
     "openFiles": [
-        "test.tmx",
-        "tests.tmx"
+        "kitchen.tmx",
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx"
     ],
     "project": "test.tiled-project",
     "recentFiles": [
-        "tests.tmx",
+        "kitchen.tmx",
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
+        "C:/Users/Admin/Downloads/glassblower/Interior.tmx",
         "test.tmx",
+        "tests.tmx",
         "test2.tmx",
         "Tiled_files/Interior1.tmx"
     ]
