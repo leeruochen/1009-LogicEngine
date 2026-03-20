@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import github.com_1009project.abstractEngine.Entity;
+import github.com_1009project.abstractEngine.IRenderable;
 
-public abstract class Ingredient extends Entity {
+public abstract class Ingredient extends Entity implements IRenderable {
     private String name;
     private FoodState state;
     private Texture texture;

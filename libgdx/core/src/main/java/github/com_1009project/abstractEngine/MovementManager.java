@@ -11,9 +11,10 @@ public class MovementManager implements EventObserver {
 	public void onNotify(Event event, Boolean up) {
 		// Only loop through entities that have explicitly flagged they want input
 		for (Entity entity : entityManager.getEntities()) {
-			if (entity.isActive()) {
-				if (entity.isInputEnabled() == true && entity.isCanMove() == true) {
-					entity.getMovementComponent().handlePlayerInput(entity, event, up);
+			if (entity instanceof DynamicEntity) {
+				DynamicEntity dynamicEntity = (DynamicEntity) entity;
+				if (dynamicEntity.isInputEnabled() == true && dynamicEntity.canMove() == true) {
+					dynamicEntity.getMovementComponent().handlePlayerInput(dynamicEntity, event, up);
 				}
 			}
 		}

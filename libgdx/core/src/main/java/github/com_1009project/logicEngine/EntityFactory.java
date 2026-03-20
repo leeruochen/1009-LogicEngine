@@ -23,8 +23,8 @@ public class EntityFactory {
         switch (type) {
             // Add cases for other entity types as needed
             case Player:
-                Texture idleSheet = assetManager.get("imgs/human_idle.png", Texture.class);
-                Texture runSheet = assetManager.get("imgs/human_run.png", Texture.class);
+                Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
+                Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
                 return new Player(200, 200, 50, 50, idleSheet, runSheet);
             default:
                 return null;
@@ -62,22 +62,61 @@ public class EntityFactory {
         // Create new entity based on type
         switch (type) {
             case "Player":
-                Texture idleSheet = assetManager.get("imgs/human_idle.png", Texture.class);
-                Texture runSheet = assetManager.get("imgs/human_run.png", Texture.class);
+                Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
+                Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
                 entity = new Player(x, y, width, height, idleSheet, runSheet);
-                break;
-
-            case "Door":
-                entity = new Door(x, y, width, height);
-                if (object.getProperties().containsKey("targetMap")) {
-                    ((Door) entity).setDestination(object.getProperties().get("targetMap", String.class));
-                }
                 break;
 
             case "CollisionBox":
                 entity = new CollisionBox(x, y, width, height);
                 break;
             // Add cases for other entity types as needed
+            case "Counter":
+                Texture counterTexture = assetManager.get("foodstations/counter.png", Texture.class);
+                entity = new Counter(x, y, width, height, counterTexture);
+                break;
+
+            case "ChoppingStation":
+                Texture choppingTexture = assetManager.get("foodstations/counter_choppingboard.png", Texture.class);
+                entity = new ChoppingStation(x, y, width, height, choppingTexture);
+                break;
+
+            case "Stove":
+                Texture stoveTexture = assetManager.get("foodstations/stove.png", Texture.class);
+                entity = new Stove(x, y, width, height, stoveTexture);
+                break;
+            
+            case "RubbishBin":
+                Texture rubbishTexture = assetManager.get("foodstations/rubbishBin.png", Texture.class);
+                entity = new RubbishBin(x, y, width, height, rubbishTexture);
+                break;
+
+            case "BunBox":
+            case "PattyBox":
+            case "CheeseBox":
+            case "LettuceBox":
+            case "TomatoBox":
+            case "PlateBox":
+                // 1. Extract the ingredient name from the TiledMap type.
+                // This turns "BunBox" into "bun", "CheeseBox" into "cheese", etc.
+                String ingredientName = type.replace("Box", "").toLowerCase(); 
+
+                // 2. Dynamically build the file path based on the name!
+                // Make sure your files are named: bun_box.png, cheese_box.png, etc.
+                String texturePath = "foodstations/" + ingredientName + "_box.png";
+                
+                // 3. Grab the specific texture from your AssetManager
+                Texture boxTexture = assetManager.get(texturePath, Texture.class);
+                
+                // 4. Create the single IngredientBox class, passing in the unique texture and name
+                entity = new IngredientBox(x, y, width, height, boxTexture, ingredientName);
+                break;
+
+            case "CounterSubmission":
+                Texture submissionTexture = assetManager.get("foodstations/counter_submission.png", Texture.class);
+                entity = new CounterSubmission(x, y, width, height, submissionTexture);
+                break;
+            
             default:
                 System.out.println("Unknown entity type: " + type);
                 break;

@@ -70,7 +70,7 @@ public class MovementComponent {
         this.friction = friction;
     }
     
-    protected void handlePlayerInput(Entity entity, Event event, boolean isUp) {
+    protected void handlePlayerInput(DynamicEntity entity, Event event, boolean isUp) {
         if (entity == null) {
         	return;
         }
@@ -117,7 +117,7 @@ public class MovementComponent {
         updatePlayerVelocity(entity);
     }
 
-    private void updatePlayerVelocity(Entity entity) {
+    private void updatePlayerVelocity(DynamicEntity entity) {
     	//the input events is faster than testEntity to run its constructor finish, preventing crash
     	if (entity.getMovementComponent() == null) {
     		return;

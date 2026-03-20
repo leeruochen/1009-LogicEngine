@@ -6,7 +6,6 @@ import java.util.Map;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import github.com_1009project.logicEngine.Door;
 import github.com_1009project.logicEngine.PauseScene;
 import github.com_1009project.logicEngine.Player;
 import github.com_1009project.logicEngine.TestScene;
@@ -115,16 +114,6 @@ public class SceneManager implements EventObserver {
 
         if (!isUp) { // Key Pressed
             if (event == Event.PlayerInteract) {
-                if (entity instanceof Player) {
-                    Player player = (Player) entity;
-                    Door door = player.nearbyDoor;
-                    if (door != null) {
-                        String dest = door.getDestination();
-                        if (dest != null && !dest.isEmpty()) {
-                            player.mapToLoad = dest;
-                        }
-                    }
-                }
             }
         } else { // Key Released
             if (event == Event.PlayerInteract) {

@@ -23,12 +23,12 @@ public abstract class DynamicEntity extends Entity implements IUpdatable, Moveab
             return; // Skip update if entity is not active
         }
         
-        this.previousPosition.set(this.position); // Store previous position
+        this.previousPosition.set(this.getPosition()); // Store previous position
         updateMovement(deltaTime); // Update the entity's movement
         
         // if entity is collidable, update its bounds
-        if (this.collisionComponent != null) {
-            this.collisionComponent.updateBounds(this.position);
+        if (this.getCollisionComponent() != null) {
+            this.getCollisionComponent().updateBounds(this.getPosition());
         }
     }
 

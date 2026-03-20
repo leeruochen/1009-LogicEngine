@@ -47,7 +47,7 @@ public class GameMaster extends ApplicationAdapter{
     // this is our set up, to initialize our managers and variables
     @Override
     public void create() {
-        collisionManager = new CollisionManager(128);
+        collisionManager = new CollisionManager(64);
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         entityManager = new EntityManager(assetManager);
@@ -72,7 +72,7 @@ public class GameMaster extends ApplicationAdapter{
         // parse collision layer and add collision boxes to entities list, "Collision" can be changed to how the developer wants to name it in Tiled
         mapManager = new MapManager(entityManager);
         mapManager.setScale(4.0f); 
-        loadMap("maps/test.tmx");
+        loadMap("maps/kitchen.tmx");
 
         sm.loadScene(1);
 
@@ -110,13 +110,6 @@ public class GameMaster extends ApplicationAdapter{
             sm.updateScene(deltaTime);
             sm.renderScene();
             return; // Skip the rest of the game logic below
-        }
-
-        if (player != null && player.mapToLoad != null) {
-            String newMap = player.mapToLoad;
-            player.mapToLoad = null; // reset the mapToLoad variable
-            loadMap(newMap);
-            return;
         }
 
         // update all entities
@@ -166,15 +159,30 @@ public class GameMaster extends ApplicationAdapter{
     // can also use a json file or other data file to specify assets to load, and parse that file in this method to load assets in bulk
     private void loadAssets() {
         // load textures
-        assetManager.load("imgs/boy_down_1.png", Texture.class);
+        assetManager.load("imgs/background.png", Texture.class);
+        assetManager.load("foodstations/rubbishBin.png", Texture.class);
+        assetManager.load("foodstations/counter.png", Texture.class);
+        assetManager.load("foodstations/counter_submission.png", Texture.class);
+        assetManager.load("foodstations/counter_choppingboard.png", Texture.class);
+        assetManager.load("foodstations/stove_cooking.png", Texture.class);
+        assetManager.load("foodstations/stove.png", Texture.class);
+        assetManager.load("foodstations/plate_box.png", Texture.class);
+        assetManager.load("foodstations/patty_box.png", Texture.class);
+        assetManager.load("foodstations/bun_box.png", Texture.class);
+        assetManager.load("foodstations/lettuce_box.png", Texture.class);
+        assetManager.load("foodstations/cheese_box.png", Texture.class);
+        assetManager.load("foodstations/tomato_box.png", Texture.class);
+
+        assetManager.load("character/human_idle.png", Texture.class);
+        assetManager.load("character/human_run.png", Texture.class);
+        assetManager.load("character/human_death.png", Texture.class);
+        assetManager.load("character/human_chop2.png", Texture.class);
 
         // load tmx maps, params required to prevent errors
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.projectFilePath = "maps/test.tiled-project";
-        assetManager.load("imgs/background.png", Texture.class);
-        assetManager.load("maps/test.tmx", TiledMap.class, params);
-        assetManager.load("maps/tests.tmx", TiledMap.class, params);
+        assetManager.load("maps/kitchen.tmx", TiledMap.class, params);
     }
 
     // resize is called whenever ApplicationAdapter detects a change in screen size, this can be used to adjust the camera viewport and other properties as needed

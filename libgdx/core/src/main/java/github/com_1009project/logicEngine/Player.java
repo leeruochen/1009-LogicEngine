@@ -10,19 +10,18 @@ import com.badlogic.gdx.Gdx;
 import github.com_1009project.abstractEngine.DynamicEntity;
 import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.ICollidable;
+import github.com_1009project.abstractEngine.IRenderable;
 import github.com_1009project.abstractEngine.AnimationComponent;
 
 public class Player extends DynamicEntity implements ICollidable, IRenderable {
     public boolean hasCollided = false;
-    public String mapToLoad = null;
-    public Door nearbyDoor = null;
     private AnimationComponent animationComponent;
 
     public Player(float x, float y, float w, float h, Texture idleSheet, Texture runSheet) {
         super();
         this.setPosition(x, y);
         this.setSize(w, h);
-        this.createCollisionComponent(44, 10, 10, 0);
+        this.createCollisionComponent(28, 10, 5, 0);
         this.setOnGround(true);
         this.setCanMove(true);
         this.setInputEnabled(true);
@@ -36,7 +35,6 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
 
     @Override
     public void updateMovement(float deltaTime) {
-        nearbyDoor = null; // reset each frame; onCollision will set it if overlapping
         Vector2 vel = this.getMovementComponent().getVelocity();
         float playerMaxSpd = this.getMovementComponent().getMaxSpeed();
         
@@ -67,13 +65,11 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         Rectangle otherRect = other.getCollisionComponent().getBounds();
 
         if (playerRect.overlaps(otherRect)) {
-            if (other instanceof Door) {
-                nearbyDoor = (Door) other;
-            }
-            else if (other instanceof CollisionBox) {
-                this.setPosition(this.getPreviousPosition().x, this.getPreviousPosition().y);
-                this.hasCollided = true;
-            }
+            // Simple collision response: move player back to previous position
+            this.getPosition().set(this.getPreviousPosition());
+            this.hasCollided = true;
+        } else {
+            this.hasCollided = false;
         }
     }
 

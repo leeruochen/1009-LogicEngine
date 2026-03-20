@@ -11,5 +11,4 @@ public class Bread extends Ingredient {
         super("Bread", FoodState.Raw, texture);
     }
 
-
 }
