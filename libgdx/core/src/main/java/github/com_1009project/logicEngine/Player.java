@@ -21,14 +21,14 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         super();
         this.setPosition(x, y);
         this.setSize(w, h);
-        this.createCollisionComponent(28, 10, 5, 0);
+        this.createCollisionComponent(60, 10, 20, 10);
         this.setOnGround(true);
         this.setCanMove(true);
         this.setInputEnabled(true);
         this.setMovementComponent(1000f, 0.85f);
         this.setPersistent(true);
         this.animationComponent = new AnimationComponent();
-        this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.1f);
+        this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
         this.animationComponent.addAnimation("RUN", runSheet, 8, 1, 0.05f);
     	this.animationComponent.setState("IDLE");
     }

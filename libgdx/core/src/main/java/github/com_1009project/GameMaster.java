@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -36,6 +39,8 @@ public class GameMaster extends ApplicationAdapter{
     private SpriteBatch batch;
     private Player player;
 
+    private ShapeRenderer shapeRenderer; // For debugging collision boxes
+
     // camera properties
     private int width, height;
 
@@ -53,6 +58,7 @@ public class GameMaster extends ApplicationAdapter{
         entityManager = new EntityManager(assetManager);
         eventManager = new EventManager();
         movementManager = new MovementManager(entityManager);
+        shapeRenderer = new ShapeRenderer();
         sm = new SceneManager(assetManager, entityManager, eventManager, batch);
 
         // set up camera with max world bounds
@@ -134,6 +140,24 @@ public class GameMaster extends ApplicationAdapter{
         batch.begin();
         entityManager.render(batch);
         batch.end();
+
+        // Debug rendering for collision boxes
+        shapeRenderer.setProjectionMatrix(camera.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // "Line" means empty boxes (outlines)
+        shapeRenderer.setColor(Color.RED); // Set the pen color to red
+
+        // Loop through the fast-lane list you made earlier!
+        for (Entity entity : entityManager.getCollidableEntities()) {
+            // Safety check to ensure the entity and its collision are active
+            if (entity.isActive() && entity.getCollisionComponent().isActive()) {
+                Rectangle bounds = entity.getCollisionComponent().getBounds();
+                
+                // Draw a rectangle using the exact math from your CollisionComponent
+                shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+            }
+        }
+        
+        shapeRenderer.end();
     }
 
     // this method is used to load a new map, it clears the current entities and loads the new map's entities
@@ -199,5 +223,6 @@ public class GameMaster extends ApplicationAdapter{
         mapManager.dispose();
         collisionManager.dispose();
         sm.dispose();
+        shapeRenderer.dispose();
     }
 }

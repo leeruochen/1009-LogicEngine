@@ -578,28 +578,28 @@
 </data>
  </layer>
  <objectgroup id="24" name="CollisionBox">
-  <object id="18" name="CollisionBox" type="CollisionBox" x="80" y="80" width="256" height="48"/>
-  <object id="19" name="CollisionBox" type="CollisionBox" x="78.5" y="128.5" width="3.75" height="129.75"/>
+  <object id="18" name="CollisionBox" type="CollisionBox" x="80.5" y="81.75" width="256" height="19"/>
+  <object id="19" name="CollisionBox" type="CollisionBox" x="77.75" y="130.75" width="3.75" height="129.75"/>
   <object id="22" name="CollisionBox" type="CollisionBox" x="333.75" y="127.5" width="3.75" height="125"/>
   <object id="23" name="CollisionBox" type="CollisionBox" x="82.25" y="253.25" width="255.5" height="6"/>
  </objectgroup>
  <objectgroup id="25" name="Entities">
-  <object id="15" name="Player" type="Player" x="292.333" y="136.917" width="37.0833" height="38.4167"/>
-  <object id="43" name="RubbishBin" type="RubbishBin" x="96" y="128" width="16" height="16"/>
-  <object id="45" name="Counter" type="Counter" x="112" y="128" width="16" height="16"/>
-  <object id="46" name="ChoppingStation" type="ChoppingStation" x="128" y="128" width="16" height="16"/>
-  <object id="47" name="ChoppingStation" type="ChoppingStation" x="144" y="128" width="16" height="16"/>
-  <object id="48" name="ChoppingStation" type="ChoppingStation" x="160" y="128" width="16" height="16"/>
-  <object id="49" name="Counter" type="Counter" x="176" y="128" width="16" height="16"/>
-  <object id="50" name="Stove" type="Stove" x="192" y="128" width="16" height="16"/>
-  <object id="51" name="Counter" type="Counter" x="208" y="128" width="16" height="16"/>
-  <object id="52" name="Stove" type="Stove" x="224" y="128" width="16" height="16"/>
-  <object id="53" name="Counter" type="Counter" x="240" y="128" width="16" height="16"/>
-  <object id="54" name="ChoppingStation" type="ChoppingStation" x="256" y="128" width="16" height="16"/>
-  <object id="55" name="LettuceBox" type="LettuceBox" x="272" y="128" width="16" height="16"/>
-  <object id="56" name="CheeseBox" type="CheeseBox" x="288" y="128" width="16" height="16"/>
-  <object id="57" name="PattyBox" type="PattyBox" x="304" y="128" width="16" height="16"/>
-  <object id="59" name="Counter" type="Counter" x="80" y="176" width="16" height="16"/>
+  <object id="15" name="Player" type="Player" x="282.583" y="144.417" width="24" height="24"/>
+  <object id="43" name="RubbishBin" type="RubbishBin" x="95.75" y="117.5" width="16" height="16"/>
+  <object id="45" name="Counter" type="Counter" x="111.75" y="117.5" width="16" height="16"/>
+  <object id="46" name="ChoppingStation" type="ChoppingStation" x="127.75" y="117.5" width="16" height="16"/>
+  <object id="47" name="ChoppingStation" type="ChoppingStation" x="143.75" y="117.5" width="16" height="16"/>
+  <object id="48" name="ChoppingStation" type="ChoppingStation" x="159.75" y="117.5" width="16" height="16"/>
+  <object id="49" name="Counter" type="Counter" x="175.75" y="117.5" width="16" height="16"/>
+  <object id="50" name="Stove" type="Stove" x="191.75" y="117.5" width="16" height="16"/>
+  <object id="51" name="Counter" type="Counter" x="207.75" y="117.5" width="16" height="16"/>
+  <object id="52" name="Stove" type="Stove" x="223.75" y="117.5" width="16" height="16"/>
+  <object id="53" name="Counter" type="Counter" x="239.75" y="117.5" width="16" height="16"/>
+  <object id="54" name="ChoppingStation" type="ChoppingStation" x="255.75" y="117.5" width="16" height="16"/>
+  <object id="55" name="LettuceBox" type="LettuceBox" x="271.75" y="117.5" width="16" height="16"/>
+  <object id="56" name="CheeseBox" type="CheeseBox" x="287.75" y="117.5" width="16" height="16"/>
+  <object id="57" name="PattyBox" type="PattyBox" x="303.75" y="117.5" width="16" height="16"/>
+  <object id="59" name="Counter" type="Counter" x="82.75" y="176" width="13.25" height="16"/>
   <object id="60" name="CounterSubmission" type="CounterSubmission" x="96" y="176" width="16" height="16"/>
   <object id="61" name="Counter" type="Counter" x="112" y="176" width="16" height="16"/>
   <object id="62" name="Counter" type="Counter" x="128" y="176" width="16" height="16"/>
@@ -614,8 +614,8 @@
   <object id="71" name="TomatoBox" type="TomatoBox" x="272" y="176" width="16" height="16"/>
   <object id="72" name="BunBox" type="BunBox" x="288" y="176" width="16" height="16"/>
   <object id="73" name="PlateBox" type="PlateBox" x="304" y="176" width="16" height="16"/>
-  <object id="74" name="Counter" type="Counter" x="320" y="176" width="16" height="16"/>
-  <object id="77" name="Counter" type="Counter" x="80" y="128" width="16" height="16"/>
-  <object id="78" name="Counter" type="Counter" x="320" y="128" width="16" height="16"/>
+  <object id="74" name="Counter" type="Counter" x="320" y="176" width="12.75" height="16"/>
+  <object id="77" name="Counter" type="Counter" x="83" y="117.5" width="12.75" height="16"/>
+  <object id="78" name="Counter" type="Counter" x="319.75" y="117.5" width="13" height="16"/>
  </objectgroup>
 </map>

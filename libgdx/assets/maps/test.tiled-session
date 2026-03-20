@@ -1,5 +1,5 @@
 {
-    "activeFile": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
+    "activeFile": "kitchen.tmx",
     "expandedProjectPaths": [
         ".",
         "Tiled_files"
@@ -98,11 +98,11 @@
             "scaleInDock": 1
         },
         "kitchen.tmx": {
-            "scale": 4,
-            "selectedLayer": 0,
+            "scale": 3,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 196,
-                "y": 223.5
+                "x": 182.33333333333334,
+                "y": 170.33333333333334
             }
         },
         "kitchen.tmx#Doors_windows_animation": {
@@ -195,13 +195,12 @@
     },
     "last.imagePath": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/Tiled_files",
     "openFiles": [
-        "kitchen.tmx",
-        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx"
+        "kitchen.tmx"
     ],
     "project": "test.tiled-project",
     "recentFiles": [
-        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
         "kitchen.tmx",
+        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
         "C:/Users/Admin/Downloads/glassblower/Interior.tmx",
         "test.tmx",
         "tests.tmx",
