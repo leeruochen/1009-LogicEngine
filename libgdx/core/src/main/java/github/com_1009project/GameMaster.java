@@ -123,7 +123,7 @@ public class GameMaster extends ApplicationAdapter{
         entityManager.update(deltaTime);
 
         // update collisions
-        collisionManager.updateCollision(entityManager.getEntities());
+        collisionManager.updateCollision(entityManager.getCollidableEntities());
 
         // update camera position
         camera.cameraUpdate(deltaTime);

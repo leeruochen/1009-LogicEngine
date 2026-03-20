@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import github.com_1009project.abstractEngine.Entity;
 
-public class Player extends Entity {
+public class Player extends Entity implements ICollidable, IRenderable {
     public boolean hasCollided = false; // Flag for camera shake
     private Texture texture;
     public String mapToLoad = null;

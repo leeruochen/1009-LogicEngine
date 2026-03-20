@@ -12,12 +12,4 @@ public class CollisionBox extends Entity {
         this.setSize(w, h);
         this.createCollisionComponent(w, h);
     }
-
-    // collision boxes are invisible and have no behavior, they just exist to be collided with
-    @Override
-    public void updateMovement(float deltaTime) {}
-
-    // no rendering for collision boxes, they are invisible
-    @Override
-    public void render(SpriteBatch batch) {}
 }

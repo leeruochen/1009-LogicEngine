@@ -15,10 +15,14 @@ import github.com_1009project.logicEngine.EntityType;
 
 public class EntityManager implements MovementEntity, MapEntity{
 
-    private final List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>(); // master list
+
+    private final List<IUpdatable> updatableEntities = new ArrayList<>(); // entities that need to be updated every frame
+    private final List<IRenderable> renderableEntities = new ArrayList<>(); // entities that need to be rendered every frame
+    private final List<Entity> collidableEntities = new ArrayList<>(); // entities that have collision components and need to be checked for collisions every frame
+
     private final List<Entity> toRemove = new ArrayList<>();
     private final Map<String, Entity> persistentEntities = new HashMap<>();
-
     private final EntityFactory factory;
 
     public EntityManager(AssetManager assetManager) {
@@ -29,7 +33,7 @@ public class EntityManager implements MovementEntity, MapEntity{
     public Entity createEntity(EntityType type) {
         Entity entity = factory.createEntity(type);
 
-        entities.add(entity);
+        categorizeEntity(entity);
         return entity;
     }
 
@@ -38,7 +42,7 @@ public class EntityManager implements MovementEntity, MapEntity{
         Entity entity = factory.createEntity(object, map_scale, persistentEntities);
 
         if (entity != null && !entities.contains(entity)) {
-            entities.add(entity);
+            categorizeEntity(entity);
             // Track persistent entities by their type for reuse on map load
             if (entity.getPersistent()) {
                 String type = object.getProperties().get("type", String.class);
@@ -48,6 +52,22 @@ public class EntityManager implements MovementEntity, MapEntity{
             }
         }
         return entity;
+    }
+
+    private void categorizeEntity(Entity entity) {
+        if (entity == null) {return;}
+
+        entities.add(entity);
+
+        if (entity instanceof IUpdatable) {
+            updatableEntities.add((IUpdatable) entity);
+        }
+        if (entity instanceof IRenderable) {
+            renderableEntities.add((IRenderable) entity);
+        }
+        if (entity.isCollidable()) {
+            collidableEntities.add(entity);
+        }
     }
 
     // Marks an entity for removal at the end of the current update cycle
@@ -63,6 +83,16 @@ public class EntityManager implements MovementEntity, MapEntity{
             entity.onDestroy(); // Call onDestroy for cleanup
             System.out.println("Removing entity: " + entity);
             entities.remove(entity);
+            // Remove from categorized lists
+            if (entity instanceof IUpdatable) {
+                updatableEntities.remove(entity);
+            }
+            if (entity instanceof IRenderable) {
+                renderableEntities.remove(entity);
+            }
+            if (entity.isCollidable()) {
+                collidableEntities.remove(entity);
+            }
         }
         toRemove.clear();
     }
@@ -71,17 +101,28 @@ public class EntityManager implements MovementEntity, MapEntity{
     public void update(float deltaTime){
 
         // Update all active entities
-        for (Entity entity : entities) {
-            if (entity.isActive()) {
-                entity.update(deltaTime);
-            }
+        for (IUpdatable entity : updatableEntities) {
+            entity.update(deltaTime);
         }
         processRemovals(); // Process removals after updates
     }
 
+    // Renders all active entities using the provided SpriteBatch
+    public void render(SpriteBatch batch) {
+		for (IRenderable entity : renderableEntities) {
+			if (((Entity) entity).isActive()) {
+				entity.render(batch);
+			}
+		}
+	}
+
     // getter for entities
     public List<Entity> getEntities() {
         return Collections.unmodifiableList(entities);
+    }
+
+    public List<Entity> getCollidableEntities() {
+        return Collections.unmodifiableList(collidableEntities);
     }
 
     // getter for persistent entities map
@@ -98,13 +139,4 @@ public class EntityManager implements MovementEntity, MapEntity{
         }
         processRemovals();
     }
-
-    // Renders all active entities using the provided SpriteBatch
-    public void render(SpriteBatch batch) {
-		for (Entity entity : entities) {
-			if (entity.isActive()) {
-				entity.render(batch);
-			}
-		}
-	}
 }
