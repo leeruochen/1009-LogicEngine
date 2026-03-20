@@ -200,6 +200,7 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.load("character/human_idle.png", Texture.class);
         assetManager.load("character/human_run.png", Texture.class);
         assetManager.load("character/human_death.png", Texture.class);
+        assetManager.load("character/human_chop1.png", Texture.class);
         assetManager.load("character/human_chop2.png", Texture.class);
 
         // load tmx maps, params required to prevent errors

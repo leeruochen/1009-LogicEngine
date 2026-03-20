@@ -98,11 +98,11 @@
             "scaleInDock": 1
         },
         "kitchen.tmx": {
-            "scale": 3,
+            "scale": 4,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 182.33333333333334,
-                "y": 170.33333333333334
+                "x": 196.75,
+                "y": 150.5
             }
         },
         "kitchen.tmx#Doors_windows_animation": {
