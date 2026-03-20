@@ -101,8 +101,8 @@
             "scale": 4,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 199,
-                "y": 178.5
+                "x": 196,
+                "y": 223.5
             }
         },
         "kitchen.tmx#Doors_windows_animation": {
@@ -200,8 +200,8 @@
     ],
     "project": "test.tiled-project",
     "recentFiles": [
-        "kitchen.tmx",
         "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
+        "kitchen.tmx",
         "C:/Users/Admin/Downloads/glassblower/Interior.tmx",
         "test.tmx",
         "tests.tmx",

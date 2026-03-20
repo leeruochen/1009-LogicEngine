@@ -75,8 +75,6 @@ public abstract class Entity implements Moveable {
         return this.collisionComponent != null && this.collisionComponent.isActive();
     }
 
-    public void onCollision(Entity collidedEntity){} // classes to override this if they want to handle collision
-
     // Getters and Setters
     public CollisionComponent getCollisionComponent() {return this.collisionComponent;}
     public void setPosition(float x, float y) {this.position.set(x, y);}

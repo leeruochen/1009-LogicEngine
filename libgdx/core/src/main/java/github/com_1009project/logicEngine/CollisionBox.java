@@ -20,8 +20,4 @@ public class CollisionBox extends Entity {
     // no rendering for collision boxes, they are invisible
     @Override
     public void render(SpriteBatch batch) {}
-    
-    // no onCollision behavior, classes will implement their own collision logic if touching this box
-    @Override
-    public void onCollision(Entity other) {}
 }
