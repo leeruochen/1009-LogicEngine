@@ -29,7 +29,7 @@ public abstract class Ingredient extends Entity implements IRenderable {
     public FoodState getState() {
         return state;
     }
-
+    
     public void setState(FoodState state) {
         this.state = state;
     }

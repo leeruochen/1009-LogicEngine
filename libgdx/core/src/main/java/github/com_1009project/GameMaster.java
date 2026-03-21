@@ -91,9 +91,6 @@ public class GameMaster extends ApplicationAdapter{
 		eventManager.mapKey(Input.Keys.S, Event.PlayerDown);
 		eventManager.mapKey(Input.Keys.A, Event.PlayerLeft);
 		eventManager.mapKey(Input.Keys.D, Event.PlayerRight);
-		eventManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
-		eventManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
-		eventManager.mapKey(Input.Keys.SPACE, Event.PlayerJump);
         eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 
