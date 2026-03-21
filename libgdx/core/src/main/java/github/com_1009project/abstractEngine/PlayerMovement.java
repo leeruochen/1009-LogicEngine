@@ -3,11 +3,10 @@ package github.com_1009project.abstractEngine;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerMovement {
-	private MovementComponent movementComponent;
 	
     protected void handlePlayerInput(DynamicEntity entity, Event event, boolean isUp) {
-        movementComponent = entity.getMovementComponent();
-        if (entity == null) {
+        MovementComponent movementComponent = entity.getMovementComponent();
+        if (movementComponent == null) {
         	return;
         }
         // Update input state
@@ -44,10 +43,10 @@ public class PlayerMovement {
         }
 
         // Update velocity based on current input state
-        updatePlayerVelocity(entity);
+        updatePlayerVelocity(entity, movementComponent);
     }
 
-    private void updatePlayerVelocity(DynamicEntity entity) {
+    private void updatePlayerVelocity(DynamicEntity entity, MovementComponent movementComponent) {
     	//the input events is faster than testEntity to run its constructor finish, preventing crash
     	if (entity.getMovementComponent() == null) {
     		return;
