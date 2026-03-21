@@ -6,7 +6,61 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "16x16.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx": {
+            "scale": 1.7960937499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.05567638103525,
+                "y": 0
+            }
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Characters_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Citizen1_Idle_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Citizen1_Walk_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Mon1k_Pray": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Parishioner1": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Parishioner10": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Parishioner11": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Parishioner2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_Idle": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_Walk": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_making_spell": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_speech": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/AppData/Local/Temp/3dce0e38-7f94-4460-a0f5-7408fd667e52_craftpix-net-477438-free-chapel-pixel-art-top-down-asset-pack.zip.e52/Tiled_files/Characters.tmx#Priest_spell": {
             "scaleInDock": 1
         },
         "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx": {
@@ -44,6 +98,75 @@
         "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx#house_details": {
             "scaleInDock": 1
         },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx": {
+            "scale": 2.3230468749999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -0.21523457205313434,
+                "y": -0.4304691441062687
+            }
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Decorative_cracks": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Dragon_body": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Dragon_head": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Dragon_tail": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Dragon_wing_animation": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Exterior": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx#Walls_street": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx": {
+            "scale": 4.6460937499999995,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -128.06457037161596,
+                "y": 49.28871700016815
+            }
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx#Customer": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx#Customer_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx#Master": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx#Master_Idle": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Characters.tmx#Master_Idle_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Exterior.tmx": {
+            "scale": 2.3230468749999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "C:/Users/Admin/Downloads/glassblower/Exterior.tmx#Doors_windows_animations": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Exterior.tmx#Exterior_house": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/glassblower/Exterior.tmx#Walls_street": {
+            "scaleInDock": 1
+        },
         "C:/Users/Admin/Downloads/glassblower/Interior.tmx": {
             "scale": 4,
             "selectedLayer": 0,
@@ -73,6 +196,345 @@
         "C:/Users/Admin/Downloads/glassblower/Interior.tmx#Walls_interior": {
             "scaleInDock": 1
         },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx": {
+            "scale": 1.5486979166666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 0,
+                "y": 127.84933579956282
+            }
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin1_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin1_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin2_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin2_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin3_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Attacked_Manequin3_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Citizen4_Idle_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Citizen4_Walk_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Different_characters_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Fighter_sword1_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Fighter_sword1_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Fire": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Mage3": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Mages_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Shadow_various_characters": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Talking_people": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Talking_people_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Talking_person1": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#Talking_person2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Characters.tmx#shadow_manequin": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx": {
+            "scale": 2.3230468749999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx#Decorative_cracks": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx#Exterior": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx#Flags_animation": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx#Walls_street": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Exterior.tmx#Windows_doors": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -125.33333333333337,
+                "y": -12.333333333333314
+            }
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Citizen4_Idle_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Citizen4_Walk_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Guildmaster": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Interior_objects": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Talking_people": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Walls_interior": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#Windows_doors": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_1st_floor.tmx#x500": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx": {
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 0,
+                "y": -35.75
+            }
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Attacked_Manequin1_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Attacked_Manequin2_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Attacked_Manequin3_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Fighter_sword1_with_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Fighter_sword1_without_shadow": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Fire": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Interior_objects": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Mage3": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Reader1": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Reader2": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#Walls_interior": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Downloads/guildhall/Interior_2nd_floor.tmx#x500": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Decorative_cracks.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Dragon_body.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dragon_head.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dragon_tail.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dragon_wing_animation.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Exterior.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Exterior1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Flags_animation.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Forge.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Interior_objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Light_animation.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Reader1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Reader2.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 115.25,
+                "y": 22
+            }
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#Smoke_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#bird_jump_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#cat_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#exterior": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#ground_grass_details": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#house_details": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#для анимации чх200": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#для анимации чх300": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#для скринов — копия": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx#для скринов24": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx": {
+            "scale": 2.0620442708333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -127.78581125880089,
+                "y": 0
+            }
+        },
+        "Tiled_files/Exterior.tmx#Doors_windows_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#Smoke_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#Trees_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#bird_fly_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#bird_jump_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#cat_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#exterior": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#ground_grass_details": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Exterior.tmx#house_details": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx": {
+            "scale": 2.3230468749999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 0,
+                "y": -0.21523457205313434
+            }
+        },
+        "Tiled_files/Interior.tmx#Customer": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Doors_windows_animations": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Forge": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Interior_objects": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Light_animation": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Master": {
+            "scaleInDock": 1
+        },
+        "Tiled_files/Interior.tmx#Walls_interior": {
+            "scaleInDock": 1
+        },
         "Tiled_files/Interior1.tmx": {
             "expandedObjectLayers": [
                 25,
@@ -94,25 +556,48 @@
         "Tiled_files/Interior1.tmx#walls_floor": {
             "scaleInDock": 2
         },
+        "Trees_animation.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Walls_interior1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Walls_street.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "bird_fly_animation.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "interior free.tsx": {
             "scaleInDock": 1
         },
         "kitchen.tmx": {
-            "scale": 4,
-            "selectedLayer": 7,
+            "expandedObjectLayers": [
+                24,
+                25
+            ],
+            "scale": 3,
+            "selectedLayer": 12,
             "viewCenter": {
-                "x": 196.75,
-                "y": 150.5
+                "x": 225.16666666666663,
+                "y": 178.33333333333334
             }
         },
         "kitchen.tmx#Doors_windows_animation": {
             "scaleInDock": 1
         },
         "kitchen.tmx#Interior": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "kitchen.tmx#walls_floor": {
-            "scaleInDock": 1
+            "dynamicWrapping": false,
+            "scaleInDock": 3
         },
         "test.tmx": {
             "expandedObjectLayers": [
@@ -193,18 +678,36 @@
             "scaleInDock": 2
         }
     },
-    "last.imagePath": "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/Tiled_files",
+    "last.externalTilesetPath": "C:/Users/Admin/Downloads/Projects/1009-LogicEngine/libgdx/assets/maps",
+    "last.imagePath": "C:/Users/Admin/Downloads/Projects/1009-LogicEngine/libgdx/assets/maps/Tiled_files",
     "openFiles": [
-        "kitchen.tmx"
+        "kitchen.tmx",
+        "Dragon_wing_animation.tsx",
+        "Dragon_tail.tsx",
+        "Dragon_head.tsx",
+        "Dragon_body.tsx",
+        "Exterior1.tsx",
+        "bird_fly_animation.tsx",
+        "Trees_animation.tsx"
     ],
     "project": "test.tiled-project",
     "recentFiles": [
+        "Trees_animation.tsx",
+        "bird_fly_animation.tsx",
+        "Exterior1.tsx",
+        "Dragon_body.tsx",
+        "Dragon_head.tsx",
+        "Dragon_tail.tsx",
+        "Dragon_wing_animation.tsx",
         "kitchen.tmx",
-        "C:/Users/Admin/Downloads/Projects/1009-project/libgdx/assets/maps/test.tmx",
-        "C:/Users/Admin/Downloads/glassblower/Interior.tmx",
-        "test.tmx",
-        "tests.tmx",
-        "test2.tmx",
-        "Tiled_files/Interior1.tmx"
-    ]
+        "Tiled_files/Exterior ΓÇö ╨║╨╛╨┐╨╕╤Å.tmx",
+        "Tiled_files/Exterior.tmx",
+        "C:/Users/Admin/Downloads/chapel/Exterior.tmx",
+        "Decorative_cracks.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
 }

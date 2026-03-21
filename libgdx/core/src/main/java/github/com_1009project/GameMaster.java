@@ -144,11 +144,6 @@ public class GameMaster extends ApplicationAdapter{
 
         // render entities and map based on camera position
         mapManager.render(camera.getCamera());
-        
-        if (player.hasCollided) {
-            camera.shake(2f, 0.2f);
-            player.hasCollided = false;
-        }
 
         // batch will render entities according to cameraPosition
         batch.setProjectionMatrix(camera.getCamera().combined);
