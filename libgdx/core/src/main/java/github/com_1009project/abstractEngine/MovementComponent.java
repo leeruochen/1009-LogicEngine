@@ -16,7 +16,6 @@ public class MovementComponent {
     private boolean rightPressed = false;
     private boolean upPressed = false;
     private boolean downPressed = false;
-    private boolean spacePressed = false; //jump logic is in game logic
 
     //entity should not be moving when created, when input events are triggered then movementmanager handles it
     public MovementComponent(float maxSpeed, float friction) { 
@@ -70,78 +69,33 @@ public class MovementComponent {
         this.friction = friction;
     }
     
-    protected void handlePlayerInput(DynamicEntity entity, Event event, boolean isUp) {
-        if (entity == null) {
-        	return;
-        }
-        // Update input state
-        if (!isUp) { // Key Pressed
-            switch (event) {
-                case PlayerLeft: 
-                	leftPressed = true; 
-                	break;
-                case PlayerRight: 
-                	rightPressed = true; 
-                	break;
-                case PlayerUp: 
-                	upPressed = true; 
-                	break;
-                case PlayerDown: 
-                	downPressed = true; 
-                	break;
-                case PlayerJump: 
-                	spacePressed = true;
-                	break;
-            }
-        } else { // Key Released
-            switch (event) {
-                case PlayerLeft: 
-                	leftPressed = false; 
-                	break;
-                case PlayerRight: 
-                	rightPressed = false; 
-                	break;
-                case PlayerUp: 
-                	upPressed = false; 
-                	break;
-                case PlayerDown: 
-                	downPressed = false; 
-                	break;
-                case PlayerJump: 
-                	spacePressed = false;
-                	break;
-            }
-        }
-
-        // Update velocity based on current input state
-        updatePlayerVelocity(entity);
-    }
-
-    private void updatePlayerVelocity(DynamicEntity entity) {
-    	//the input events is faster than testEntity to run its constructor finish, preventing crash
-    	if (entity.getMovementComponent() == null) {
-    		return;
-    	}
-        Vector2 vel = entity.getMovementComponent().getVelocity();
-        
-        // Horizontal movement
-        if (leftPressed && !rightPressed) {
-            vel.x = -playerSpeed;
-        } else if (rightPressed && !leftPressed) {
-            vel.x = playerSpeed;
-        } else {
-            vel.x = 0; // Both or neither pressed
-        }
-        
-        // Vertical movement
-        if (upPressed && !downPressed) {
-            vel.y = playerSpeed;
-        } else if (downPressed && !upPressed) {
-            vel.y = -playerSpeed;
-        } else {
-            vel.y = 0; // Both or neither pressed
-        }
-        
+    public boolean isLeftPressed()      {
+    	return leftPressed; 
     }
     
+    public void setLeftPressed(boolean pressed) {
+    	leftPressed = pressed; 
+    }
+    public boolean isRightPressed()     { 
+    	return rightPressed; 
+    }
+    public void setRightPressed(boolean pressed) { 
+    	rightPressed = pressed; 
+    }
+    public boolean isUpPressed()        { 
+    	return upPressed; 
+    }
+    public void setUpPressed(boolean pressed)    { 
+    	upPressed = pressed; 
+    }
+    public boolean isDownPressed()      { 
+    	return downPressed; 
+    }
+    public void setDownPressed(boolean pressed)  { 
+    	downPressed = pressed; 
+    }
+    
+    public float getPlayerSpeed() {
+    	return playerSpeed;
+    }
 }
