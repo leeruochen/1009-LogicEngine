@@ -2,9 +2,11 @@ package github.com_1009project.abstractEngine;
 
 public class MovementManager implements EventObserver {
     private MovementEntity entityManager;
+    private PlayerMovement playerMovement;
     
     public MovementManager(MovementEntity entityManager) {
     	this.entityManager = entityManager;
+    	this.playerMovement = new PlayerMovement();
     }
     
 	@Override
@@ -14,7 +16,7 @@ public class MovementManager implements EventObserver {
 			if (entity instanceof DynamicEntity) {
 				DynamicEntity dynamicEntity = (DynamicEntity) entity;
 				if (dynamicEntity.isInputEnabled() == true && dynamicEntity.canMove() == true) {
-					dynamicEntity.getMovementComponent().handlePlayerInput(dynamicEntity, event, up);
+					playerMovement.handlePlayerInput(dynamicEntity, event, up);
 				}
 			}
 		}
