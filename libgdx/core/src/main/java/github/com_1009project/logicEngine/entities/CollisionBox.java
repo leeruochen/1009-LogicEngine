@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

@@ -7,8 +7,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.Player;
 import github.com_1009project.logicEngine.TestScene;
+import github.com_1009project.logicEngine.entities.Player;
 
 public class SceneManager implements EventObserver {
     private Map<Integer, Scene> scenes = new HashMap<>();

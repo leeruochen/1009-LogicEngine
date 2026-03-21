@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine.ingredients;
+package github.com_1009project.logicEngine.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -7,8 +7,8 @@ import github.com_1009project.logicEngine.Ingredient;
 
 public class Lettuce extends Ingredient {
 
-    public Lettuce(Texture texture) {
-        super("Lettuce", FoodState.Raw, texture);
+    public Lettuce(float x, float y, float w, float h, Texture texture) {
+        super("Lettuce", FoodState.Raw, x, y, w, h, texture);
     }
 
 }

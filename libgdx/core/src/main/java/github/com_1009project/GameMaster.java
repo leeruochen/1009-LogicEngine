@@ -24,7 +24,8 @@ import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.Player;
+import github.com_1009project.logicEngine.entities.*;
+import github.com_1009project.logicEngine.factories.*;
 
 public class GameMaster extends ApplicationAdapter{
     private EntityManager entityManager;
@@ -56,6 +57,20 @@ public class GameMaster extends ApplicationAdapter{
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         entityManager = new EntityManager(assetManager);
+        entityManager.registerFactory(Bun.class, new BunFactory(assetManager));
+        entityManager.registerFactory(Cheese.class, new CheeseFactory(assetManager));
+        entityManager.registerFactory(ChoppingStation.class, new ChoppingStationFactory(assetManager));
+        entityManager.registerFactory(CollisionBox.class, new CollisionBoxFactory());
+        entityManager.registerFactory(Counter.class, new CounterFactory(assetManager));
+        entityManager.registerFactory(CounterSubmission.class, new CounterSubmissionFactory(assetManager));
+        entityManager.registerFactory(IngredientBox.class, new IngredientBoxFactory());
+        entityManager.registerFactory(Lettuce.class, new LettuceFactory(assetManager));
+        entityManager.registerFactory(Patty.class, new PattyFactory(assetManager));
+        entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
+        entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
+        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
+        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
+        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
         eventManager = new EventManager();
         movementManager = new MovementManager(entityManager);
         shapeRenderer = new ShapeRenderer();
