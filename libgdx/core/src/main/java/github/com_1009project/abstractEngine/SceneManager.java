@@ -7,7 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.TestScene;
+import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.entities.Player;
 
 public class SceneManager implements EventObserver {
@@ -30,6 +30,19 @@ public class SceneManager implements EventObserver {
         return batch;
     }
 
+    public void startGame() {
+        currentScene = null;
+    }
+
+    public void resumeGame() {
+        currentScene = null;
+    }
+
+    public void goToMainMenu() {
+        currentScene = null;
+        loadScene(0); // Main menu scene ID
+    }
+
     // Load a scene by ID (can be extended to load specific subclasses like TestScene)
     public void loadScene(int id) {
         if (scenes.containsKey(id)) {
@@ -37,8 +50,8 @@ public class SceneManager implements EventObserver {
         } else {
             if (id == 99) {
                 currentScene = new PauseScene(id, resourceManager, entityManager, eventManager, batch, this);
-            } else if (id == 1) {
-                currentScene = new TestScene(id, resourceManager, entityManager, eventManager, batch);
+            } else if (id == 0) {
+                currentScene = new MainMenuScene(id, resourceManager, entityManager, eventManager, batch, this);
             } else {
                 throw new IllegalArgumentException("Unknown scene ID: " + id);
             }
@@ -84,16 +97,16 @@ public class SceneManager implements EventObserver {
 
     @Override
     public void onNotify(Event event, Boolean up) {
-        if (currentScene == null) return;
-
         if (event == Event.GamePause && !up) { // Only trigger on key press, not release
             if (currentScene instanceof PauseScene) { // If we're already in the pause scene, return to the previous scene
-                loadScene(previousSceneId); 
+                currentScene = null; // Clear current scene to avoid rendering issues 
             } else {
-                previousSceneId = currentScene.getId();  // Save the current scene ID before switching to pause
                 loadScene(99); // Load the pause scene (ID 99)
             }
+            return;
         }
+        if (currentScene == null) return; // No scene to notify
+
 		// Only loop through entities that have explicitly flagged they want input
 		for (Entity entity : entityManager.getEntities()) {
 			if (entity.isActive()) {

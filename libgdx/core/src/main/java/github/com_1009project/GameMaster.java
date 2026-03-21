@@ -23,6 +23,7 @@ import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UIFactory;
+import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
@@ -93,9 +94,9 @@ public class GameMaster extends ApplicationAdapter{
         // parse collision layer and add collision boxes to entities list, "Collision" can be changed to how the developer wants to name it in Tiled
         mapManager = new MapManager(entityManager);
         mapManager.setScale(4.0f); 
-        loadMap("maps/kitchen.tmx");
+        // loadMap("maps/kitchen.tmx");
 
-        sm.loadScene(1);
+        sm.loadScene(0); // load main menu first
 
         //eventmanager adds movementManager as an event observer
 		eventManager.addObserver(movementManager);
@@ -113,7 +114,7 @@ public class GameMaster extends ApplicationAdapter{
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 
 		// Register input processor
-		Gdx.input.setInputProcessor(eventManager);
+		//Gdx.input.setInputProcessor(eventManager);
     }
 
     // our main gameplay/simulation loop
@@ -125,20 +126,19 @@ public class GameMaster extends ApplicationAdapter{
         // time between each frame, this ensures same speed on different devices
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-        // Check if paused
-        if (sm.getCurrentScene() instanceof PauseScene) {
-            // Only update and render the Pause UI
-            sm.updateScene(deltaTime);
-            sm.renderScene();
-            return; // Skip the rest of the game logic below
+        if (sm.getCurrentScene() instanceof MainMenuScene) {
+            player = null; // Ensure player is null when in main menu
         }
 
-        // update all entities
-        entityManager.update(deltaTime);
-
-        // update collisions
-        collisionManager.updateCollision(entityManager.getCollidableEntities());
-
+        if (sm.getCurrentScene() == null && player == null) {
+            loadMap("maps/kitchen.tmx");
+        }
+        
+        if (player == null) {
+            sm.updateScene(deltaTime);
+            sm.renderScene();
+            return; // wait until player is initialized from map loading
+        }
         // update camera position
         camera.cameraUpdate(deltaTime);
 
@@ -150,6 +150,18 @@ public class GameMaster extends ApplicationAdapter{
         batch.begin();
         entityManager.render(batch);
         batch.end();
+
+        // ── NEW: draw pause on top, then stop ──
+        if (sm.getCurrentScene() instanceof PauseScene) {
+            sm.updateScene(deltaTime);
+            sm.renderScene();
+            return;
+        }
+        // update all entities
+        entityManager.update(deltaTime);
+
+        // update collisions
+        collisionManager.updateCollision(entityManager.getCollidableEntities());
 
         // Debug rendering for collision boxes
         shapeRenderer.setProjectionMatrix(camera.getCamera().combined);
