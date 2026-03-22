@@ -20,36 +20,29 @@ import github.com_1009project.abstractEngine.UILayer;
 
 public class MainMenuScene extends Scene {
 
-    private SceneManager sceneManager;
-    private SpriteBatch  bgBatch;
-    private Texture      background;
+    private Texture background;
+    private Skin skin;
+    private BitmapFont titleFont;
 
-    public MainMenuScene(int id, AssetManager resourceManager, EntityManager entityManager,
+    public MainMenuScene(int id, AssetManager assetManager, EntityManager entityManager,
                          EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, resourceManager, entityManager, eventManager, batch);
-        this.sceneManager = sceneManager;
+        super(id, assetManager, entityManager, eventManager, batch, sceneManager);
         init();
     }
 
     @Override
     public void init() {
-        bgBatch    = new SpriteBatch();
-        background = resourceManager.get("imgs/background.png", Texture.class);
+        background = assetManager.get("imgs/background.png", Texture.class);
 
         UILayer uiLayer = new UILayer(batch);
         layers.add(uiLayer);
 
-        Skin skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        titleFont = new BitmapFont(Gdx.files.internal("menu/title.fnt"), Gdx.files.internal("menu/title.png"), false);
 
         float cx = Gdx.graphics.getWidth()  / 2f;
         float cy = Gdx.graphics.getHeight() / 2f;
 
-        // title using custom font
-        BitmapFont titleFont = new BitmapFont(
-            Gdx.files.internal("menu/title.fnt"),
-            Gdx.files.internal("menu/title.png"),
-            false
-        );
         Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.WHITE);
         Label title = new Label("UnderCooked", titleStyle);
         title.setPosition(cx - title.getPrefWidth() / 2f, cy + 120f);
@@ -59,10 +52,11 @@ public class MainMenuScene extends Scene {
         TextButton playBtn = new TextButton("Play", skin, "warm-resume");
         playBtn.setSize(260f, 60f);
         playBtn.setPosition(cx - 130f, cy);
+
         playBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.startGame();
+                sceneManager.loadScene(1);
             }
         });
         uiLayer.getStage().addActor(playBtn);
@@ -83,9 +77,9 @@ public class MainMenuScene extends Scene {
     @Override
     public void render() {
         // draw background first then UI on top
-        bgBatch.begin();
-        bgBatch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        bgBatch.end();
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         super.render();
     }
@@ -93,6 +87,7 @@ public class MainMenuScene extends Scene {
     @Override
     public void dispose() {
         super.dispose();
-        bgBatch.dispose();
+        skin.dispose();
+        titleFont.dispose();
     }
 }

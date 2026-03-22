@@ -19,13 +19,12 @@ import github.com_1009project.abstractEngine.UILayer;
 
 public class PauseScene extends Scene {
 
-    private SceneManager sceneManager;
     private ShapeRenderer shapeRenderer;
+    private Skin skin;
 
-    public PauseScene(int id, AssetManager resourceManager, EntityManager entityManager,
+    public PauseScene(int id, AssetManager assetManager, EntityManager entityManager,
                       EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, resourceManager, entityManager, eventManager, batch);
-        this.sceneManager = sceneManager;
+        super(id, assetManager, entityManager, eventManager, batch, sceneManager);
         init();
     }
 
@@ -36,7 +35,7 @@ public class PauseScene extends Scene {
         UILayer uiLayer = new UILayer(batch);
         layers.add(uiLayer);
 
-        Skin skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
 
         float cx = Gdx.graphics.getWidth()  / 2f;
         float cy = Gdx.graphics.getHeight() / 2f;
@@ -53,7 +52,7 @@ public class PauseScene extends Scene {
         resumeBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.resumeGame();
+                sceneManager.loadScene(1);
             }
         });
         uiLayer.getStage().addActor(resumeBtn);
@@ -65,7 +64,7 @@ public class PauseScene extends Scene {
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.goToMainMenu();
+                sceneManager.loadScene(0);
             }
         });
         uiLayer.getStage().addActor(quitBtn);
@@ -89,5 +88,6 @@ public class PauseScene extends Scene {
     public void dispose() {
         super.dispose();
         shapeRenderer.dispose();
+        skin.dispose();
     }
 }

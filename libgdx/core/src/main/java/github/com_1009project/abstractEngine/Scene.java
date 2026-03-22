@@ -11,29 +11,28 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class Scene {
+public abstract class Scene {
     private int id;
     protected List<Layer> layers = new ArrayList<>();;
-    protected AssetManager resourceManager;
+    protected AssetManager assetManager;
     protected EntityManager entityManager;
     protected EventManager eventManager;
     protected SpriteBatch batch;
+    protected SceneManager sceneManager;
 
-    public Scene(int id, AssetManager resourceManager, EntityManager entityManager, EventManager eventManager, SpriteBatch batch) {
+    public Scene(int id, AssetManager assetManager, EntityManager entityManager, EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
         this.id = id;
-        this.resourceManager = resourceManager;
+        this.assetManager = assetManager;
         this.entityManager = entityManager;
         this.eventManager = eventManager;
         this.batch = batch;
+        this.sceneManager = sceneManager;
     }
     public int getId() {
         return id;
     }
-    public void init() {
-        layers.add(new BackgroundLayer(batch, resourceManager,"imgs/background.png"));
-        layers.add(new EntityLayer(batch, eventManager, entityManager));
-        layers.add(new UILayer(batch));
-    }
+    public abstract void init();
+
     public void onEnter() {
         System.out.println("Scene " + getId() + " has been switched and now is active!");
         
