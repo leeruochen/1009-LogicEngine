@@ -37,15 +37,17 @@ public class GameScene extends Scene {
         this.mapManager.setScale(4.0f);
 
         this.shapeRenderer = new ShapeRenderer();
+        init();
     }
 
     @Override
-    public void init() {};
+    public void init() {
+        loadMap("maps/kitchen.tmx");
+    };
 
     @Override
     public void onEnter() {
         super.onEnter();
-        loadMap("maps/kitchen.tmx");
     }
 
     @Override

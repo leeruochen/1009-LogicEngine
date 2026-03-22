@@ -27,19 +27,6 @@ public class SceneManager implements EventObserver {
         return batch;
     }
 
-    public void startGame() {
-        currentScene = null;
-    }
-
-    public void resumeGame() {
-        currentScene = null;
-    }
-
-    public void goToMainMenu() {
-        currentScene = null;
-        loadScene(0); // Main menu scene ID
-    }
-
     public void registerScene(int id, Supplier<Scene> sceneSupplier) {
         sceneSuppliers.put(id, sceneSupplier);
     }
