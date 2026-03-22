@@ -83,6 +83,10 @@ public class SceneManager implements EventObserver {
     @Override
     public void onNotify(Event event, Boolean up) {
         if (event == Event.GamePause && !up) { // Only trigger on key press, not release
+            if (currentScene != null && currentScene.getId() == 0) {
+                return;
+            }
+
             if (currentScene != null && currentScene.getId() == 2) { // If we're already in the pause scene, return to the previous scene
                 currentScene = null; // Clear current scene to avoid rendering issues 
             } else {
