@@ -104,7 +104,6 @@ public class GameMaster extends ApplicationAdapter{
 		eventManager.mapKey(Input.Keys.D, Event.PlayerRight);
 		eventManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
 		eventManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
-		eventManager.mapKey(Input.Keys.SPACE, Event.PlayerJump);
         eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 		
@@ -122,15 +121,6 @@ public class GameMaster extends ApplicationAdapter{
 
         sm.updateScene(deltaTime);
         sm.renderScene();
-        
-        if (sm.getCurrentScene() instanceof GameScene) {
-            if (foodQueueSystem == null) {
-                foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
-                foodQueueSystem.create();
-            }
-            foodQueueSystem.update(deltaTime);
-            foodQueueSystem.render(deltaTime);
-        }
     }
 
     // an example of how to use the asset manager to load assets, this can be expanded to load more assets as needed
@@ -180,6 +170,5 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.dispose();
         batch.dispose();
         sm.dispose();
-        foodQueueSystem.dispose(); 
     }
 }

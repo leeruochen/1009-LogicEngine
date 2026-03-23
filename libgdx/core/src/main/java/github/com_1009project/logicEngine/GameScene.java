@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 
 import github.com_1009project.abstractEngine.CameraManager;
@@ -23,6 +24,7 @@ public class GameScene extends Scene {
     private MapManager mapManager;
     private CollisionManager collisionManager;
     private Player player;
+    private FoodQueueSystem foodQueueSystem;
 
     private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
@@ -37,6 +39,8 @@ public class GameScene extends Scene {
         this.mapManager.setScale(4.0f);
 
         this.shapeRenderer = new ShapeRenderer();
+        this.foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
+        this.foodQueueSystem.create();
         init();
     }
 
@@ -55,6 +59,7 @@ public class GameScene extends Scene {
         entityManager.update(delta);
         collisionManager.updateCollision(entityManager.getCollidableEntities());
         camera.cameraUpdate(delta);
+        foodQueueSystem.update(delta);
     }
 
     @Override
@@ -85,6 +90,7 @@ public class GameScene extends Scene {
             }
         }
         shapeRenderer.end();
+        foodQueueSystem.render(Gdx.graphics.getDeltaTime());
     }
 
     // this method is used to load a new map, it clears the current entities and loads the new map's entities
@@ -116,5 +122,6 @@ public class GameScene extends Scene {
         super.dispose();
         shapeRenderer.dispose();
         mapManager.dispose();
+        foodQueueSystem.dispose(); 
     }
 }
