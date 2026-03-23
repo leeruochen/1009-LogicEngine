@@ -28,9 +28,9 @@ public class GameScene extends Scene {
     private CameraManager camera;
     private MapManager mapManager;
     private CollisionManager collisionManager;
+    private InteractionManager interactionManager;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
-    private InteractionManager interactionManager;
     private static final float ROUND_DURATION = 300f; // 5 minutes
     private float timeRemaining;
     private boolean roundOver = false;
@@ -89,6 +89,7 @@ public class GameScene extends Scene {
         collisionManager.updateCollision(entityManager.getCollidableEntities());
         camera.cameraUpdate(delta);
         foodQueueSystem.update(delta);
+        interactionManager.update(delta);
         timeRemaining -= delta;
 
         if (timeRemaining <= 0) {
@@ -159,5 +160,6 @@ public class GameScene extends Scene {
         shapeRenderer.dispose();
         mapManager.dispose();
         foodQueueSystem.dispose(); 
+        eventManager.removeObserver(interactionManager);
     }
 }

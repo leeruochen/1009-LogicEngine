@@ -15,13 +15,13 @@ import github.com_1009project.logicEngine.Station;
 public class ChoppingStation extends Station {
 
     /** Number of chop actions required to finish chopping. */
-    private static final int CHOPS_REQUIRED = 3;
+    private static final float CHOP_TIME_REQUIRED = 3.0f;
 
     /** The ingredient currently on this chopping board. */
     private Ingredient placedIngredient;
 
     /** How many chop actions have been applied so far. */
-    private int chopCount;
+    private float chopProgress;
 
     /** Texture to apply to the ingredient once chopping is complete. */
     private Texture choppedTexture;
@@ -29,7 +29,7 @@ public class ChoppingStation extends Station {
     public ChoppingStation(float x, float y, float w, float h, Texture texture) {
         super(x, y, w, h, texture);
         this.placedIngredient = null;
-        this.chopCount = 0;
+        this.chopProgress = 0.0f;
         this.choppedTexture = null;
     }
 
@@ -54,7 +54,7 @@ public class ChoppingStation extends Station {
     public void placeIngredient(Ingredient ingredient, Texture choppedTex) {
         this.placedIngredient = ingredient;
         this.choppedTexture = choppedTex;
-        this.chopCount = 0;
+        this.chopProgress = 0.0f;
         // Position ingredient visually on the station
         float cx = this.getPosition().x + (this.getSize().x - ingredient.getSize().x) / 2f;
         float cy = this.getPosition().y + this.getSize().y * 0.6f;
@@ -66,12 +66,12 @@ public class ChoppingStation extends Station {
      * Applies one chop action.
      * @return true if this chop completed the ingredient (state changed to Cooked).
      */
-    public boolean chop() {
+    public boolean chop(float deltaTime) {
         if (placedIngredient == null) return false;
         if (placedIngredient.getState() != FoodState.Raw) return false;
 
-        chopCount++;
-        if (chopCount >= CHOPS_REQUIRED) {
+        chopProgress += deltaTime;
+        if (chopProgress >= CHOP_TIME_REQUIRED) {
             placedIngredient.setState(FoodState.Cooked);
             if (choppedTexture != null) {
                 placedIngredient.setTexture(choppedTexture);
@@ -84,7 +84,7 @@ public class ChoppingStation extends Station {
     /** @return progress 0.0 – 1.0 */
     public float getChopProgress() {
         if (placedIngredient == null) return 0f;
-        return Math.min(1f, (float) chopCount / CHOPS_REQUIRED);
+        return Math.min(1f, chopProgress / CHOP_TIME_REQUIRED);
     }
 
     /** @return true if the placed ingredient is fully chopped and ready for pickup. */
@@ -98,7 +98,7 @@ public class ChoppingStation extends Station {
     public Ingredient removeIngredient() {
         Ingredient item = this.placedIngredient;
         this.placedIngredient = null;
-        this.chopCount = 0;
+        this.chopProgress = 0.0f;
         this.choppedTexture = null;
         return item;
     }

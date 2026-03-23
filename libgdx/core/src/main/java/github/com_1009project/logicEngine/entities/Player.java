@@ -31,6 +31,9 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
     /** Offset for rendering the held item above the player. */
     private static final float HELD_OFFSET_Y = 50f;
 
+    private boolean isChopping = false;
+    private float chopTimer = 0f;
+
     public Player(float x, float y, float w, float h, Texture idleSheet, Texture runSheet, Texture chopSheet1, Texture chopSheet2, Texture deathSheet) {
         super();
         this.setPosition(x, y);
@@ -44,7 +47,6 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         this.animationComponent = new AnimationComponent();
         this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
         this.animationComponent.addAnimation("RUN", runSheet, 8, 1, 0.05f);
-        this.animationComponent.addAnimation("CHOP1", chopSheet1, 4, 1, 0.1f);
         this.animationComponent.addAnimation("CHOP2", chopSheet2, 4, 1, 0.1f);
         this.animationComponent.addAnimation("DEATH", deathSheet, 8, 1, 0.1f);
         this.animationComponent.setState("IDLE");
@@ -55,21 +57,24 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         Vector2 vel = this.getMovementComponent().getVelocity();
         float playerMaxSpd = this.getMovementComponent().getMaxSpeed();
 
-        // diagonal movement clamping
-        if (vel.len() > playerMaxSpd) {
-            vel.setLength(playerMaxSpd);
-        }
-
-        // Update position
-        this.getPosition().add(vel.x * deltaTime, vel.y * deltaTime);
-
-        if (vel.x != 0 || vel.y != 0) {
-            this.animationComponent.setState("RUN");
+        if (isChopping) {
+            vel.setZero();
+            this.chopTimer += deltaTime;
+            this.animationComponent.setState("CHOP2");
         } else {
-            this.animationComponent.setState("IDLE");
+            if (vel.len() > playerMaxSpd) {
+                vel.setLength(playerMaxSpd);
+            }
+
+            this.getPosition().add(vel.x * deltaTime, vel.y * deltaTime);
+
+            if (vel.x != 0 || vel.y != 0) {
+                this.animationComponent.setState("RUN");
+            } else {
+                this.animationComponent.setState("IDLE");
+            }
         }
 
-        // If holding an item, move it with the player
         if (heldItem != null) {
             float itemX = this.getPosition().x + this.getSize().x / 2f - heldItem.getSize().x / 2f;
             float itemY = this.getPosition().y + HELD_OFFSET_Y;
@@ -99,6 +104,17 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         } else {
             this.hasCollided = false;
         }
+    }
+
+    public void setChopping(boolean chopping) {
+        this.isChopping = chopping;
+        if (!chopping) {
+            this.chopTimer = 0f; // reset chop timer when stopping
+        }
+    }
+
+    public boolean isChopping() {
+        return this.isChopping;
     }
 
     // ── Held-item API ────────────────────────────────────────────────────────

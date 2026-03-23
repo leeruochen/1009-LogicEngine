@@ -41,16 +41,17 @@ public class InteractionManager implements EventObserver {
 
     @Override
     public void onNotify(Event event, Boolean up) {
-        // Only act on key-press (not release)
-        if (up != null && up) return;
+        if (up == null) return;
 
         Player player = findPlayer();
         if (player == null) return;
 
         if (event == Event.PlayerInteract) {
-            handleInteract(player);
+            if (!up) {
+                handleInteract(player);
+            }
         } else if (event == Event.PlayerChop) {
-            handleChop(player);
+            handleChop(player, up);
         }
     }
 
@@ -238,20 +239,18 @@ public class InteractionManager implements EventObserver {
 
     // ── CHOP ────────────────────────────────────────────────────────────────
 
-    private void handleChop(Player player) {
-        Entity nearest = findNearestStation(player);
-        if (nearest == null) return;
+    private void handleChop(Player player, boolean up) {
+        if (!up) {
+            Entity nearest = findNearestStation(player);
+            if (nearest instanceof ChoppingStation) {
+                ChoppingStation cs = (ChoppingStation) nearest;
 
-        if (nearest instanceof ChoppingStation) {
-            ChoppingStation cs = (ChoppingStation) nearest;
-            if (cs.hasIngredient() && !cs.isChopComplete()) {
-                boolean finished = cs.chop();
-                if (finished) {
-                    Gdx.app.log("Interact", "Chopping complete! " + cs.getPlacedIngredient().getName() + " is now chopped.");
-                } else {
-                    Gdx.app.log("Interact", "Chop! Progress: " + (int)(cs.getChopProgress() * 100) + "%");
+                if (cs.hasIngredient() && !cs.isChopComplete()) {
+                    player.setChopping(true);
                 }
             }
+        } else {
+            player.setChopping(false);
         }
     }
 
@@ -344,5 +343,29 @@ public class InteractionManager implements EventObserver {
         if (name.equals("bread") || name.equals("bun")) return true;
         // Other ingredients need to be Cooked (post-processing)
         return ingredient.getState() == FoodState.Cooked;
+    }
+
+    // handles chopping logic with update
+    public void update(float delta) {
+        Player player = findPlayer();
+
+        if (player != null && player.isChopping()) {
+            Entity nearest = findNearestStation(player);
+            if (nearest instanceof ChoppingStation) {
+                ChoppingStation cs = (ChoppingStation) nearest;
+                
+                if (cs.hasIngredient() && !cs.isChopComplete()) {
+                    boolean finished = cs.chop(delta);
+                    if (finished) {
+                        Gdx.app.log("Interact", "Chopping complete!");
+                        player.setChopping(false);
+                    }
+                } else {
+                    player.setChopping(false);
+                }
+            } else {
+                player.setChopping(false);
+            }
+        }
     }
 }

@@ -31,9 +31,10 @@ public class EntityFactory {
         switch (type) {
             // Add cases for other entity types as needed
             case Player:
-                Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
-                Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
-                return new Player(200, 200, 50, 50, idleSheet, runSheet);
+            //     Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
+            //     Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
+            //     return new Player(200, 200, 50, 50, idleSheet, runSheet);
+                return null;
             default:
                 return null;
         }
@@ -69,11 +70,11 @@ public class EntityFactory {
 
         // Create new entity based on type
         switch (type) {
-            case "Player":
-                Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
-                Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
-                entity = new Player(x, y, width, height, idleSheet, runSheet);
-                break;
+            // case "Player":
+            //     Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
+            //     Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
+            //     entity = new Player(x, y, width, height, idleSheet, runSheet);
+            //     break;
 
             case "CollisionBox":
                 entity = new CollisionBox(x, y, width, height);

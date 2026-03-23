@@ -7,7 +7,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
@@ -42,8 +41,6 @@ public class GameMaster extends ApplicationAdapter{
     private MapManager mapManager;
     private SpriteBatch batch;
     private FoodQueueSystem foodQueueSystem;
-
-    private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
     // camera properties
     private int width, height;
@@ -181,5 +178,6 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.dispose();
         batch.dispose();
         sm.dispose();
+        eventManager.dispose();
     }
 }
