@@ -4,28 +4,29 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ScreenUtils;
+ 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
-import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.EntityManager;
 import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
+import github.com_1009project.logicEngine.FoodQueueSystem;
 import github.com_1009project.abstractEngine.UIFactory;
+import github.com_1009project.logicEngine.GameScene;
 import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.GameScene;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
 
@@ -35,8 +36,14 @@ public class GameMaster extends ApplicationAdapter{
     private EventManager eventManager;
     private MovementManager movementManager;
     private UIFactory uf;
+    private CollisionManager collisionManager;
     private AssetManager assetManager;
+    private CameraManager camera;
+    private MapManager mapManager;
     private SpriteBatch batch;
+    private FoodQueueSystem foodQueueSystem;
+
+    private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
     // camera properties
     private int width, height;
@@ -75,6 +82,10 @@ public class GameMaster extends ApplicationAdapter{
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
 
+        // set up camera with max world bounds
+        camera = new CameraManager(width, height);
+        camera.setBounds(4000, 4000);
+
         // load assets
         // update the asset manager to actually load the assets
         // finishLoading() makes sure all assets are loaded before proceeding
@@ -91,12 +102,17 @@ public class GameMaster extends ApplicationAdapter{
 		eventManager.mapKey(Input.Keys.S, Event.PlayerDown);
 		eventManager.mapKey(Input.Keys.A, Event.PlayerLeft);
 		eventManager.mapKey(Input.Keys.D, Event.PlayerRight);
+		eventManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
+		eventManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
+		eventManager.mapKey(Input.Keys.SPACE, Event.PlayerJump);
         eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
-
-		sm.loadScene(0); // load main menu first
+		
+		sm.loadScene(0);
     }
 
+    // our main gameplay/simulation loop
+    // the loop should be process input -> update -> collision -> render
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -106,6 +122,15 @@ public class GameMaster extends ApplicationAdapter{
 
         sm.updateScene(deltaTime);
         sm.renderScene();
+        
+        if (sm.getCurrentScene() instanceof GameScene) {
+            if (foodQueueSystem == null) {
+                foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
+                foodQueueSystem.create();
+            }
+            foodQueueSystem.update(deltaTime);
+            foodQueueSystem.render(deltaTime);
+        }
     }
 
     // an example of how to use the asset manager to load assets, this can be expanded to load more assets as needed
@@ -131,7 +156,10 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.load("character/human_death.png", Texture.class);
         assetManager.load("character/human_chop1.png", Texture.class);
         assetManager.load("character/human_chop2.png", Texture.class);
-
+        
+        // Food textures + UI skin
+        FoodQueueSystem.queueAssets(assetManager);
+        
         // load tmx maps, params required to prevent errors
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
@@ -152,5 +180,6 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.dispose();
         batch.dispose();
         sm.dispose();
+        foodQueueSystem.dispose(); 
     }
 }

@@ -13,7 +13,6 @@ public abstract class DynamicEntity extends Entity implements IUpdatable, Moveab
         super();
         this.previousPosition = new Vector2();
         this.canMove = false;
-        this.onGround = false;
         this.movementComponent = null;
     }
 
