@@ -89,7 +89,7 @@ public class InteractionManager implements EventObserver {
 
         // 2. Pick up plate from PlateBox
         if (nearest instanceof PlateBox) {
-            Plate plate = new Plate(0, 0, 40, 40, assetManager.get("food/dish.png", Texture.class));
+            Plate plate = new Plate(0, 0, 40, 40, assetManager.get("food/dish.png", Texture.class), assetManager);
             player.pickUp(plate);
             Gdx.app.log("Interact", "Picked up empty plate");
             return;
@@ -194,14 +194,14 @@ public class InteractionManager implements EventObserver {
             // 5a. If player holds a Plate and counter has ingredients → load them onto the plate
             if (held instanceof Plate) {
                 Plate plate = (Plate) held;
-                if (counter.hasIngredients()) {
+                if (counter.hasIngredients() && !plate.isComplete()) {
                     List<Ingredient> items = counter.removeAllIngredients();
                     for (Ingredient item : items) {
                         plate.addIngredient(item);
                     }
                     Gdx.app.log("Interact", "Loaded " + items.size() + " items onto plate. Total: " + plate.getItemCount());
                 } else {
-                    // Empty counter → place plate down
+                    // Empty counter or plate is complete → place plate down
                     player.dropItem();
                     counter.placeIngredient(held);
                     Gdx.app.log("Interact", "Placed plate on counter");
@@ -215,7 +215,7 @@ public class InteractionManager implements EventObserver {
                 Ingredient topItem = stack.get(stack.size() - 1);
                 if (topItem instanceof Plate) {
                     Plate plate = (Plate) topItem;
-                    if (isFinishedIngredient(held)) {
+                    if (!plate.isComplete() && isFinishedIngredient(held)) {
                         player.dropItem();
                         plate.addIngredient(held);
                         Gdx.app.log("Interact", "Added " + held.getName() + " to plate on counter. Total: " + plate.getItemCount());
@@ -335,13 +335,13 @@ public class InteractionManager implements EventObserver {
 
     /**
      * Returns true if the ingredient is considered "finished" for burger assembly.
-     * Buns/Cheese are always ready. Chopped/Cooked ingredients are ready. Raw patties are not.
+     * Buns are always ready. Chopped/Cooked ingredients are ready. Raw patties are not.
      */
     private boolean isFinishedIngredient(Ingredient ingredient) {
         if (ingredient instanceof Plate) return false;
         String name = ingredient.getName().toLowerCase();
         // Bun is always ready (no processing needed)
-        if (name.equals("bread") || name.equals("bun") || name.equals("cheese")) return true;
+        if (name.equals("bread") || name.equals("bun")) return true;
         // Other ingredients need to be Cooked (post-processing)
         return ingredient.getState() == FoodState.Cooked;
     }

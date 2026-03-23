@@ -15,6 +15,6 @@ public class PlateFactory implements Ifactory<Plate> {
 
     @Override
     public Plate createEntity(float x, float y, float width, float height) {
-        return new Plate(x, y, width, height, assetManager.get("food/dish.png", Texture.class));
+        return new Plate(x, y, width, height, assetManager.get("food/dish.png", Texture.class), assetManager);
     }
 }
