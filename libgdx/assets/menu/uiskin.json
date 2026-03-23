@@ -20,6 +20,8 @@ TintedDrawable: {
 	btn-red-down:    { name: default-round-down,  color: warm-red },
 	panel-bg:        { name: default-window,      color: wood-brown },
 	panel-header:    { name: default-round,       color: dark-brown },
+	timer-bar-fill: { name: default-round, color: warm-orange },
+	timer-bar-bg:   { name: default-rect,  color: dark-brown },
 },
 ButtonStyle: {
 	default: { down: default-round-down, up: default-round, disabled: default-round },
@@ -52,7 +54,8 @@ WindowStyle: {
 },
 ProgressBarStyle: {
 	default-horizontal: { background: default-slider, knob: default-slider-knob },
-	default-vertical:   { background: default-slider, knob: default-round-large }
+	default-vertical:   { background: default-slider, knob: default-round-large },
+	timer-horizontal: { background: timer-bar-bg, knob: default-round, knobBefore: timer-bar-fill },
 },
 SliderStyle: {
 	default-horizontal: { parent: default-horizontal },

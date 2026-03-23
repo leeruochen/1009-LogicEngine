@@ -7,6 +7,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -17,6 +20,8 @@ import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.logicEngine.entities.Player;
+import github.com_1009project.abstractEngine.UIFactory;
+import github.com_1009project.abstractEngine.UILayer;
 
 public class GameScene extends Scene {
 
@@ -25,6 +30,11 @@ public class GameScene extends Scene {
     private CollisionManager collisionManager;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
+    private static final float ROUND_DURATION = 300f; // 5 minutes
+    private float timeRemaining;
+    private boolean roundOver = false;
+    private Label timerLabel; 
+    private ProgressBar timerBar;
 
     private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
@@ -46,6 +56,19 @@ public class GameScene extends Scene {
 
     @Override
     public void init() {
+        timeRemaining = ROUND_DURATION;
+
+        UILayer uiLayer = new UILayer(batch);
+        layers.add(uiLayer);
+ 
+        Skin skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        UIFactory factory = new UIFactory(uiLayer, skin, eventManager);
+ 
+        float sw = Gdx.graphics.getWidth();
+        float sh = Gdx.graphics.getHeight();
+        timerLabel = factory.createTimerLabel(ROUND_DURATION, sw / 2f - 100f, 50f);
+        timerBar   = factory.createTimerBar(ROUND_DURATION);
+
         loadMap("maps/kitchen.tmx");
     };
 
@@ -60,7 +83,18 @@ public class GameScene extends Scene {
         collisionManager.updateCollision(entityManager.getCollidableEntities());
         camera.cameraUpdate(delta);
         foodQueueSystem.update(delta);
-    }
+        timeRemaining -= delta;
+
+        if (timeRemaining <= 0) {
+            timeRemaining = 0;
+            // endRound(); // hook this up later when ResultsScene is ready
+        }
+
+        timerLabel.setText(formatTime(timeRemaining));
+        timerLabel.setColor(timeRemaining <= 30f ? Color.RED : Color.WHITE);
+        timerBar.setValue(timeRemaining);
+
+    }    
 
     @Override
     public void render() {
@@ -96,7 +130,7 @@ public class GameScene extends Scene {
     // this method is used to load a new map, it clears the current entities and loads the new map's entities
     // used when transitioning between maps, the player entity will have a variable that specifies which map to load, and when the variable is not null, this method will be called with the new map name
     private void loadMap(String mapName) {
-        entityManager.dispose();
+        entityManager.disposeAll();
 
         mapManager.setMap(assetManager.get(mapName, TiledMap.class));
         System.out.println("Loaded map: " + mapName);
@@ -110,6 +144,12 @@ public class GameScene extends Scene {
             }
         }
         camera.setTarget(player);
+    }
+
+    private String formatTime(float seconds) {
+        int m = (int) (seconds / 60);
+        int s = (int) (seconds % 60);
+        return String.format("%02d:%02d", m, s);
     }
 
     public void resize(int width, int height) {
