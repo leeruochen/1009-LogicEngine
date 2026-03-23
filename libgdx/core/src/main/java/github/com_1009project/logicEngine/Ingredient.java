@@ -18,30 +18,22 @@ public abstract class Ingredient extends Entity implements IRenderable {
         this.texture = texture;
         this.setPosition(x, y);
         this.setSize(w, h);
-        this.createCollisionComponent(x, y, 20, 10);
+        this.createCollisionComponent(w, h);
+        this.setCollisionActive(false); // ingredients don't block movement by default
         this.setInputEnabled(false);
-        this.setPersistent(true);
+        this.setPersistent(false);
     }
 
-    // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public FoodState getState() {
-        return state;
-    }
-    
-    public void setState(FoodState state) {
-        this.state = state;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public FoodState getState() { return state; }
+    public void setState(FoodState state) { this.state = state; }
+    public Texture getTexture() { return texture; }
+    public void setTexture(Texture texture) { this.texture = texture; }
 
     @Override
     public void render(SpriteBatch batch) {
+        if (!this.isActive()) return;
         batch.draw(texture, this.getPosition().x, this.getPosition().y, this.getSize().x, this.getSize().y);
     }
 }

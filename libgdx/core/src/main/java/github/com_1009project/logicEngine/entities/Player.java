@@ -12,10 +12,24 @@ import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.ICollidable;
 import github.com_1009project.abstractEngine.IRenderable;
 import github.com_1009project.abstractEngine.AnimationComponent;
+import github.com_1009project.logicEngine.Ingredient;
 
+/**
+ * Player entity that can move, collide, and hold/interact with ingredients and stations.
+ * Holds at most one item at a time (an Ingredient or a Plate).
+ */
 public class Player extends DynamicEntity implements ICollidable, IRenderable {
     public boolean hasCollided = false;
     private AnimationComponent animationComponent;
+
+    /** The ingredient (or Plate) currently held by the player. Null = empty hands. */
+    private Ingredient heldItem;
+
+    /** How far from the player centre interactions can reach (in world units). */
+    private static final float INTERACT_RANGE = 80f;
+
+    /** Offset for rendering the held item above the player. */
+    private static final float HELD_OFFSET_Y = 50f;
 
     public Player(float x, float y, float w, float h, Texture idleSheet, Texture runSheet) {
         super();
@@ -30,19 +44,19 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         this.animationComponent = new AnimationComponent();
         this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
         this.animationComponent.addAnimation("RUN", runSheet, 8, 1, 0.05f);
-    	this.animationComponent.setState("IDLE");
+        this.animationComponent.setState("IDLE");
     }
 
     @Override
     public void updateMovement(float deltaTime) {
         Vector2 vel = this.getMovementComponent().getVelocity();
         float playerMaxSpd = this.getMovementComponent().getMaxSpeed();
-        
-        //diagonal movement
+
+        // diagonal movement clamping
         if (vel.len() > playerMaxSpd) {
             vel.setLength(playerMaxSpd);
         }
-        
+
         // Update position
         this.getPosition().add(vel.x * deltaTime, vel.y * deltaTime);
 
@@ -51,12 +65,24 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         } else {
             this.animationComponent.setState("IDLE");
         }
+
+        // If holding an item, move it with the player
+        if (heldItem != null) {
+            float itemX = this.getPosition().x + this.getSize().x / 2f - heldItem.getSize().x / 2f;
+            float itemY = this.getPosition().y + HELD_OFFSET_Y;
+            heldItem.setPosition(itemX, itemY);
+        }
     }
 
     @Override
     public void render(SpriteBatch batch) {
         TextureRegion currentFrame = this.animationComponent.getCurrentFrame(Gdx.graphics.getDeltaTime(), true);
         batch.draw(currentFrame, this.getPosition().x, this.getPosition().y, this.getSize().x, this.getSize().y);
+
+        // Render held item above the player
+        if (heldItem != null && heldItem.isActive()) {
+            heldItem.render(batch);
+        }
     }
 
     @Override
@@ -65,7 +91,6 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         Rectangle otherRect = other.getCollisionComponent().getBounds();
 
         if (playerRect.overlaps(otherRect)) {
-            // Simple collision response: move player back to previous position
             this.getPosition().set(this.getPreviousPosition());
             this.hasCollided = true;
         } else {
@@ -73,7 +98,47 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         }
     }
 
-    public void pickup(int itemID){}
+    // ── Held-item API ────────────────────────────────────────────────────────
 
-    public void drop(int itemID){}
+    /** @return the ingredient currently held, or null if hands are empty. */
+    public Ingredient getHeldItem() { return heldItem; }
+
+    /** @return true if the player is holding something. */
+    public boolean isHolding() { return heldItem != null; }
+
+    /**
+     * Makes the player hold the given ingredient. The ingredient is deactivated
+     * from the world (no collision, positioned on the player).
+     */
+    public void pickUp(Ingredient item) {
+        this.heldItem = item;
+        item.setCollisionActive(false);
+        item.setActive(true);
+    }
+
+    /**
+     * Removes and returns the held item, clearing the player's hands.
+     */
+    public Ingredient dropItem() {
+        Ingredient item = this.heldItem;
+        this.heldItem = null;
+        return item;
+    }
+
+    // ── Interaction range ────────────────────────────────────────────────────
+
+    /** Returns the centre of the player for proximity checks. */
+    public Vector2 getCentre() {
+        return new Vector2(
+            this.getPosition().x + this.getSize().x / 2f,
+            this.getPosition().y + this.getSize().y / 2f
+        );
+    }
+
+    /** Returns the interaction range radius. */
+    public float getInteractRange() { return INTERACT_RANGE; }
+
+    // ── Legacy stubs (kept for compatibility) ────────────────────────────────
+    public void pickup(int itemID) {}
+    public void drop(int itemID) {}
 }

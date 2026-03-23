@@ -30,6 +30,7 @@ public class GameScene extends Scene {
     private CollisionManager collisionManager;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
+    private InteractionManager interactionManager;
     private static final float ROUND_DURATION = 300f; // 5 minutes
     private float timeRemaining;
     private boolean roundOver = false;
@@ -51,6 +52,11 @@ public class GameScene extends Scene {
         this.shapeRenderer = new ShapeRenderer();
         this.foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
         this.foodQueueSystem.create();
+
+        // Create the interaction manager, wired to the food queue for order submission
+        this.interactionManager = new InteractionManager(entityManager, assetManager, foodQueueSystem.getFoodQueue());
+        eventManager.addObserver(interactionManager);
+
         init();
     }
 
@@ -87,20 +93,17 @@ public class GameScene extends Scene {
 
         if (timeRemaining <= 0) {
             timeRemaining = 0;
-            // endRound(); // hook this up later when ResultsScene is ready
         }
 
         timerLabel.setText(formatTime(timeRemaining));
         timerLabel.setColor(timeRemaining <= 30f ? Color.RED : Color.WHITE);
         timerBar.setValue(timeRemaining);
-
     }    
 
     @Override
     public void render() {
         mapManager.render(camera.getCamera());
 
-        // batch will render entities according to cameraPosition
         batch.setProjectionMatrix(camera.getCamera().combined);
         batch.begin();
         entityManager.render(batch);
@@ -110,16 +113,12 @@ public class GameScene extends Scene {
 
         // Debug rendering for collision boxes
         shapeRenderer.setProjectionMatrix(camera.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // "Line" means empty boxes (outlines)
-        shapeRenderer.setColor(Color.RED); // Set the pen color to red
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
 
-        // Loop through the fast-lane list you made earlier!
         for (Entity entity : entityManager.getCollidableEntities()) {
-            // Safety check to ensure the entity and its collision are active
             if (entity.isActive() && entity.getCollisionComponent().isActive()) {
                 Rectangle bounds = entity.getCollisionComponent().getBounds();
-                
-                // Draw a rectangle using the exact math from your CollisionComponent
                 shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
             }
         }
@@ -127,8 +126,6 @@ public class GameScene extends Scene {
         foodQueueSystem.render(Gdx.graphics.getDeltaTime());
     }
 
-    // this method is used to load a new map, it clears the current entities and loads the new map's entities
-    // used when transitioning between maps, the player entity will have a variable that specifies which map to load, and when the variable is not null, this method will be called with the new map name
     private void loadMap(String mapName) {
         entityManager.disposeAll();
 
@@ -136,7 +133,6 @@ public class GameScene extends Scene {
         System.out.println("Loaded map: " + mapName);
         mapManager.loadEntities();
 
-        // find player entity and set camera target to player.
         for (Entity entity : entityManager.getEntities()) {
             if (entity instanceof Player) {
                 player = (Player) entity;

@@ -72,6 +72,7 @@ public class GameMaster extends ApplicationAdapter{
         entityManager.registerFactory(Patty.class, new PattyFactory(assetManager));
         entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
         entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
+        entityManager.registerFactory(Plate.class, new PlateFactory(assetManager));
         entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
         entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
         entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
@@ -87,8 +88,6 @@ public class GameMaster extends ApplicationAdapter{
         camera.setBounds(4000, 4000);
 
         // load assets
-        // update the asset manager to actually load the assets
-        // finishLoading() makes sure all assets are loaded before proceeding
         loadAssets();
         assetManager.update();
         assetManager.finishLoading();
@@ -105,26 +104,23 @@ public class GameMaster extends ApplicationAdapter{
 		eventManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
 		eventManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
         eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
+        eventManager.mapKey(Input.Keys.F, Event.PlayerChop);
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 		
 		sm.loadScene(0);
     }
 
     // our main gameplay/simulation loop
-    // the loop should be process input -> update -> collision -> render
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0, 1);
 
-        // time between each frame, this ensures same speed on different devices
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         sm.updateScene(deltaTime);
         sm.renderScene();
     }
 
-    // an example of how to use the asset manager to load assets, this can be expanded to load more assets as needed
-    // can also use a json file or other data file to specify assets to load, and parse that file in this method to load assets in bulk
     private void loadAssets() {
         // load textures
         assetManager.load("imgs/background.png", Texture.class);
@@ -146,18 +142,33 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.load("character/human_death.png", Texture.class);
         assetManager.load("character/human_chop1.png", Texture.class);
         assetManager.load("character/human_chop2.png", Texture.class);
+
+        // Raw ingredient textures (used when spawning from boxes)
+        assetManager.load("food/bun.png", Texture.class);
+        assetManager.load("food/lettuce.png", Texture.class);
+        assetManager.load("food/tomato.png", Texture.class);
+        assetManager.load("food/cheese.png", Texture.class);
+        assetManager.load("food/patty.png", Texture.class);
+
+        // Chopped / cooked ingredient textures
+        assetManager.load("food/lettuce_chopped.png", Texture.class);
+        assetManager.load("food/tomato_chopped.png", Texture.class);
+        assetManager.load("food/cheese_chopped.png", Texture.class);
+        assetManager.load("food/patty_cooked.png", Texture.class);
+
+        // Plate / dish texture
+        assetManager.load("food/dish.png", Texture.class);
         
-        // Food textures + UI skin
+        // Food textures + UI skin (for the order queue HUD)
         FoodQueueSystem.queueAssets(assetManager);
         
-        // load tmx maps, params required to prevent errors
+        // load tmx maps
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.projectFilePath = "maps/test.tiled-project";
         assetManager.load("maps/kitchen.tmx", TiledMap.class, params);
     }
 
-    // resize is called whenever ApplicationAdapter detects a change in screen size, this can be used to adjust the camera viewport and other properties as needed
     @Override
     public void resize(int width, int height) {
         if (sm.getCurrentScene() instanceof GameScene) {

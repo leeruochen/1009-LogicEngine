@@ -7,5 +7,6 @@ public enum Event {
     PlayerUp,
     PlayerDown,
     PlayerInteract,
+    PlayerChop,
     GamePause,
 }
