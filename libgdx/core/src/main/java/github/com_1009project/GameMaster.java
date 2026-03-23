@@ -23,8 +23,11 @@ import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UIFactory;
+import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.Player;
+import github.com_1009project.logicEngine.GameScene;
+import github.com_1009project.logicEngine.entities.*;
+import github.com_1009project.logicEngine.factories.*;
 
 public class GameMaster extends ApplicationAdapter{
     private EntityManager entityManager;
@@ -32,14 +35,8 @@ public class GameMaster extends ApplicationAdapter{
     private EventManager eventManager;
     private MovementManager movementManager;
     private UIFactory uf;
-    private CollisionManager collisionManager;
     private AssetManager assetManager;
-    private CameraManager camera;
-    private MapManager mapManager;
     private SpriteBatch batch;
-    private Player player;
-
-    private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
     // camera properties
     private int width, height;
@@ -52,18 +49,31 @@ public class GameMaster extends ApplicationAdapter{
     // this is our set up, to initialize our managers and variables
     @Override
     public void create() {
-        collisionManager = new CollisionManager(64);
-        batch = new SpriteBatch();
         assetManager = new AssetManager();
-        entityManager = new EntityManager(assetManager);
         eventManager = new EventManager();
-        movementManager = new MovementManager(entityManager);
-        shapeRenderer = new ShapeRenderer();
-        sm = new SceneManager(assetManager, entityManager, eventManager, batch);
+        batch = new SpriteBatch();
 
-        // set up camera with max world bounds
-        camera = new CameraManager(width, height);
-        camera.setBounds(4000, 4000);
+        entityManager = new EntityManager(assetManager);
+        entityManager.registerFactory(Bun.class, new BunFactory(assetManager));
+        entityManager.registerFactory(Cheese.class, new CheeseFactory(assetManager));
+        entityManager.registerFactory(ChoppingStation.class, new ChoppingStationFactory(assetManager));
+        entityManager.registerFactory(CollisionBox.class, new CollisionBoxFactory());
+        entityManager.registerFactory(Counter.class, new CounterFactory(assetManager));
+        entityManager.registerFactory(CounterSubmission.class, new CounterSubmissionFactory(assetManager));
+        entityManager.registerFactory(IngredientBox.class, new IngredientBoxFactory());
+        entityManager.registerFactory(Lettuce.class, new LettuceFactory(assetManager));
+        entityManager.registerFactory(Patty.class, new PattyFactory(assetManager));
+        entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
+        entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
+        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
+        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
+        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
+        movementManager = new MovementManager(entityManager);
+
+        sm = new SceneManager(assetManager, entityManager, eventManager, batch);
+        sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityManager, eventManager, batch, sm));
+        sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
 
         // load assets
         // update the asset manager to actually load the assets
@@ -71,16 +81,6 @@ public class GameMaster extends ApplicationAdapter{
         loadAssets();
         assetManager.update();
         assetManager.finishLoading();
-
-        // set up the map
-        // scale the map if needed, if textures look small
-        // load the map from file
-        // parse collision layer and add collision boxes to entities list, "Collision" can be changed to how the developer wants to name it in Tiled
-        mapManager = new MapManager(entityManager);
-        mapManager.setScale(4.0f); 
-        loadMap("maps/kitchen.tmx");
-
-        sm.loadScene(1);
 
         //eventmanager adds movementManager as an event observer
 		eventManager.addObserver(movementManager);
@@ -94,12 +94,9 @@ public class GameMaster extends ApplicationAdapter{
         eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
         eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 
-		// Register input processor
-		Gdx.input.setInputProcessor(eventManager);
+		sm.loadScene(0); // load main menu first
     }
 
-    // our main gameplay/simulation loop
-    // the loop should be process input -> update -> collision -> render
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -107,73 +104,8 @@ public class GameMaster extends ApplicationAdapter{
         // time between each frame, this ensures same speed on different devices
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-        // Check if paused
-        if (sm.getCurrentScene() instanceof PauseScene) {
-            // Only update and render the Pause UI
-            sm.updateScene(deltaTime);
-            sm.renderScene();
-            return; // Skip the rest of the game logic below
-        }
-
-        // update all entities
-        entityManager.update(deltaTime);
-
-        // update collisions
-        collisionManager.updateCollision(entityManager.getCollidableEntities());
-
-        // update camera position
-        camera.cameraUpdate(deltaTime);
-
-        // render entities and map based on camera position
-        mapManager.render(camera.getCamera());
-        
-        if (player.hasCollided) {
-            camera.shake(2f, 0.2f);
-            player.hasCollided = false;
-        }
-
-        // batch will render entities according to cameraPosition
-        batch.setProjectionMatrix(camera.getCamera().combined);
-        batch.begin();
-        entityManager.render(batch);
-        batch.end();
-
-        // Debug rendering for collision boxes
-        shapeRenderer.setProjectionMatrix(camera.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // "Line" means empty boxes (outlines)
-        shapeRenderer.setColor(Color.RED); // Set the pen color to red
-
-        // Loop through the fast-lane list you made earlier!
-        for (Entity entity : entityManager.getCollidableEntities()) {
-            // Safety check to ensure the entity and its collision are active
-            if (entity.isActive() && entity.getCollisionComponent().isActive()) {
-                Rectangle bounds = entity.getCollisionComponent().getBounds();
-                
-                // Draw a rectangle using the exact math from your CollisionComponent
-                shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
-            }
-        }
-        
-        shapeRenderer.end();
-    }
-
-    // this method is used to load a new map, it clears the current entities and loads the new map's entities
-    // used when transitioning between maps, the player entity will have a variable that specifies which map to load, and when the variable is not null, this method will be called with the new map name
-    private void loadMap(String mapName) {
-        entityManager.dispose();
-
-        mapManager.setMap(assetManager.get(mapName, TiledMap.class));
-        System.out.println("Loaded map: " + mapName);
-        mapManager.loadEntities();
-
-        // find player entity and set camera target to player.
-        for (Entity entity : entityManager.getEntities()) {
-            if (entity instanceof Player) {
-                player = (Player) entity;
-                break;
-            }
-        }
-        camera.setTarget(player);
+        sm.updateScene(deltaTime);
+        sm.renderScene();
     }
 
     // an example of how to use the asset manager to load assets, this can be expanded to load more assets as needed
@@ -210,17 +142,15 @@ public class GameMaster extends ApplicationAdapter{
     // resize is called whenever ApplicationAdapter detects a change in screen size, this can be used to adjust the camera viewport and other properties as needed
     @Override
     public void resize(int width, int height) {
-        camera.resize(width, height);
-        mapManager.resize(width, height);
+        if (sm.getCurrentScene() instanceof GameScene) {
+            ((GameScene) sm.getCurrentScene()).resize(width, height);
+        }
     }
 
     @Override
     public void dispose() {
         assetManager.dispose();
         batch.dispose();
-        mapManager.dispose();
-        collisionManager.dispose();
         sm.dispose();
-        shapeRenderer.dispose();
     }
 }

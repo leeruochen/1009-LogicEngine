@@ -11,10 +11,16 @@ public abstract class Ingredient extends Entity implements IRenderable {
     private FoodState state;
     private Texture texture;
 
-    public Ingredient(String name, FoodState state, Texture texture) {
+    public Ingredient(String name, FoodState state, float x, float y, float w, float h, Texture texture) {
+        super();
         this.name = name;
         this.state = state;
         this.texture = texture;
+        this.setPosition(x, y);
+        this.setSize(w, h);
+        this.createCollisionComponent(x, y, 20, 10);
+        this.setInputEnabled(false);
+        this.setPersistent(true);
     }
 
     // Getters and setters

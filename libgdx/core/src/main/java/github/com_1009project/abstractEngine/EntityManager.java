@@ -1,17 +1,23 @@
 package github.com_1009project.abstractEngine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Rectangle;
 
 import github.com_1009project.logicEngine.EntityFactory;
 import github.com_1009project.logicEngine.EntityType;
+import github.com_1009project.logicEngine.entities.IngredientBox;
+import github.com_1009project.logicEngine.factories.Ifactory;
 
 public class EntityManager implements MovementEntity, MapEntity{
 
@@ -23,35 +29,103 @@ public class EntityManager implements MovementEntity, MapEntity{
 
     private final List<Entity> toRemove = new ArrayList<>();
     private final Map<String, Entity> persistentEntities = new HashMap<>();
-    private final EntityFactory factory;
+    private final Map<Class<? extends Entity>, Ifactory<? extends Entity>> factories = new HashMap<>();
+    private final AssetManager assetManager;
+    // private final EntityFactory factory;
 
     public EntityManager(AssetManager assetManager) {
-        this.factory = new EntityFactory(assetManager);
+        // this.factory = new EntityFactory(assetManager);
+        this.assetManager = assetManager;
+    }
+
+    public <T extends Entity> void registerFactory(Class<T> type, Ifactory<T> factory) {
+        factories.put(type, factory);
     }
 
     // Creates a new entity of the specified type, adds it to the manager, and returns it
-    public Entity createEntity(EntityType type) {
-        Entity entity = factory.createEntity(type);
+    // public Entity createEntity(EntityType type) {
+    //     Entity entity = factory.createEntity(type);
 
-        categorizeEntity(entity);
-        return entity;
-    }
+    //     categorizeEntity(entity);
+    //     return entity;
+    // }
 
     // Creates an entity from a TiledMap MapObject, adds it to the manager, and returns it
-    public Entity createEntity(MapObject object, float map_scale) {
-        Entity entity = factory.createEntity(object, map_scale, persistentEntities);
+    public <T extends Entity> T createEntity(MapObject object, float map_scale) {
 
-        if (entity != null && !entities.contains(entity)) {
-            categorizeEntity(entity);
-            // Track persistent entities by their type for reuse on map load
-            if (entity.getPersistent()) {
-                String type = object.getProperties().get("type", String.class);
-                if (type != null) {
-                    persistentEntities.put(type, entity);
-                }
+
+        String typeName = object.getProperties().get("type", String.class);
+
+        try {
+
+            // Checks if the type is one of the food boxes
+            List<String> foodBox = Arrays.asList("BunBox", "PattyBox", "LettuceBox", "TomatoBox", "CheeseBox", "MeatBox");
+
+            Class<?> rawClass;
+
+            if (foodBox.contains(typeName)) {
+
+
+                rawClass = Class.forName("github.com_1009project.logicEngine.entities.IngredientBox");
+            } else {
+                rawClass = Class.forName("github.com_1009project.logicEngine.entities." + typeName);
             }
+
+            if (!Entity.class.isAssignableFrom(rawClass)) {
+                throw new ClassCastException(typeName + " does not extend Entity");
+            }
+
+            // Safely cast to Class<? extends Entity> for the map lookup
+            Class<? extends Entity> entityClass = rawClass.asSubclass(Entity.class);
+
+            RectangleMapObject rectObj = (RectangleMapObject) object;
+            Rectangle rect = rectObj.getRectangle();
+
+            float x = rect.x * map_scale;
+            float y = rect.y * map_scale;
+            float width = rect.width * map_scale;
+            float height = rect.height * map_scale;
+
+            Ifactory<?> factory = factories.get(entityClass);
+            if (factory != null) {
+                Entity newEntity;
+                // If the type is a food box, use alternative creation logic to assign the correct texture and name
+                if (foodBox.contains(typeName)){
+
+                    String ingredientName = typeName.replace("Box", "").toLowerCase(); 
+                    String texturePath = "foodstations/" + ingredientName + "_box.png";
+                    Texture boxTexture = assetManager.get(texturePath, Texture.class);
+                    newEntity = factory.createEntity(x, y, width, height, boxTexture, ingredientName);
+                } else {
+                    newEntity = factory.createEntity(x, y, width, height);
+                }
+                // 6. Categorize the entity before returning
+                categorizeEntity(newEntity);
+
+                // 7. Cast the entity to the specific type T (the return type)
+                // We use (T) because the method signature uses <T extends Entity>
+                return (T) entityClass.cast(newEntity);
+            }
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error: Could not find class for type: " + typeName);
+        } catch (ClassCastException e) {
+            System.err.println("Error: Type " + typeName + " is not a valid Entity.");
         }
-        return entity;
+        return null;
+
+
+        // Entity entity = factory.createEntity(object, map_scale, persistentEntities);
+
+        // if (entity != null && !entities.contains(entity)) {
+        //     categorizeEntity(entity);
+        //     // Track persistent entities by their type for reuse on map load
+        //     if (entity.getPersistent()) {
+        //         if (type != null) {
+        //             persistentEntities.put(type, entity);
+        //         }
+        //     }
+        // }
+        // return entity;
     }
 
     private void categorizeEntity(Entity entity) {

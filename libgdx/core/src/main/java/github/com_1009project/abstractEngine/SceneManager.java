@@ -2,22 +2,19 @@ package github.com_1009project.abstractEngine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.Player;
-import github.com_1009project.logicEngine.TestScene;
-
 public class SceneManager implements EventObserver {
     private Map<Integer, Scene> scenes = new HashMap<>();
+    private Map<Integer, Supplier<Scene>> sceneSuppliers = new HashMap<>();
     private Scene currentScene;
     private AssetManager resourceManager; // reference to resource manager to pass to scenes
     private EntityManager entityManager;
     private EventManager eventManager;
     private SpriteBatch batch;
-    private int previousSceneId = 1; // Default to main game
 
     public SceneManager(AssetManager resourceManager, EntityManager entityManager, EventManager eventManager, SpriteBatch batch) {
         this.resourceManager = resourceManager;
@@ -30,20 +27,21 @@ public class SceneManager implements EventObserver {
         return batch;
     }
 
+    public void registerScene(int id, Supplier<Scene> sceneSupplier) {
+        sceneSuppliers.put(id, sceneSupplier);
+    }
+
     // Load a scene by ID (can be extended to load specific subclasses like TestScene)
     public void loadScene(int id) {
         if (scenes.containsKey(id)) {
             currentScene = scenes.get(id);
-        } else {
-            if (id == 99) {
-                currentScene = new PauseScene(id, resourceManager, entityManager, eventManager, batch, this);
-            } else if (id == 1) {
-                currentScene = new TestScene(id, resourceManager, entityManager, eventManager, batch);
-            } else {
-                throw new IllegalArgumentException("Unknown scene ID: " + id);
-            }
+        } else if (sceneSuppliers.containsKey(id)) {
+            currentScene = sceneSuppliers.get(id).get();
             scenes.put(id, currentScene);
+        } else {
+            throw new IllegalArgumentException("Unknown scene ID: " + id);
         }
+
         currentScene.onEnter();
     }
 
@@ -84,16 +82,20 @@ public class SceneManager implements EventObserver {
 
     @Override
     public void onNotify(Event event, Boolean up) {
-        if (currentScene == null) return;
-
         if (event == Event.GamePause && !up) { // Only trigger on key press, not release
-            if (currentScene instanceof PauseScene) { // If we're already in the pause scene, return to the previous scene
-                loadScene(previousSceneId); 
+            if (currentScene != null && currentScene.getId() == 0) {
+                return;
+            }
+
+            if (currentScene != null && currentScene.getId() == 2) { // If we're already in the pause scene, return to the previous scene
+                currentScene = null; // Clear current scene to avoid rendering issues 
             } else {
-                previousSceneId = currentScene.getId();  // Save the current scene ID before switching to pause
                 loadScene(99); // Load the pause scene (ID 99)
             }
+            return;
         }
+        if (currentScene == null) return; // No scene to notify
+
 		// Only loop through entities that have explicitly flagged they want input
 		for (Entity entity : entityManager.getEntities()) {
 			if (entity.isActive()) {

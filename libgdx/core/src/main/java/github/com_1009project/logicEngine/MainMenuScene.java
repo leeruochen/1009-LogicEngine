@@ -2,9 +2,10 @@ package github.com_1009project.logicEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,54 +18,57 @@ import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
 
-public class PauseScene extends Scene {
+public class MainMenuScene extends Scene {
 
-    private ShapeRenderer shapeRenderer;
+    private Texture background;
     private Skin skin;
+    private BitmapFont titleFont;
 
-    public PauseScene(int id, AssetManager assetManager, EntityManager entityManager,
-                      EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
+    public MainMenuScene(int id, AssetManager assetManager, EntityManager entityManager,
+                         EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
         super(id, assetManager, entityManager, eventManager, batch, sceneManager);
         init();
     }
 
     @Override
     public void init() {
-        shapeRenderer = new ShapeRenderer();
+        background = assetManager.get("imgs/background.png", Texture.class);
 
         UILayer uiLayer = new UILayer(batch);
         layers.add(uiLayer);
 
         skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        titleFont = new BitmapFont(Gdx.files.internal("menu/title.fnt"), Gdx.files.internal("menu/title.png"), false);
 
         float cx = Gdx.graphics.getWidth()  / 2f;
         float cy = Gdx.graphics.getHeight() / 2f;
 
-        // "PAUSED" title using warm label style
-        Label title = new Label("PAUSED", skin, "warm");
-        title.setPosition(cx - title.getPrefWidth() / 2f, cy + 80f);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.WHITE);
+        Label title = new Label("UnderCooked", titleStyle);
+        title.setPosition(cx - title.getPrefWidth() / 2f, cy + 120f);
         uiLayer.getStage().addActor(title);
 
-        // Resume button — warm orange
-        TextButton resumeBtn = new TextButton("Resume", skin, "warm-resume");
-        resumeBtn.setSize(220f, 50f);
-        resumeBtn.setPosition(cx - 110f, cy);
-        resumeBtn.addListener(new ClickListener() {
+        // play button
+        TextButton playBtn = new TextButton("Play", skin, "warm-resume");
+        playBtn.setSize(260f, 60f);
+        playBtn.setPosition(cx - 130f, cy);
+
+        playBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.loadScene(1);
             }
         });
-        uiLayer.getStage().addActor(resumeBtn);
+        uiLayer.getStage().addActor(playBtn);
 
-        // Quit button — warm red
-        TextButton quitBtn = new TextButton("Exit to Menu", skin, "warm-quit");
-        quitBtn.setSize(220f, 50f);
-        quitBtn.setPosition(cx - 110f, cy - 70f);
+        // quit button
+        TextButton quitBtn = new TextButton("Quit", skin, "warm-quit");
+        quitBtn.setSize(260f, 60f);
+        quitBtn.setPosition(cx - 130f, cy - 80f);
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.loadScene(0);
+                Gdx.app.exit();
             }
         });
         uiLayer.getStage().addActor(quitBtn);
@@ -72,14 +76,10 @@ public class PauseScene extends Scene {
 
     @Override
     public void render() {
-        // dim overlay so game world shows behind menu
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.10f, 0.06f, 0.03f, 0.72f);
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        // draw background first then UI on top
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         super.render();
     }
@@ -87,7 +87,7 @@ public class PauseScene extends Scene {
     @Override
     public void dispose() {
         super.dispose();
-        shapeRenderer.dispose();
         skin.dispose();
+        titleFont.dispose();
     }
 }

@@ -1,0 +1,86 @@
+{
+BitmapFont: { default-font: { file: default.fnt } },
+Color: {
+	green: { a: 1, b: 0, g: 1, r: 0 },
+	white: { a: 1, b: 1, g: 1, r: 1 },
+	red: { a: 1, b: 0, g: 0, r: 1 },
+	black: { a: 1, b: 0, g: 0, r: 0 },
+	gray: { a: 1, b: 0.8, g: 0.8, r: 0.8 },
+	warm-cream: { r: 1, g: 0.92, b: 0.70, a: 1 },
+	warm-orange: { r: 0.85, g: 0.55, b: 0.15, a: 1 },
+	warm-red: { r: 0.65, g: 0.20, b: 0.15, a: 1 },
+	wood-brown: { r: 0.35, g: 0.20, b: 0.10, a: 1 },
+	dark-brown: { r: 0.22, g: 0.12, b: 0.05, a: 1 },
+},
+TintedDrawable: {
+	dialogDim: { name: white, color: { r: 0, g: 0, b: 0, a: 0.45 } },
+	btn-orange-up:   { name: default-round,      color: warm-orange },
+	btn-orange-down: { name: default-round-down,  color: warm-orange },
+	btn-red-up:      { name: default-round,      color: warm-red },
+	btn-red-down:    { name: default-round-down,  color: warm-red },
+	panel-bg:        { name: default-window,      color: wood-brown },
+	panel-header:    { name: default-round,       color: dark-brown },
+},
+ButtonStyle: {
+	default: { down: default-round-down, up: default-round, disabled: default-round },
+	toggle: { parent: default, checked: default-round-down }
+},
+TextButtonStyle: {
+	default:     { parent: default, font: default-font, fontColor: white, disabledFontColor: gray },
+	toggle:      { parent: default, checked: default-round-down, downFontColor: red },
+	warm-resume: { down: btn-orange-down, up: btn-orange-up, font: default-font, fontColor: warm-cream },
+	warm-quit:   { down: btn-red-down,    up: btn-red-up,    font: default-font, fontColor: warm-cream },
+},
+ScrollPaneStyle: {
+	default: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect, hScroll: default-scroll, vScrollKnob: default-round-large }
+},
+SelectBoxStyle: {
+	default: {
+		font: default-font, fontColor: white, background: default-select,
+		scrollStyle: default,
+		listStyle: { font: default-font, selection: default-select-selection }
+	}
+},
+SplitPaneStyle: {
+	default-vertical: { handle: default-splitpane-vertical },
+	default-horizontal: { handle: default-splitpane }
+},
+WindowStyle: {
+	default: { titleFont: default-font, background: default-window, titleFontColor: white },
+	dialog:  { parent: default, stageBackground: dialogDim },
+	warm:    { titleFont: default-font, background: panel-bg, titleFontColor: warm-cream },
+},
+ProgressBarStyle: {
+	default-horizontal: { background: default-slider, knob: default-slider-knob },
+	default-vertical:   { background: default-slider, knob: default-round-large }
+},
+SliderStyle: {
+	default-horizontal: { parent: default-horizontal },
+	default-vertical:   { parent: default-vertical }
+},
+LabelStyle: {
+	default: { font: default-font, fontColor: white },
+	warm:    { font: default-font, fontColor: warm-cream },
+},
+TextFieldStyle: {
+	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor }
+},
+CheckBoxStyle: {
+	default: { checkboxOn: check-on, checkboxOff: check-off, font: default-font, fontColor: white }
+},
+ListStyle: {
+	default: { fontColorUnselected: white, selection: selection, fontColorSelected: white, font: default-font }
+},
+TouchpadStyle: {
+	default: { background: default-pane, knob: default-round-large }
+},
+TreeStyle: {
+	default: { minus: tree-minus, plus: tree-plus, selection: default-select-selection }
+},
+TextTooltipStyle: {
+	default: {
+		label: { font: default-font, fontColor: white },
+		background: default-pane, wrapWidth: 150
+	}
+},
+}

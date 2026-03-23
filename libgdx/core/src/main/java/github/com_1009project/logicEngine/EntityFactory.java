@@ -9,6 +9,14 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
 import github.com_1009project.abstractEngine.Entity;
+import github.com_1009project.logicEngine.entities.ChoppingStation;
+import github.com_1009project.logicEngine.entities.CollisionBox;
+import github.com_1009project.logicEngine.entities.Counter;
+import github.com_1009project.logicEngine.entities.CounterSubmission;
+import github.com_1009project.logicEngine.entities.IngredientBox;
+import github.com_1009project.logicEngine.entities.Player;
+import github.com_1009project.logicEngine.entities.RubbishBin;
+import github.com_1009project.logicEngine.entities.Stove;
 
 public class EntityFactory {
 
