@@ -17,7 +17,10 @@ public class PlayerFactory implements Ifactory<Player>{
     public Player createEntity(float x, float y, float width, float height) {
         Texture idleSheet = assetManager.get("character/human_idle.png", Texture.class);
         Texture runSheet = assetManager.get("character/human_run.png", Texture.class);
-        Player entity = new Player(x, y, width, height, idleSheet, runSheet);
+        Texture chopSheet1 = assetManager.get("character/human_chop1.png", Texture.class);
+        Texture chopSheet2 = assetManager.get("character/human_chop2.png", Texture.class);
+        Texture deathSheet = assetManager.get("character/human_death.png", Texture.class);
+        Player entity = new Player(x, y, width, height, idleSheet, runSheet, chopSheet1, chopSheet2, deathSheet);
         return entity;
     }
 }

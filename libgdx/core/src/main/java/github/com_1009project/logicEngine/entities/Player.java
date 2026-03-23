@@ -31,7 +31,7 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
     /** Offset for rendering the held item above the player. */
     private static final float HELD_OFFSET_Y = 50f;
 
-    public Player(float x, float y, float w, float h, Texture idleSheet, Texture runSheet) {
+    public Player(float x, float y, float w, float h, Texture idleSheet, Texture runSheet, Texture chopSheet1, Texture chopSheet2, Texture deathSheet) {
         super();
         this.setPosition(x, y);
         this.setSize(w, h);
@@ -44,6 +44,9 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         this.animationComponent = new AnimationComponent();
         this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
         this.animationComponent.addAnimation("RUN", runSheet, 8, 1, 0.05f);
+        this.animationComponent.addAnimation("CHOP1", chopSheet1, 4, 1, 0.1f);
+        this.animationComponent.addAnimation("CHOP2", chopSheet2, 4, 1, 0.1f);
+        this.animationComponent.addAnimation("DEATH", deathSheet, 8, 1, 0.1f);
         this.animationComponent.setState("IDLE");
     }
 
