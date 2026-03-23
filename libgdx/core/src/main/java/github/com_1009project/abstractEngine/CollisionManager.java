@@ -36,9 +36,17 @@ public class CollisionManager implements Disposable {
                 if (e1 == e2) {continue;}
 
                 if (e1.getCollisionComponent().getBounds().overlaps(e2.getCollisionComponent().getBounds())) {
+
+                    if (e1.getId() < e2.getId()) {
+                        continue;
+                    }
+
                     // if they overlap, trigger their onCollision methods only if they implement ICollidable
                     if (e1 instanceof ICollidable) {
                         ((ICollidable) e1).onCollision(e2);
+                    }
+                    if (e2 instanceof ICollidable) {
+                        ((ICollidable) e2).onCollision(e1);
                     }
                 }
             }
