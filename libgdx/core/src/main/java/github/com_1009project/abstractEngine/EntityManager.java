@@ -215,4 +215,13 @@ public class EntityManager implements MovementEntity, MapEntity{
         }
         processRemovals();
     }
+    // use to dispose and clear all entities, including persistent ones, for example when exiting to the main menu
+    public void disposeAll() {
+        entities.clear();
+        updatableEntities.clear();
+        renderableEntities.clear();
+        collidableEntities.clear();
+        persistentEntities.clear();
+        toRemove.clear();
+    }
 }

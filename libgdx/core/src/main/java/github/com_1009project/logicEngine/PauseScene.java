@@ -64,6 +64,7 @@ public class PauseScene extends Scene {
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                sceneManager.unloadScene(1);
                 sceneManager.loadScene(0);
             }
         });
