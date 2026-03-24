@@ -86,10 +86,13 @@ public class SceneManager implements EventObserver {
             if (currentScene != null && currentScene.getId() == 0) {
                 return;
             }
-
-            if (currentScene != null && currentScene.getId() == 2) { // If we're already in the pause scene, return to the previous scene
-                currentScene = null; // Clear current scene to avoid rendering issues 
-            } else {
+            if (currentScene != null && currentScene.getId() == 2) {
+                currentScene = null; 
+            }
+            if (currentScene != null && currentScene.getId() == 3) {
+                return;
+            }
+            else {
                 loadScene(99); // Load the pause scene (ID 99)
             }
             return;

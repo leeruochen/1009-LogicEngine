@@ -26,6 +26,7 @@ import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.logicEngine.GameScene;
 import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
+import github.com_1009project.logicEngine.TutorialScene;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
 
@@ -78,6 +79,7 @@ public class GameMaster extends ApplicationAdapter{
         sm = new SceneManager(assetManager, entityManager, eventManager, batch);
         sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityManager, eventManager, batch, sm));
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityManager, eventManager, batch, sm));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
 
         // set up camera with max world bounds
