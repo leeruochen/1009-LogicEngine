@@ -124,6 +124,9 @@ public class GameMaster extends ApplicationAdapter{
 
     private void loadAssets() {
         // load textures
+        for(int i=0; i<52; i++){
+            assetManager.load(String.format("imgs/bg_frames/tile%03d.png", i), Texture.class);
+        }
         assetManager.load("imgs/background.png", Texture.class);
         assetManager.load("foodstations/rubbishBin.png", Texture.class);
         assetManager.load("foodstations/counter.png", Texture.class);
@@ -169,6 +172,7 @@ public class GameMaster extends ApplicationAdapter{
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.projectFilePath = "maps/test.tiled-project";
         assetManager.load("maps/kitchen.tmx", TiledMap.class, params);
+        assetManager.finishLoading();
     }
 
     @Override
