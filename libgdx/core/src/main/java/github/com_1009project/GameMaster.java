@@ -154,6 +154,7 @@ public class GameMaster extends ApplicationAdapter{
         assetManager.load("food/tomato_chopped.png", Texture.class);
         assetManager.load("food/cheese_chopped.png", Texture.class);
         assetManager.load("food/patty_cooked.png", Texture.class);
+        assetManager.load("food/patty_burnt.png", Texture.class);
 
         // Plate / dish texture
         assetManager.load("food/dish.png", Texture.class);
