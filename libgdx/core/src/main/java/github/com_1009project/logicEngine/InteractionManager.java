@@ -168,6 +168,7 @@ public class InteractionManager implements EventObserver {
                 player.dropItem();
                 stove.setCookedTexture(assetManager.get("food/patty_cooked.png", Texture.class));
                 stove.setStoveCookingTexture(assetManager.get("foodstations/stove_cooking.png", Texture.class));
+                stove.setBurntTexture(assetManager.get("food/patty_burnt.png", Texture.class));
                 stove.placeIngredient(held);
                 Gdx.app.log("Interact", "Placed " + held.getName() + " on stove");
             }
