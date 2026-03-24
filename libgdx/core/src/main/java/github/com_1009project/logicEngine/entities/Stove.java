@@ -23,6 +23,7 @@ public class Stove extends Station implements IUpdatable {
     private Texture cookedTexture;
     private Texture stoveCookingTexture;
     private Texture stoveDefaultTexture;
+    private Texture burntTexture;
 
     public Stove(float x, float y, float w, float h, Texture texture) {
         super(x, y, w, h, texture);
@@ -38,6 +39,10 @@ public class Stove extends Station implements IUpdatable {
 
     public void setStoveCookingTexture(Texture tex) {
         this.stoveCookingTexture = tex;
+    }
+
+    public void setBurntTexture(Texture burntTex) {
+        this.burntTexture = burntTex;
     }
 
     // ── Station item API ─────────────────────────────────────────────────────
@@ -89,6 +94,9 @@ public class Stove extends Station implements IUpdatable {
         if (cookTimer >= BURN_TIME) {
             placedIngredient.setState(FoodState.Overcooked);
             // Burnt patty keeps its texture but could be tinted; for now just mark state
+            if (burntTexture != null) {
+                placedIngredient.setTexture(burntTexture);
+            }
         } else if (cookTimer >= COOK_TIME && placedIngredient.getState() == FoodState.Raw) {
             placedIngredient.setState(FoodState.Cooked);
             if (cookedTexture != null) {

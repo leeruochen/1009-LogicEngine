@@ -43,12 +43,14 @@ public class EntityManager implements MovementEntity, MapEntity{
     }
 
     // Creates a new entity of the specified type, adds it to the manager, and returns it
-    // public Entity createEntity(EntityType type) {
-    //     Entity entity = factory.createEntity(type);
+    public <T extends Entity> T createEntity(Class<T> type, float x, float y, float width, float height) {
+        
+        Ifactory<?> factory = factories.get(type);
+        Entity entity = factory.createEntity(x,y,width,height);
 
-    //     categorizeEntity(entity);
-    //     return entity;
-    // }
+        categorizeEntity(entity);
+        return (T) type.cast(entity);
+    }
 
     // Creates an entity from a TiledMap MapObject, adds it to the manager, and returns it
     public <T extends Entity> T createEntity(MapObject object, float map_scale) {
