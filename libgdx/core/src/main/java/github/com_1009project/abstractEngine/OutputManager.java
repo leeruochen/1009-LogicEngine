@@ -48,6 +48,10 @@ public class OutputManager implements EventObserver{
         loadPreferences();
     }
 
+    public OutputManager(AssetManager assetManager, String name) {
+        this(assetManager); 
+    }
+
     public OutputManager(AssetManager assetManager) {
         this(assetManager, null, null);
     }
