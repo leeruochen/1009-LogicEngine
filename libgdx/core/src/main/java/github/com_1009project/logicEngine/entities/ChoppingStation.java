@@ -15,7 +15,7 @@ import github.com_1009project.logicEngine.Station;
 public class ChoppingStation extends Station {
 
     /** Number of chop actions required to finish chopping. */
-    private static final float CHOP_TIME_REQUIRED = 3.0f;
+    private static final float CHOP_TIME_REQUIRED = 1.5f;
 
     /** The ingredient currently on this chopping board. */
     private Ingredient placedIngredient;

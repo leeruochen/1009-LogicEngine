@@ -11,4 +11,10 @@ public enum Event {
     GamePause,
     GameStart,
     MenuEnter,
+    SubmissionCorrect,
+    SubmissionWrong,
+    IngredientTake,
+    Chopping,
+    PlayerInteractSound,
+    Bin
 }

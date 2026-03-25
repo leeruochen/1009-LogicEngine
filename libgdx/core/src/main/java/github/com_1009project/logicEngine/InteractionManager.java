@@ -12,6 +12,7 @@ import github.com_1009project.abstractEngine.EntityManager;
 import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventObserver;
 import github.com_1009project.logicEngine.entities.*;
+import github.com_1009project.abstractEngine.EventManager;
 
 /**
  * Handles all player-station interactions driven by the PlayerInteract and PlayerChop events.
@@ -32,11 +33,13 @@ public class InteractionManager implements EventObserver {
     private final EntityManager entityManager;
     private final AssetManager assetManager;
     private final FoodQueue foodQueue;
+    private final EventManager eventManager;
 
-    public InteractionManager(EntityManager entityManager, AssetManager assetManager, FoodQueue foodQueue) {
+    public InteractionManager(EntityManager entityManager, AssetManager assetManager, FoodQueue foodQueue, EventManager eventManager) {
         this.entityManager = entityManager;
         this.assetManager = assetManager;
         this.foodQueue = foodQueue;
+        this.eventManager = eventManager;
     }
 
     @Override
@@ -77,6 +80,9 @@ public class InteractionManager implements EventObserver {
      * Player has empty hands → pick up from boxes or stations.
      */
     private void handleInteractEmptyHanded(Player player, Entity nearest) {
+        boolean wasEmptyHanded = !player.isHolding();
+        boolean fromBox = false;
+
         // 1. Pick up from IngredientBox (infinite supply)
         if (nearest instanceof IngredientBox) {
             IngredientBox box = (IngredientBox) nearest;
@@ -85,19 +91,15 @@ public class InteractionManager implements EventObserver {
                 player.pickUp(spawned);
                 Gdx.app.log("Interact", "Picked up " + spawned.getName() + " from " + box.getIngredientType() + " box");
             }
-            return;
-        }
-
-        // 2. Pick up plate from PlateBox
-        if (nearest instanceof PlateBox) {
+            fromBox = true;
+        } else if (nearest instanceof PlateBox) {
+            // 2. Pick up plate from PlateBox
             Plate plate = new Plate(0, 0, 40, 40, assetManager.get("food/dish.png", Texture.class), assetManager);
             player.pickUp(plate);
             Gdx.app.log("Interact", "Picked up empty plate");
-            return;
-        }
-
-        // 3. Pick up from ChoppingStation
-        if (nearest instanceof ChoppingStation) {
+            fromBox = true;
+        } else if (nearest instanceof ChoppingStation) {
+            // 3. Pick up from ChoppingStation
             ChoppingStation cs = (ChoppingStation) nearest;
             if (cs.hasIngredient() && cs.isChopComplete()) {
                 Ingredient item = cs.removeIngredient();
@@ -109,30 +111,33 @@ public class InteractionManager implements EventObserver {
                 player.pickUp(item);
                 Gdx.app.log("Interact", "Picked up unchopped " + item.getName());
             }
-            return;
-        }
-
-        // 4. Pick up from Stove
-        if (nearest instanceof Stove) {
+        } else if (nearest instanceof Stove) {
+            // 4. Pick up from Stove
             Stove stove = (Stove) nearest;
             if (stove.hasIngredient()) {
                 Ingredient item = stove.removeIngredient();
                 player.pickUp(item);
                 Gdx.app.log("Interact", "Picked up " + item.getState() + " " + item.getName() + " from stove");
             }
-            return;
-        }
-
-        // 5. Pick up from Counter (top of stack, or the whole plate if top is a Plate)
-        if (nearest instanceof Counter) {
+        } else if (nearest instanceof Counter) {
+            // 5. Pick up from Counter
             Counter counter = (Counter) nearest;
             if (counter.hasIngredients()) {
                 Ingredient top = counter.removeTopIngredient();
                 player.pickUp(top);
                 Gdx.app.log("Interact", "Picked up " + top.getName() + " from counter");
             }
-            return;
         }
+
+        if (wasEmptyHanded && player.isHolding()) {
+            if(fromBox) {
+                eventManager.eventTrigger(Event.IngredientTake);
+            } else {
+                eventManager.eventTrigger(Event.PlayerInteractSound);
+            }
+        }
+
+        return;
     }
 
     /**
@@ -140,13 +145,16 @@ public class InteractionManager implements EventObserver {
      */
     private void handleInteractHolding(Player player, Entity nearest) {
         Ingredient held = player.getHeldItem();
+        Boolean wasHolding = player.isHolding();
+        Boolean specialEvent = false;
 
         // 1. Rubbish bin → discard
         if (nearest instanceof RubbishBin) {
             Ingredient discarded = player.dropItem();
             discarded.setActive(false);
             Gdx.app.log("Interact", "Discarded " + discarded.getName());
-            return;
+            eventManager.eventTrigger(Event.Bin);
+            specialEvent = true;
         }
 
         // 2. ChoppingStation → place choppable ingredient
@@ -158,7 +166,6 @@ public class InteractionManager implements EventObserver {
                 cs.placeIngredient(held, choppedTex);
                 Gdx.app.log("Interact", "Placed " + held.getName() + " on chopping station");
             }
-            return;
         }
 
         // 3. Stove → place cookable ingredient
@@ -172,7 +179,6 @@ public class InteractionManager implements EventObserver {
                 stove.placeIngredient(held);
                 Gdx.app.log("Interact", "Placed " + held.getName() + " on stove");
             }
-            return;
         }
 
         // 4. CounterSubmission → submit order if holding a Plate with items
@@ -183,10 +189,17 @@ public class InteractionManager implements EventObserver {
                     boolean success = foodQueue.submitOrder(plate.getAssembledItems());
                     player.dropItem();
                     held.setActive(false);
+
+                    if (success) {
+                        eventManager.eventTrigger(Event.SubmissionCorrect);
+                    } else {
+                        eventManager.eventTrigger(Event.SubmissionWrong);
+                    }
+
                     Gdx.app.log("Interact", "Submitted plate: " + (success ? "ORDER MATCHED!" : "No matching order"));
                 }
             }
-            return;
+            specialEvent = true;
         }
 
         // 5. Counter → stacking / plate loading logic
@@ -208,7 +221,6 @@ public class InteractionManager implements EventObserver {
                     counter.placeIngredient(held);
                     Gdx.app.log("Interact", "Placed plate on counter");
                 }
-                return;
             }
 
             // 5b. If counter has a Plate on top → add held ingredient directly to the plate
@@ -221,7 +233,6 @@ public class InteractionManager implements EventObserver {
                         player.dropItem();
                         plate.addIngredient(held);
                         Gdx.app.log("Interact", "Added " + held.getName() + " to plate on counter. Total: " + plate.getItemCount());
-                        return;
                     }
                 }
             }
@@ -232,9 +243,13 @@ public class InteractionManager implements EventObserver {
                 counter.placeIngredient(held);
                 Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
             }
-            return;
         }
 
+        if (wasHolding && !player.isHolding() && !specialEvent) {
+            eventManager.eventTrigger(Event.PlayerInteractSound);
+        }
+
+        return;
         // 6. IngredientBox or PlateBox while holding → do nothing (can't place items on supply boxes)
     }
 
@@ -248,6 +263,7 @@ public class InteractionManager implements EventObserver {
 
                 if (cs.hasIngredient() && !cs.isChopComplete()) {
                     player.setChopping(true);
+                    eventManager.eventTrigger(Event.Chopping);
                 }
             }
         } else {
