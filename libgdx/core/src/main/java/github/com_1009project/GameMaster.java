@@ -82,11 +82,11 @@ public class GameMaster extends ApplicationAdapter{
 
         // Register type aliases for TiledMap entity type names
         entityManager.registerTypeAlias("CollisionBox", new CollisionBoxFactory());
-        entityManager.registerTypeAlias("Counter", new CounterFactory());
-        entityManager.registerTypeAlias("ChoppingStation", new ChoppingStationFactory());
-        entityManager.registerTypeAlias("Stove", new StoveFactory());
-        entityManager.registerTypeAlias("RubbishBin", new RubbishBinFactory());
-        entityManager.registerTypeAlias("CounterSubmission", new CounterSubmissionFactory());
+        entityManager.registerTypeAlias("Counter", new CounterFactory(assetManager));
+        entityManager.registerTypeAlias("ChoppingStation", new ChoppingStationFactory(assetManager));
+        entityManager.registerTypeAlias("Stove", new StoveFactory(assetManager));
+        entityManager.registerTypeAlias("RubbishBin", new RubbishBinFactory(assetManager));
+        entityManager.registerTypeAlias("CounterSubmission", new CounterSubmissionFactory(assetManager));
         entityManager.registerTypeAlias("Player", new PlayerFactory(assetManager));
         entityManager.registerTypeAlias("PlateBox", new PlateBoxFactory(assetManager));
 
