@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.audio.Music;
  
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -28,6 +29,7 @@ import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
+import github.com_1009project.abstractEngine.OutputManager;
 
 public class GameMaster extends ApplicationAdapter{
     private EntityManager entityManager;
@@ -41,6 +43,7 @@ public class GameMaster extends ApplicationAdapter{
     private MapManager mapManager;
     private SpriteBatch batch;
     private FoodQueueSystem foodQueueSystem;
+    private OutputManager outputManager;
 
     // camera properties
     private int width, height;
@@ -80,6 +83,11 @@ public class GameMaster extends ApplicationAdapter{
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
 
+        outputManager = new OutputManager(assetManager);
+        outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");
+        outputManager.registerMusic(Event.MenuEnter, "sounds/MainMenuMusic.mp3");
+
+
         // set up camera with max world bounds
         camera = new CameraManager(width, height);
         camera.setBounds(4000, 4000);
@@ -92,6 +100,7 @@ public class GameMaster extends ApplicationAdapter{
         //eventmanager adds movementManager as an event observer
 		eventManager.addObserver(movementManager);
         eventManager.addObserver(sm); // add SceneManager as an observer to handle pause events
+        eventManager.addObserver(outputManager); // add OutputManager as an observer to handle audio events
 
 		//key mappings for eventManager
 		eventManager.mapKey(Input.Keys.W, Event.PlayerUp);
@@ -159,7 +168,11 @@ public class GameMaster extends ApplicationAdapter{
         
         // Food textures + UI skin (for the order queue HUD)
         FoodQueueSystem.queueAssets(assetManager);
-        
+
+        // load music
+        assetManager.load("sounds/MainMenuMusic.mp3", Music.class);
+        assetManager.load("sounds/LevelMusic.mp3", Music.class);
+
         // load tmx maps
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();

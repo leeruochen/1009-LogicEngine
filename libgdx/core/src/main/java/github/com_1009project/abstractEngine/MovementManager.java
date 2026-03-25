@@ -11,6 +11,7 @@ public class MovementManager implements EventObserver {
     
 	@Override
 	public void onNotify(Event event, Boolean up) {
+		if (up == null) return;
 		// Only loop through entities that have explicitly flagged they want input
 		for (Entity entity : entityManager.getEntities()) {
 			if (entity instanceof DynamicEntity) {

@@ -9,4 +9,6 @@ public enum Event {
     PlayerInteract,
     PlayerChop,
     GamePause,
+    GameStart,
+    MenuEnter,
 }

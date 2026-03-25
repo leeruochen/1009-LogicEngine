@@ -17,6 +17,7 @@ import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
+import github.com_1009project.abstractEngine.Event;
 
 public class MainMenuScene extends Scene {
 
@@ -73,6 +74,13 @@ public class MainMenuScene extends Scene {
         });
         uiLayer.getStage().addActor(quitBtn);
     }
+
+    @Override
+    public void onEnter() {
+        super.onEnter();
+        eventManager.eventTrigger(Event.MenuEnter);
+    }
+    
 
     @Override
     public void render() {
