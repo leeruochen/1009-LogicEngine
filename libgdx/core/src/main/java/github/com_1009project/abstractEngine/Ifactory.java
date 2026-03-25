@@ -1,6 +1,5 @@
-package github.com_1009project.logicEngine.factories;
+package github.com_1009project.abstractEngine;
 
-import github.com_1009project.abstractEngine.Entity;
 import com.badlogic.gdx.graphics.Texture;
 
 public interface Ifactory<T extends Entity> {

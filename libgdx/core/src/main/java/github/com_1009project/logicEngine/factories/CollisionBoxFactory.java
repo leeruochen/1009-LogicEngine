@@ -1,5 +1,7 @@
 package github.com_1009project.logicEngine.factories;
 
+import github.com_1009project.abstractEngine.Ifactory;
+
 import github.com_1009project.logicEngine.entities.CollisionBox;
 
 public class CollisionBoxFactory implements Ifactory<CollisionBox> {

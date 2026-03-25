@@ -1,6 +1,8 @@
 package github.com_1009project.logicEngine.factories;
 
 import com.badlogic.gdx.assets.AssetManager;
+import github.com_1009project.abstractEngine.Ifactory;
+
 import com.badlogic.gdx.graphics.Texture;
 
 import github.com_1009project.logicEngine.entities.Cheese;

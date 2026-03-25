@@ -29,6 +29,7 @@ import github.com_1009project.logicEngine.GameScene;
 import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
 import github.com_1009project.logicEngine.TutorialScene;
+import github.com_1009project.abstractEngine.Ifactory;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
 import github.com_1009project.abstractEngine.OutputManager;
@@ -75,6 +76,32 @@ public class GameMaster extends ApplicationAdapter{
         entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
         entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
         entityManager.registerFactory(Plate.class, new PlateFactory(assetManager));
+        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
+        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
+        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
+
+        // Register type aliases for TiledMap entity type names
+        entityManager.registerTypeAlias("CollisionBox", new CollisionBoxFactory());
+        entityManager.registerTypeAlias("Counter", new CounterFactory());
+        entityManager.registerTypeAlias("ChoppingStation", new ChoppingStationFactory());
+        entityManager.registerTypeAlias("Stove", new StoveFactory());
+        entityManager.registerTypeAlias("RubbishBin", new RubbishBinFactory());
+        entityManager.registerTypeAlias("CounterSubmission", new CounterSubmissionFactory());
+        entityManager.registerTypeAlias("Player", new PlayerFactory(assetManager));
+        entityManager.registerTypeAlias("PlateBox", new PlateBoxFactory(assetManager));
+
+        // Register food box type aliases — each creates an IngredientBox with the correct texture and ingredient name
+        for (String ingredient : new String[]{"Bun", "Patty", "Lettuce", "Tomato", "Cheese", "Meat"}) {
+            final String ingredientLower = ingredient.toLowerCase();
+            final String texturePath = "foodstations/" + ingredientLower + "_box.png";
+            entityManager.registerTypeAlias(ingredient + "Box", new Ifactory<IngredientBox>() {
+                @Override
+                public IngredientBox createEntity(float x, float y, float width, float height) {
+                    Texture boxTexture = assetManager.get(texturePath, Texture.class);
+                    return new IngredientBox(x, y, width, height, boxTexture, ingredientLower);
+                }
+            });
+        }
         entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
         entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
         entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
