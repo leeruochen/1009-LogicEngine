@@ -10,6 +10,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -28,6 +29,12 @@ import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.abstractEngine.UILayer;
 import github.com_1009project.abstractEngine.Event;
 
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 public class GameScene extends Scene {
 
     private CameraManager camera;
@@ -44,6 +51,14 @@ public class GameScene extends Scene {
     private Label timerLabel; 
     private ProgressBar timerBar;
     private SceneController sceneController;
+    private enum GameState { PLAYING, TIMES_UP, RESULTS }
+    private GameState currentState;
+    private float postGameTimer;
+    private ShapeRenderer shapeRenderer;
+    private UILayer uiLayer;
+    private Skin skin;
+    private Label timesUpLabel;
+    private Table resultsTable;
 
     public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
                      EventManager eventManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
@@ -69,17 +84,33 @@ public class GameScene extends Scene {
     @Override
     public void init() {
         timeRemaining = ROUND_DURATION;
+        currentState = GameState.PLAYING;
+        postGameTimer = 0f;
 
-        UILayer uiLayer = new UILayer(batch);
+        shapeRenderer = new ShapeRenderer();
+        uiLayer = new UILayer(batch);
         layers.add(uiLayer);
  
-        Skin skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        if (assetManager.isLoaded("menu/uiskin.json")) {
+            this.skin = assetManager.get("menu/uiskin.json", Skin.class);
+        } else {
+            // Fallback in case it wasn't loaded yet
+            this.skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
+        }
         UIFactory factory = new UIFactory(uiLayer, skin, eventManager);
  
         float sw = Gdx.graphics.getWidth();
         float sh = Gdx.graphics.getHeight();
         timerLabel = factory.createTimerLabel(ROUND_DURATION, sw / 2f - 100f, 50f);
         timerBar   = factory.createTimerBar(ROUND_DURATION);
+
+        timesUpLabel = new Label("TIME'S UP!", skin, "default");
+        timesUpLabel.setFontScale(4.0f);
+        timesUpLabel.setColor(Color.RED);
+        timesUpLabel.layout();
+        timesUpLabel.setPosition((sw - timesUpLabel.getPrefWidth()) / 2f, sh / 2f);
+        timesUpLabel.setVisible(false);
+        uiLayer.getStage().addActor(timesUpLabel);
 
         loadMap("maps/kitchen.tmx");
     };
@@ -92,21 +123,38 @@ public class GameScene extends Scene {
 
     @Override
     public void update(float delta) {
-        entityRegistry.update(delta);
-        collisionManager.updateCollision(entityRegistry.getCollidableEntities());
-        camera.cameraUpdate(delta);
-        foodQueueSystem.update(delta);
-        interactionManager.update(delta);
-        timeRemaining -= delta;
+        if (currentState == GameState.PLAYING) {
+            // Normal game loop
+            entityRegistry.update(delta);
+            collisionManager.updateCollision(entityRegistry.getCollidableEntities());
+            camera.cameraUpdate(delta);
+            foodQueueSystem.update(delta);
+            interactionManager.update(delta);
+            
+            timeRemaining -= delta;
 
-        if (timeRemaining <= 0) {
-            timeRemaining = 0;
-        }
+            if (timeRemaining <= 0) {
+                timeRemaining = 0;
+                currentState = GameState.TIMES_UP;
+                timesUpLabel.setVisible(true); // Show the pop-up text
+                timesUpLabel.setFontScale(5.0f);
+            }
 
-        timerLabel.setText(formatTime(timeRemaining));
-        timerLabel.setColor(timeRemaining <= 30f ? Color.RED : Color.WHITE);
-        timerBar.setValue(timeRemaining);
-    }    
+            timerLabel.setText(formatTime(timeRemaining));
+            timerLabel.setColor(timeRemaining <= 30f ? Color.RED : Color.WHITE);
+            timerBar.setValue(timeRemaining);
+
+        } else if (currentState == GameState.TIMES_UP) {
+            // Wait a few seconds before showing results
+            postGameTimer += delta;
+            if (postGameTimer >= 3.0f) { // 3 second delay
+                currentState = GameState.RESULTS;
+                timesUpLabel.setVisible(false);
+                showResultsUI();
+            }
+        } 
+        // If state is RESULTS, we don't need to do anything in update; Scene2D handles UI clicks automatically.
+    }
 
     @Override
     public void render() {
@@ -117,6 +165,75 @@ public class GameScene extends Scene {
         batch.end();
         super.render();
         foodQueueSystem.render(Gdx.graphics.getDeltaTime());
+
+        if (currentState != GameState.PLAYING) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.65f); // 65% opacity black
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
+        super.render(); // Render UI on top of everything else
+    }
+    private void showResultsUI() {
+        if (skin == null || skin == null) return; // Safety check
+
+        Table resultsTable = new Table();
+        resultsTable.setFillParent(true);
+        resultsTable.center();
+        
+        // Calculate score and stars
+        int score = foodQueueSystem.getFoodQueue().getClearedCount();
+        int stars = Math.min(score, 3); 
+
+        Label titleLabel = new Label("ROUND COMPLETE", skin, "default");
+        titleLabel.setFontScale(2.5f);
+        titleLabel.setColor(Color.GOLD);
+
+        Label scoreLabel = new Label("Dishes Served: " + score, skin);
+        scoreLabel.setFontScale(1.5f);
+
+        Label starsLabel = new Label("Rating: " + stars + " Stars", skin);
+        starsLabel.setFontScale(1.5f);
+        starsLabel.setColor(stars > 0 ? Color.YELLOW : Color.GRAY);
+
+        TextButton retryBtn = new TextButton("Retry", skin, "warm-resume");
+        retryBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneManager.unloadScene(1);
+                sceneManager.loadScene(1);
+            }
+        });
+
+        TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
+        settingsBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneManager.loadScene(2);
+            }
+        });
+
+        TextButton exitBtn = new TextButton("Main Menu", skin, "warm-quit");
+        exitBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneManager.unloadScene(1);
+                sceneManager.loadScene(0);
+            }
+        });
+
+        // Add to table
+        resultsTable.add(titleLabel).padBottom(30).row();
+        resultsTable.add(scoreLabel).padBottom(10).row();
+        resultsTable.add(starsLabel).padBottom(40).row();
+        resultsTable.add(retryBtn).width(250).height(60).padBottom(10).row();
+        resultsTable.add(settingsBtn).width(250).height(60).padBottom(10).row();
+        resultsTable.add(exitBtn).width(250).height(60).row();
+
+        uiLayer.getStage().addActor(resultsTable);
     }
 
     private void loadMap(String mapName) {
@@ -152,5 +269,6 @@ public class GameScene extends Scene {
         foodQueueSystem.dispose(); 
         eventManager.removeObserver(interactionManager);
         sceneController.dispose(eventManager);
+        if (shapeRenderer != null) shapeRenderer.dispose();
     }
 }
