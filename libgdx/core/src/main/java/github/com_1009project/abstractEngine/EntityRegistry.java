@@ -69,7 +69,8 @@ public class EntityRegistry implements MovementEntity {
 
     // Removes all marked entities and calls their onDestroy methods
     public void processRemovals() {
-        for (Entity entity : toRemove) {
+        for (int i = 0; i < toRemove.size(); i++) {
+            Entity entity = toRemove.get(i);
             entity.onDestroy(); // Call onDestroy for cleanup
             System.out.println("Removing entity: " + entity);
             entities.remove(entity);

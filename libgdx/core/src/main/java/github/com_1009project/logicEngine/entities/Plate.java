@@ -150,4 +150,14 @@ public class Plate extends Ingredient {
             item.render(batch);
         }
     }
+
+    public List<Ingredient> getStackedIngredients() { return stackedIngredients; }
+
+    //destroy
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stackedIngredients.clear();
+        assembledItems.clear();
+    }
 }

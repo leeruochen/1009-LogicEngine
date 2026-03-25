@@ -151,7 +151,15 @@ public class InteractionManager implements EventObserver {
         // 1. Rubbish bin → discard
         if (nearest instanceof RubbishBin) {
             Ingredient discarded = player.dropItem();
-            discarded.setActive(false);
+
+            if (discarded instanceof Plate) {
+                Plate plate = (Plate) discarded;
+                for (Ingredient item : plate.getStackedIngredients()) {
+                    entityRegistry.markForRemoval(item);
+                }
+            }
+
+            entityRegistry.markForRemoval(discarded);
             Gdx.app.log("Interact", "Discarded " + discarded.getName());
             eventManager.eventTrigger(Event.Bin);
             specialEvent = true;
@@ -188,7 +196,11 @@ public class InteractionManager implements EventObserver {
                 if (!plate.isEmpty()) {
                     boolean success = foodQueue.submitOrder(plate.getAssembledItems());
                     player.dropItem();
-                    held.setActive(false);
+                    
+                    for (Ingredient item : plate.getStackedIngredients()) {
+                        entityRegistry.markForRemoval(item);
+                    }
+                    entityRegistry.markForRemoval(plate);
 
                     if (success) {
                         eventManager.eventTrigger(Event.SubmissionCorrect);
