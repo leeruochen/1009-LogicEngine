@@ -16,7 +16,7 @@ public class TomatoFactory implements Ifactory<Tomato> {
     @Override
     public Tomato createEntity(float x, float y, float width, float height) {
         // Create and return a new Tomato entity with default properties
-        return new Tomato(x, y, width, height, assetManager.get("food/Tomato.png", Texture.class)); // Texture can be set later
+        return new Tomato(x, y, width, height, assetManager.get("food/tomato.png", Texture.class)); // Texture can be set later
     }
 
 }

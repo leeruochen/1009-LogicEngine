@@ -16,7 +16,7 @@ public class CheeseFactory implements Ifactory<Cheese> {
     @Override
     public Cheese createEntity(float x, float y, float width, float height) {
         // Create and return a new Cheese entity with default properties
-        return new Cheese(x, y, width, height, assetManager.get("food/Cheese.png", Texture.class)); // Texture can be set later
+        return new Cheese(x, y, width, height, assetManager.get("food/cheese.png", Texture.class)); // Texture can be set later
     }
 
 }
