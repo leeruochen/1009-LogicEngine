@@ -38,7 +38,7 @@ public class SceneManager {
         switchScene(id);
     }
 
-    public void popScene() {
+    public void loadPreviousScene() {
         if (!sceneHistory.isEmpty()) {
             int previousSceneId = sceneHistory.pop();
             switchScene(previousSceneId);

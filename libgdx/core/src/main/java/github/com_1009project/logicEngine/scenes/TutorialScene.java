@@ -112,7 +112,7 @@ public class TutorialScene extends Scene {
         backBtn.setPosition(cx - 110f + 80f - 140f, btnY);
         backBtn.addListener(new ClickListener() {
             @Override public void clicked(InputEvent e, float x, float y) {
-                sceneManager.loadScene(0);
+                sceneManager.loadPreviousScene();
             }
         });
 
