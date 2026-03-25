@@ -15,7 +15,8 @@ public class OutputManager implements EventObserver{
     private HashMap<Event, String> soundMap;
     private HashMap<Event, String> musicMap;
     private Music curMusic;
-
+    private String prefName;
+    private Event settingsUpdateEvent;
     private float musicVolume = 1.0f;
     private float soundVolume = 1.0f;
 
@@ -37,8 +38,24 @@ public class OutputManager implements EventObserver{
         curMusic.play();
     }
 
+    public OutputManager(AssetManager assetManager, String prefName, Event settingsUpdateEvent) {
+        soundMap = new HashMap<Event, String>();
+        musicMap = new HashMap<Event, String>();
+        this.assetManager = assetManager;
+        this.prefName = prefName;
+        this.settingsUpdateEvent = settingsUpdateEvent;
+
+        loadPreferences();
+    }
+
+    public OutputManager(AssetManager assetManager) {
+        this(assetManager, null, null);
+    }
+
     private void loadPreferences(){
-        Preferences prefs = Gdx.app.getPreferences("GameSettings");
+        if (prefName == null) return;
+
+        Preferences prefs = Gdx.app.getPreferences(prefName);
         musicVolume = prefs.getFloat("musicVolume", 1.0f);
         soundVolume = prefs.getFloat("soundVolume", 1.0f);
 
@@ -62,19 +79,11 @@ public class OutputManager implements EventObserver{
         musicMap.clear();
     }
 
-    public OutputManager(AssetManager assetManager){
-        soundMap = new HashMap<Event, String>();
-        musicMap = new HashMap<Event, String>();
-        this.assetManager = assetManager;
-
-        loadPreferences();
-    }
-
     @Override
     public void onNotify(Event event, Boolean up){
         if (up != null && up) return;
 
-        if (event == Event.SettingsChanged) {
+        if (settingsUpdateEvent != null && event == settingsUpdateEvent) {
             loadPreferences();
             return;
         }

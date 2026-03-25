@@ -122,7 +122,7 @@ public class GameMaster extends ApplicationAdapter{
         sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityRegistry, eventManager, batch, sm));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityRegistry, eventManager, batch, sm));
 
-        outputManager = new OutputManager(assetManager);
+        outputManager = new OutputManager(assetManager, "GameSettings");
         outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");
         outputManager.registerMusic(Event.MenuEnter, "sounds/MainMenuMusic.mp3");
         outputManager.registerSound(Event.Chopping, "sounds/Chop.mp3");
