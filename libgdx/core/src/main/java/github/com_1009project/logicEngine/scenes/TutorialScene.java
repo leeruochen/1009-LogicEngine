@@ -21,7 +21,7 @@ import github.com_1009project.abstractEngine.Layer;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
-import github.com_1009project.logicEngine.KeyDisplay;
+import github.com_1009project.logicEngine.scenes.KeyDisplay;
 
 public class TutorialScene extends Scene {
 

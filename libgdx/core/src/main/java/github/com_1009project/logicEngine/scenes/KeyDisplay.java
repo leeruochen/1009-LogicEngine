@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
