@@ -3,6 +3,7 @@ package github.com_1009project.abstractEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,10 @@ public class AnimationComponent {
     private String currentState;
     private float stateTime;
 
-    public AnimationComponent() {
+    public AnimationComponent(String initialState) {
         this.animations = new HashMap<>();
         this.stateTime = 0f;
-        this.currentState = "IDLE"; // Default state
+        this.currentState = initialState;
     }
 
     public void addAnimation(String stateName, Texture sheet, int cols, int rows, float frameDuration) {

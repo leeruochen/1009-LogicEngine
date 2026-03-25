@@ -52,7 +52,7 @@ public class PauseScene extends Scene {
         resumeBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.loadScene(1);
+                sceneManager.popScene();
             }
         });
         uiLayer.getStage().addActor(resumeBtn);
@@ -77,6 +77,7 @@ public class PauseScene extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.unloadScene(1);
+                sceneManager.clearHistory();
                 sceneManager.loadScene(0);
             }
         });

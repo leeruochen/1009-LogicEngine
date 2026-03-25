@@ -115,7 +115,7 @@ public class GameMaster extends ApplicationAdapter{
         entityRegistry.registerFactory(Tomato.class, new TomatoFactory(assetManager));
         movementManager = new MovementManager(entityRegistry);
 
-        sm = new SceneManager(assetManager, entityRegistry, eventManager, batch);
+        sm = new SceneManager(entityRegistry, eventManager, batch);
         sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityRegistry, eventManager, batch, sm));
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         sm.registerScene(2, () -> new SettingsScene(2, assetManager, entityRegistry, eventManager, batch, sm));
@@ -144,7 +144,6 @@ public class GameMaster extends ApplicationAdapter{
 
         //eventmanager adds movementManager as an event observer
 		eventManager.addObserver(movementManager);
-        eventManager.addObserver(sm); // add SceneManager as an observer to handle pause events
         eventManager.addObserver(outputManager); // add OutputManager as an observer to handle audio events
 
 		//key mappings for eventManager

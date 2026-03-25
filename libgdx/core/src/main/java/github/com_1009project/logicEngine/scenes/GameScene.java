@@ -43,6 +43,7 @@ public class GameScene extends Scene {
     private boolean roundOver = false;
     private Label timerLabel; 
     private ProgressBar timerBar;
+    private SceneController sceneController;
 
     public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
                      EventManager eventManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
@@ -56,6 +57,7 @@ public class GameScene extends Scene {
         this.mapManager.setScale(4.0f);
         this.foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
         this.foodQueueSystem.create();
+        this.sceneController = new SceneController(sceneManager, eventManager);
 
         // Create the interaction manager, wired to the food queue for order submission
         this.interactionManager = new InteractionManager(entityRegistry, assetManager, foodQueueSystem.getFoodQueue(), eventManager);
@@ -149,5 +151,6 @@ public class GameScene extends Scene {
         mapManager.dispose();
         foodQueueSystem.dispose(); 
         eventManager.removeObserver(interactionManager);
+        sceneController.dispose(eventManager);
     }
 }

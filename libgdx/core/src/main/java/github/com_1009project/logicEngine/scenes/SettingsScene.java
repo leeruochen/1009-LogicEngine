@@ -74,7 +74,7 @@ public class SettingsScene extends Scene {
         backBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                sceneManager.loadScene(0); 
+                sceneManager.popScene();
             }
         });
         table.add(backBtn).colspan(2).padTop(60).width(200).height(50);
