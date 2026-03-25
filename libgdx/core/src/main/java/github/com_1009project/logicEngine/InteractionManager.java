@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import github.com_1009project.abstractEngine.Entity;
-import github.com_1009project.abstractEngine.EntityManager;
+import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventObserver;
 import github.com_1009project.logicEngine.entities.*;
@@ -30,13 +30,13 @@ import github.com_1009project.abstractEngine.EventManager;
  */
 public class InteractionManager implements EventObserver {
 
-    private final EntityManager entityManager;
+    private final EntityRegistry entityRegistry;
     private final AssetManager assetManager;
     private final FoodQueue foodQueue;
     private final EventManager eventManager;
 
-    public InteractionManager(EntityManager entityManager, AssetManager assetManager, FoodQueue foodQueue, EventManager eventManager) {
-        this.entityManager = entityManager;
+    public InteractionManager(EntityRegistry entityRegistry, AssetManager assetManager, FoodQueue foodQueue, EventManager eventManager) {
+        this.entityRegistry = entityRegistry;
         this.assetManager = assetManager;
         this.foodQueue = foodQueue;
         this.eventManager = eventManager;
@@ -277,7 +277,7 @@ public class InteractionManager implements EventObserver {
      * Find the Player entity in the entity list.
      */
     private Player findPlayer() {
-        for (Entity e : entityManager.getEntities()) {
+        for (Entity e : entityRegistry.getEntities()) {
             if (e instanceof Player && e.isActive()) {
                 return (Player) e;
             }
@@ -295,7 +295,7 @@ public class InteractionManager implements EventObserver {
         float bestDist = Float.MAX_VALUE;
         Entity bestEntity = null;
 
-        for (Entity e : entityManager.getEntities()) {
+        for (Entity e : entityRegistry.getEntities()) {
             if (e == player || !e.isActive()) continue;
             if (!(e instanceof Station)) continue;
 
@@ -322,15 +322,15 @@ public class InteractionManager implements EventObserver {
 
         switch (type.toLowerCase()) {
             case "bun":
-                return entityManager.createEntity(Bun.class, x, y, w, h);
+                return entityRegistry.createEntity(Bun.class, x, y, w, h);
             case "lettuce":
-                return entityManager.createEntity(Lettuce.class, x, y, w, h);
+                return entityRegistry.createEntity(Lettuce.class, x, y, w, h);
             case "tomato":
-                return entityManager.createEntity(Tomato.class, x, y, w, h);
+                return entityRegistry.createEntity(Tomato.class, x, y, w, h);
             case "cheese":
-                return entityManager.createEntity(Cheese.class, x, y, w, h);
+                return entityRegistry.createEntity(Cheese.class, x, y, w, h);
             case "patty":
-                return entityManager.createEntity(Patty.class, x, y, w, h);
+                return entityRegistry.createEntity(Patty.class, x, y, w, h);
             default:
                 Gdx.app.log("Interact", "Unknown ingredient type: " + type);
                 return null;

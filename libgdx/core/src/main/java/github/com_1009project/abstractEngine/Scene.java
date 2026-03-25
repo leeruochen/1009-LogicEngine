@@ -15,15 +15,15 @@ public abstract class Scene {
     private int id;
     protected List<Layer> layers = new ArrayList<>();;
     protected AssetManager assetManager;
-    protected EntityManager entityManager;
+    protected EntityRegistry entityRegistry;
     protected EventManager eventManager;
     protected SpriteBatch batch;
     protected SceneManager sceneManager;
 
-    public Scene(int id, AssetManager assetManager, EntityManager entityManager, EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
+    public Scene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
         this.id = id;
         this.assetManager = assetManager;
-        this.entityManager = entityManager;
+        this.entityRegistry = entityRegistry;
         this.eventManager = eventManager;
         this.batch = batch;
         this.sceneManager = sceneManager;

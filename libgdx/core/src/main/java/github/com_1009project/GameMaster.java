@@ -17,7 +17,8 @@ import com.badlogic.gdx.audio.Sound;
  
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
-import github.com_1009project.abstractEngine.EntityManager;
+import github.com_1009project.abstractEngine.EntityRegistry;
+import github.com_1009project.abstractEngine.EntityRenderer;
 import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.MapManager;
@@ -30,12 +31,15 @@ import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
 import github.com_1009project.logicEngine.TutorialScene;
 import github.com_1009project.abstractEngine.Ifactory;
+import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
 import github.com_1009project.abstractEngine.OutputManager;
 
 public class GameMaster extends ApplicationAdapter{
-    private EntityManager entityManager;
+    private EntityRegistry entityRegistry;
+    private EntityRenderer entityRenderer;
+    private MapEntityLoader mapEntityLoader;
     private SceneManager sm;
     private EventManager eventManager;
     private MovementManager movementManager;
@@ -63,38 +67,41 @@ public class GameMaster extends ApplicationAdapter{
         eventManager = new EventManager();
         batch = new SpriteBatch();
 
-        entityManager = new EntityManager(assetManager);
-        entityManager.registerFactory(Bun.class, new BunFactory(assetManager));
-        entityManager.registerFactory(Cheese.class, new CheeseFactory(assetManager));
-        entityManager.registerFactory(ChoppingStation.class, new ChoppingStationFactory(assetManager));
-        entityManager.registerFactory(CollisionBox.class, new CollisionBoxFactory());
-        entityManager.registerFactory(Counter.class, new CounterFactory(assetManager));
-        entityManager.registerFactory(CounterSubmission.class, new CounterSubmissionFactory(assetManager));
-        entityManager.registerFactory(IngredientBox.class, new IngredientBoxFactory());
-        entityManager.registerFactory(Lettuce.class, new LettuceFactory(assetManager));
-        entityManager.registerFactory(Patty.class, new PattyFactory(assetManager));
-        entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
-        entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
-        entityManager.registerFactory(Plate.class, new PlateFactory(assetManager));
-        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
-        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
-        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
+        entityRegistry = new EntityRegistry();
+        entityRenderer = new EntityRenderer(entityRegistry);
+        mapEntityLoader = new MapEntityLoader(entityRegistry);
+
+        entityRegistry.registerFactory(Bun.class, new BunFactory(assetManager));
+        entityRegistry.registerFactory(Cheese.class, new CheeseFactory(assetManager));
+        entityRegistry.registerFactory(ChoppingStation.class, new ChoppingStationFactory(assetManager));
+        entityRegistry.registerFactory(CollisionBox.class, new CollisionBoxFactory());
+        entityRegistry.registerFactory(Counter.class, new CounterFactory(assetManager));
+        entityRegistry.registerFactory(CounterSubmission.class, new CounterSubmissionFactory(assetManager));
+        entityRegistry.registerFactory(IngredientBox.class, new IngredientBoxFactory());
+        entityRegistry.registerFactory(Lettuce.class, new LettuceFactory(assetManager));
+        entityRegistry.registerFactory(Patty.class, new PattyFactory(assetManager));
+        entityRegistry.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
+        entityRegistry.registerFactory(Player.class, new PlayerFactory(assetManager));
+        entityRegistry.registerFactory(Plate.class, new PlateFactory(assetManager));
+        entityRegistry.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
+        entityRegistry.registerFactory(Stove.class, new StoveFactory(assetManager));
+        entityRegistry.registerFactory(Tomato.class, new TomatoFactory(assetManager));
 
         // Register type aliases for TiledMap entity type names
-        entityManager.registerTypeAlias("CollisionBox", new CollisionBoxFactory());
-        entityManager.registerTypeAlias("Counter", new CounterFactory(assetManager));
-        entityManager.registerTypeAlias("ChoppingStation", new ChoppingStationFactory(assetManager));
-        entityManager.registerTypeAlias("Stove", new StoveFactory(assetManager));
-        entityManager.registerTypeAlias("RubbishBin", new RubbishBinFactory(assetManager));
-        entityManager.registerTypeAlias("CounterSubmission", new CounterSubmissionFactory(assetManager));
-        entityManager.registerTypeAlias("Player", new PlayerFactory(assetManager));
-        entityManager.registerTypeAlias("PlateBox", new PlateBoxFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("CollisionBox", new CollisionBoxFactory());
+        mapEntityLoader.registerTypeAlias("Counter", new CounterFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("ChoppingStation", new ChoppingStationFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("Stove", new StoveFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("RubbishBin", new RubbishBinFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("CounterSubmission", new CounterSubmissionFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("Player", new PlayerFactory(assetManager));
+        mapEntityLoader.registerTypeAlias("PlateBox", new PlateBoxFactory(assetManager));
 
         // Register food box type aliases — each creates an IngredientBox with the correct texture and ingredient name
         for (String ingredient : new String[]{"Bun", "Patty", "Lettuce", "Tomato", "Cheese", "Meat"}) {
             final String ingredientLower = ingredient.toLowerCase();
             final String texturePath = "foodstations/" + ingredientLower + "_box.png";
-            entityManager.registerTypeAlias(ingredient + "Box", new Ifactory<IngredientBox>() {
+            mapEntityLoader.registerTypeAlias(ingredient + "Box", new Ifactory<IngredientBox>() {
                 @Override
                 public IngredientBox createEntity(float x, float y, float width, float height) {
                     Texture boxTexture = assetManager.get(texturePath, Texture.class);
@@ -102,16 +109,16 @@ public class GameMaster extends ApplicationAdapter{
                 }
             });
         }
-        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
-        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
-        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
-        movementManager = new MovementManager(entityManager);
+        entityRegistry.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
+        entityRegistry.registerFactory(Stove.class, new StoveFactory(assetManager));
+        entityRegistry.registerFactory(Tomato.class, new TomatoFactory(assetManager));
+        movementManager = new MovementManager(entityRegistry);
 
-        sm = new SceneManager(assetManager, entityManager, eventManager, batch);
-        sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityManager, eventManager, batch, sm));
-        sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityManager, eventManager, batch, sm));
-        sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
+        sm = new SceneManager(assetManager, entityRegistry, eventManager, batch);
+        sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityRegistry, eventManager, batch, sm));
+        sm.registerScene(1, () -> new GameScene(1, assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityRegistry, eventManager, batch, sm));
+        sm.registerScene(99, () -> new PauseScene(99, assetManager, entityRegistry, eventManager, batch, sm));
 
         outputManager = new OutputManager(assetManager);
         outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");

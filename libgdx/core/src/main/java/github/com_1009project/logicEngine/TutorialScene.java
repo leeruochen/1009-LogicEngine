@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import github.com_1009project.abstractEngine.BackgroundLayer;
-import github.com_1009project.abstractEngine.EntityManager;
+import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.Layer;
 import github.com_1009project.abstractEngine.Scene;
@@ -42,9 +42,9 @@ public class TutorialScene extends Scene {
     private static final Color COL_HEADER = new Color(0.22f, 0.12f, 0.05f, 1.00f);
     private static final Color COL_CREAM  = new Color(1.00f, 0.92f, 0.70f, 1.00f);
 
-    public TutorialScene(int id, AssetManager assetManager, EntityManager entityManager,
+    public TutorialScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
                          EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityManager, eventManager, batch, sceneManager);
+        super(id, assetManager, entityRegistry, eventManager, batch, sceneManager);
         init();
     }
 

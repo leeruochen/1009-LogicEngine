@@ -14,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
 import github.com_1009project.abstractEngine.Entity;
-import github.com_1009project.abstractEngine.EntityManager;
+import github.com_1009project.abstractEngine.EntityRegistry;
+import github.com_1009project.abstractEngine.EntityRenderer;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
@@ -30,6 +32,8 @@ public class GameScene extends Scene {
     private MapManager mapManager;
     private CollisionManager collisionManager;
     private InteractionManager interactionManager;
+    private EntityRenderer entityRenderer;
+    private MapEntityLoader mapEntityLoader;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
     private static final float ROUND_DURATION = 60f; // 5 minutes
@@ -40,14 +44,16 @@ public class GameScene extends Scene {
 
     private ShapeRenderer shapeRenderer; // For debugging collision boxes
 
-    public GameScene(int id, AssetManager assetManager, EntityManager entityManager,
+    public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
                      EventManager eventManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
-        super(id, assetManager, entityManager, eventManager, batch, sceneManager);
+        super(id, assetManager, entityRegistry, eventManager, batch, sceneManager);
+        this.entityRenderer = entityRenderer;
+        this.mapEntityLoader = mapEntityLoader;
         this.camera = new CameraManager(width, height);
         this.camera.setBounds(4000, 4000);
 
         this.collisionManager = new CollisionManager(64);
-        this.mapManager = new MapManager(entityManager);
+        this.mapManager = new MapManager(mapEntityLoader);
         this.mapManager.setScale(4.0f);
 
         this.shapeRenderer = new ShapeRenderer();
@@ -55,7 +61,7 @@ public class GameScene extends Scene {
         this.foodQueueSystem.create();
 
         // Create the interaction manager, wired to the food queue for order submission
-        this.interactionManager = new InteractionManager(entityManager, assetManager, foodQueueSystem.getFoodQueue(), eventManager);
+        this.interactionManager = new InteractionManager(entityRegistry, assetManager, foodQueueSystem.getFoodQueue(), eventManager);
         eventManager.addObserver(interactionManager);
 
         init();
@@ -87,8 +93,8 @@ public class GameScene extends Scene {
 
     @Override
     public void update(float delta) {
-        entityManager.update(delta);
-        collisionManager.updateCollision(entityManager.getCollidableEntities());
+        entityRegistry.update(delta);
+        collisionManager.updateCollision(entityRegistry.getCollidableEntities());
         camera.cameraUpdate(delta);
         foodQueueSystem.update(delta);
         interactionManager.update(delta);
@@ -109,7 +115,7 @@ public class GameScene extends Scene {
 
         batch.setProjectionMatrix(camera.getCamera().combined);
         batch.begin();
-        entityManager.render(batch);
+        entityRenderer.render(batch);
         batch.end();
 
         super.render();
@@ -119,7 +125,7 @@ public class GameScene extends Scene {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
 
-        for (Entity entity : entityManager.getCollidableEntities()) {
+        for (Entity entity : entityRegistry.getCollidableEntities()) {
             if (entity.isActive() && entity.getCollisionComponent().isActive()) {
                 Rectangle bounds = entity.getCollisionComponent().getBounds();
                 shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -130,13 +136,13 @@ public class GameScene extends Scene {
     }
 
     private void loadMap(String mapName) {
-        entityManager.disposeAll();
+        entityRegistry.disposeAll();
 
         mapManager.setMap(assetManager.get(mapName, TiledMap.class));
         System.out.println("Loaded map: " + mapName);
         mapManager.loadEntities();
 
-        for (Entity entity : entityManager.getEntities()) {
+        for (Entity entity : entityRegistry.getEntities()) {
             if (entity instanceof Player) {
                 player = (Player) entity;
                 break;

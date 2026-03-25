@@ -12,13 +12,13 @@ public class SceneManager implements EventObserver {
     private Map<Integer, Supplier<Scene>> sceneSuppliers = new HashMap<>();
     private Scene currentScene;
     private AssetManager resourceManager; // reference to resource manager to pass to scenes
-    private EntityManager entityManager;
+    private EntityRegistry entityRegistry;
     private EventManager eventManager;
     private SpriteBatch batch;
 
-    public SceneManager(AssetManager resourceManager, EntityManager entityManager, EventManager eventManager, SpriteBatch batch) {
+    public SceneManager(AssetManager resourceManager, EntityRegistry entityRegistry, EventManager eventManager, SpriteBatch batch) {
         this.resourceManager = resourceManager;
-        this.entityManager = entityManager;
+        this.entityRegistry = entityRegistry;
         this.eventManager = eventManager;
         this.batch = batch;
     }
@@ -102,7 +102,7 @@ public class SceneManager implements EventObserver {
         if (currentScene == null) return; // No scene to notify
 
 		// Only loop through entities that have explicitly flagged they want input
-		for (Entity entity : entityManager.getEntities()) {
+		for (Entity entity : entityRegistry.getEntities()) {
 			if (entity.isActive()) {
 				if (entity.isInputEnabled()) {
 					this.changeScene(entity, event, up);
