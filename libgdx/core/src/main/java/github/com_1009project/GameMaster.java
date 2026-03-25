@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
  
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -88,6 +89,12 @@ public class GameMaster extends ApplicationAdapter{
         outputManager = new OutputManager(assetManager);
         outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");
         outputManager.registerMusic(Event.MenuEnter, "sounds/MainMenuMusic.mp3");
+        outputManager.registerSound(Event.Chopping, "sounds/Chop.mp3");
+        outputManager.registerSound(Event.SubmissionCorrect, "sounds/SubmissionCorrect.mp3");
+        outputManager.registerSound(Event.SubmissionWrong, "sounds/SubmissionWrong.mp3");
+        outputManager.registerSound(Event.PlayerInteractSound, "sounds/Place.mp3");
+        outputManager.registerSound(Event.IngredientTake, "sounds/IngredientTake.mp3");
+        outputManager.registerSound(Event.Bin, "sounds/Bin.mp3");
 
 
         // set up camera with max world bounds
@@ -177,6 +184,14 @@ public class GameMaster extends ApplicationAdapter{
         // load music
         assetManager.load("sounds/MainMenuMusic.mp3", Music.class);
         assetManager.load("sounds/LevelMusic.mp3", Music.class);
+
+        // load sounds
+        assetManager.load("sounds/Chop.mp3", Sound.class);
+        assetManager.load("sounds/SubmissionCorrect.mp3", Sound.class);
+        assetManager.load("sounds/SubmissionWrong.mp3", Sound.class);
+        assetManager.load("sounds/IngredientTake.mp3", Sound.class);
+        assetManager.load("sounds/Place.mp3", Sound.class);
+        assetManager.load("sounds/Bin.mp3", Sound.class);
 
         // load tmx maps
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());

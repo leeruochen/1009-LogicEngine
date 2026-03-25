@@ -32,7 +32,7 @@ public class GameScene extends Scene {
     private InteractionManager interactionManager;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
-    private static final float ROUND_DURATION = 300f; // 5 minutes
+    private static final float ROUND_DURATION = 60f; // 5 minutes
     private float timeRemaining;
     private boolean roundOver = false;
     private Label timerLabel; 
@@ -55,7 +55,7 @@ public class GameScene extends Scene {
         this.foodQueueSystem.create();
 
         // Create the interaction manager, wired to the food queue for order submission
-        this.interactionManager = new InteractionManager(entityManager, assetManager, foodQueueSystem.getFoodQueue());
+        this.interactionManager = new InteractionManager(entityManager, assetManager, foodQueueSystem.getFoodQueue(), eventManager);
         eventManager.addObserver(interactionManager);
 
         init();
