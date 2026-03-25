@@ -57,7 +57,7 @@ public class MainMenuScene extends Scene {
         playBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sceneManager.loadScene(1);
+                sceneManager.loadScene(3); // load tutorial scene
             }
         });
         uiLayer.getStage().addActor(playBtn);

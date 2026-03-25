@@ -306,15 +306,15 @@ public class InteractionManager implements EventObserver {
 
         switch (type.toLowerCase()) {
             case "bun":
-                return new Bun(x, y, w, h, assetManager.get("food/bun.png", Texture.class));
+                return entityManager.createEntity(Bun.class, x, y, w, h);
             case "lettuce":
-                return new Lettuce(x, y, w, h, assetManager.get("food/lettuce.png", Texture.class));
+                return entityManager.createEntity(Lettuce.class, x, y, w, h);
             case "tomato":
-                return new Tomato(x, y, w, h, assetManager.get("food/tomato.png", Texture.class));
+                return entityManager.createEntity(Tomato.class, x, y, w, h);
             case "cheese":
-                return new Cheese(x, y, w, h, assetManager.get("food/cheese.png", Texture.class));
+                return entityManager.createEntity(Cheese.class, x, y, w, h);
             case "patty":
-                return new Patty(x, y, w, h, assetManager.get("food/patty.png", Texture.class));
+                return entityManager.createEntity(Patty.class, x, y, w, h);
             default:
                 Gdx.app.log("Interact", "Unknown ingredient type: " + type);
                 return null;

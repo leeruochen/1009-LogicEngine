@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.audio.Music;
  
+import github.com_1009project.abstractEngine.Assets;
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
 import github.com_1009project.abstractEngine.EntityManager;
@@ -27,6 +28,7 @@ import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.logicEngine.GameScene;
 import github.com_1009project.logicEngine.MainMenuScene;
 import github.com_1009project.logicEngine.PauseScene;
+import github.com_1009project.logicEngine.TutorialScene;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
 import github.com_1009project.abstractEngine.OutputManager;
@@ -57,30 +59,32 @@ public class GameMaster extends ApplicationAdapter{
     @Override
     public void create() {
         assetManager = new AssetManager();
+        Assets.setAssetManager(assetManager);
         eventManager = new EventManager();
         batch = new SpriteBatch();
 
         entityManager = new EntityManager(assetManager);
-        entityManager.registerFactory(Bun.class, new BunFactory(assetManager));
-        entityManager.registerFactory(Cheese.class, new CheeseFactory(assetManager));
-        entityManager.registerFactory(ChoppingStation.class, new ChoppingStationFactory(assetManager));
+        entityManager.registerFactory(Bun.class, new BunFactory());
+        entityManager.registerFactory(Cheese.class, new CheeseFactory());
+        entityManager.registerFactory(ChoppingStation.class, new ChoppingStationFactory());
         entityManager.registerFactory(CollisionBox.class, new CollisionBoxFactory());
-        entityManager.registerFactory(Counter.class, new CounterFactory(assetManager));
-        entityManager.registerFactory(CounterSubmission.class, new CounterSubmissionFactory(assetManager));
+        entityManager.registerFactory(Counter.class, new CounterFactory());
+        entityManager.registerFactory(CounterSubmission.class, new CounterSubmissionFactory());
         entityManager.registerFactory(IngredientBox.class, new IngredientBoxFactory());
-        entityManager.registerFactory(Lettuce.class, new LettuceFactory(assetManager));
-        entityManager.registerFactory(Patty.class, new PattyFactory(assetManager));
+        entityManager.registerFactory(Lettuce.class, new LettuceFactory());
+        entityManager.registerFactory(Patty.class, new PattyFactory());
         entityManager.registerFactory(PlateBox.class, new PlateBoxFactory(assetManager));
         entityManager.registerFactory(Player.class, new PlayerFactory(assetManager));
         entityManager.registerFactory(Plate.class, new PlateFactory(assetManager));
-        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory(assetManager));
-        entityManager.registerFactory(Stove.class, new StoveFactory(assetManager));
-        entityManager.registerFactory(Tomato.class, new TomatoFactory(assetManager));
+        entityManager.registerFactory(RubbishBin.class, new RubbishBinFactory());
+        entityManager.registerFactory(Stove.class, new StoveFactory());
+        entityManager.registerFactory(Tomato.class, new TomatoFactory());
         movementManager = new MovementManager(entityManager);
 
         sm = new SceneManager(assetManager, entityManager, eventManager, batch);
         sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityManager, eventManager, batch, sm));
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityManager, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityManager, eventManager, batch, sm));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityManager, eventManager, batch, sm));
 
         outputManager = new OutputManager(assetManager);
@@ -129,6 +133,9 @@ public class GameMaster extends ApplicationAdapter{
 
     private void loadAssets() {
         // load textures
+        for(int i=0; i<52; i++){
+            assetManager.load(String.format("imgs/bg_frames/tile%03d.png", i), Texture.class);
+        }
         assetManager.load("imgs/background.png", Texture.class);
         assetManager.load("foodstations/rubbishBin.png", Texture.class);
         assetManager.load("foodstations/counter.png", Texture.class);
@@ -178,6 +185,7 @@ public class GameMaster extends ApplicationAdapter{
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.projectFilePath = "maps/test.tiled-project";
         assetManager.load("maps/kitchen.tmx", TiledMap.class, params);
+        assetManager.finishLoading();
     }
 
     @Override

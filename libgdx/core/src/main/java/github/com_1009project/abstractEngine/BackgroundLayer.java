@@ -1,52 +1,51 @@
 package github.com_1009project.abstractEngine;
 
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.assets.AssetManager;
 
 public class BackgroundLayer extends Layer {
-    //private final AssetManager resourceManager;
-    private Texture background;
+    private Animation<TextureRegion> animation;
+    private float stateTime;
     private SpriteBatch batch;
+    private AssetManager assets;
 
-    // public BackgroundLayer(AssetManager resourceManager, String filePath) {
-    //     this.resourceManager = resourceManager;
-
-    //     if (!resourceManager.isLoaded(filePath)) {
-    //         resourceManager.load("background.png", Texture.class);
-    //         resourceManager.finishLoading();
-    //     }
-
-    //     this.background = resourceManager.get("background.png", Texture.class);
-    //     this.batch = new SpriteBatch();
-    // }
-
-    public BackgroundLayer(SpriteBatch batch, AssetManager resourceManager, String filepath) {
+    public BackgroundLayer(SpriteBatch batch, AssetManager assets, String folderPath, int frameCount, float frameDuration) {
         this.batch = batch;
-        if (!resourceManager.isLoaded(filepath)) {
-            resourceManager.load(filepath, Texture.class);
-            resourceManager.finishLoading();
+        this.assets = assets;
+        TextureRegion[] frames = new TextureRegion[frameCount];
+
+        // Load all frames using AssetManager
+        for (int i = 0; i < frameCount; i++) {
+            String filename = String.format("%s/tile%03d.png", folderPath, i);
+            if (!assets.isLoaded(filename)) {
+                assets.load(filename, Texture.class);
+                assets.finishLoading();
+            }
+            Texture tex = assets.get(filename, Texture.class);
+            frames[i] = new TextureRegion(tex);
         }
-        this.background = resourceManager.get(filepath, Texture.class);
+
+        animation = new Animation<>(frameDuration, frames);
+        stateTime = 0f;
     }
 
     @Override
-    public void update(float deltaTime) {
-        // Optional: animate background
+    public void update(float delta) {
+        stateTime += delta;
     }
 
     @Override
     public void render() {
         batch.begin();
-        batch.draw(background, 0, 0);
+        TextureRegion frame = animation.getKeyFrame(stateTime, true);
+        batch.draw(frame, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
     @Override
     public void dispose() {
-        if (background != null) {
-            background.dispose();
-        }
+        // Textures are managed by AssetManager; no need to dispose
     }
-
 }
