@@ -26,10 +26,11 @@ import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.logicEngine.FoodQueueSystem;
 import github.com_1009project.abstractEngine.UIFactory;
-import github.com_1009project.logicEngine.GameScene;
-import github.com_1009project.logicEngine.MainMenuScene;
-import github.com_1009project.logicEngine.PauseScene;
-import github.com_1009project.logicEngine.TutorialScene;
+import github.com_1009project.logicEngine.scenes.GameScene;
+import github.com_1009project.logicEngine.scenes.MainMenuScene;
+import github.com_1009project.logicEngine.scenes.PauseScene;
+import github.com_1009project.logicEngine.scenes.TutorialScene;
+import github.com_1009project.logicEngine.scenes.SettingsScene;
 import github.com_1009project.abstractEngine.Ifactory;
 import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.logicEngine.entities.*;
@@ -117,6 +118,7 @@ public class GameMaster extends ApplicationAdapter{
         sm = new SceneManager(assetManager, entityRegistry, eventManager, batch);
         sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityRegistry, eventManager, batch, sm));
         sm.registerScene(1, () -> new GameScene(1, assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(2, () -> new SettingsScene(2, assetManager, entityRegistry, eventManager, batch, sm));
         sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityRegistry, eventManager, batch, sm));
         sm.registerScene(99, () -> new PauseScene(99, assetManager, entityRegistry, eventManager, batch, sm));
 

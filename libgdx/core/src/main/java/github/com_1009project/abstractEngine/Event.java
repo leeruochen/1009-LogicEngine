@@ -16,5 +16,6 @@ public enum Event {
     IngredientTake,
     Chopping,
     PlayerInteractSound,
-    Bin
+    Bin,
+    SettingsChanged,
 }

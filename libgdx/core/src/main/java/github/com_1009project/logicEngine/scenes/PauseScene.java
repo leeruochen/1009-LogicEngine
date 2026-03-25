@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -57,10 +57,22 @@ public class PauseScene extends Scene {
         });
         uiLayer.getStage().addActor(resumeBtn);
 
+        // settings
+        TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
+        settingsBtn.setSize(220f, 50f);
+        settingsBtn.setPosition(cx - 110f, cy - 70f);
+        settingsBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneManager.loadScene(2);
+            }
+        });
+        uiLayer.getStage().addActor(settingsBtn);
+
         // Quit button — warm red
         TextButton quitBtn = new TextButton("Exit to Menu", skin, "warm-quit");
         quitBtn.setSize(220f, 50f);
-        quitBtn.setPosition(cx - 110f, cy - 70f);
+        quitBtn.setPosition(cx - 110f, cy - 140f);
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

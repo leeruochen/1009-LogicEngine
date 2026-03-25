@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,6 +21,7 @@ import github.com_1009project.abstractEngine.Layer;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
+import github.com_1009project.logicEngine.KeyDisplay;
 
 public class TutorialScene extends Scene {
 

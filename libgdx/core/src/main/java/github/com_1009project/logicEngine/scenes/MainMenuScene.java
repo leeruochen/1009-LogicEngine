@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -62,10 +62,22 @@ public class MainMenuScene extends Scene {
         });
         uiLayer.getStage().addActor(playBtn);
 
+        // settings button
+        TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
+        settingsBtn.setSize(260f, 60f);
+        settingsBtn.setPosition(cx - 130f, cy - 80f);
+        settingsBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneManager.loadScene(2); // load settings scene
+            }
+        });
+        uiLayer.getStage().addActor(settingsBtn);
+
         // quit button
         TextButton quitBtn = new TextButton("Quit", skin, "warm-quit");
         quitBtn.setSize(260f, 60f);
-        quitBtn.setPosition(cx - 130f, cy - 80f);
+        quitBtn.setPosition(cx - 130f, cy - 160f);
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

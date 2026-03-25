@@ -1,4 +1,4 @@
-package github.com_1009project.logicEngine;
+package github.com_1009project.logicEngine.scenes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,6 +21,8 @@ import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
+import github.com_1009project.logicEngine.FoodQueueSystem;
+import github.com_1009project.logicEngine.InteractionManager;
 import github.com_1009project.logicEngine.entities.Player;
 import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.abstractEngine.UILayer;
@@ -42,8 +44,6 @@ public class GameScene extends Scene {
     private Label timerLabel; 
     private ProgressBar timerBar;
 
-    private ShapeRenderer shapeRenderer; // For debugging collision boxes
-
     public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
                      EventManager eventManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
         super(id, assetManager, entityRegistry, eventManager, batch, sceneManager);
@@ -51,12 +51,9 @@ public class GameScene extends Scene {
         this.mapEntityLoader = mapEntityLoader;
         this.camera = new CameraManager(width, height);
         this.camera.setBounds(4000, 4000);
-
         this.collisionManager = new CollisionManager(64);
         this.mapManager = new MapManager(mapEntityLoader);
         this.mapManager.setScale(4.0f);
-
-        this.shapeRenderer = new ShapeRenderer();
         this.foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
         this.foodQueueSystem.create();
 
@@ -112,32 +109,16 @@ public class GameScene extends Scene {
     @Override
     public void render() {
         mapManager.render(camera.getCamera());
-
         batch.setProjectionMatrix(camera.getCamera().combined);
         batch.begin();
         entityRenderer.render(batch);
         batch.end();
-
         super.render();
-
-        // Debug rendering for collision boxes
-        shapeRenderer.setProjectionMatrix(camera.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
-
-        for (Entity entity : entityRegistry.getCollidableEntities()) {
-            if (entity.isActive() && entity.getCollisionComponent().isActive()) {
-                Rectangle bounds = entity.getCollisionComponent().getBounds();
-                shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
-            }
-        }
-        shapeRenderer.end();
         foodQueueSystem.render(Gdx.graphics.getDeltaTime());
     }
 
     private void loadMap(String mapName) {
         entityRegistry.disposeAll();
-
         mapManager.setMap(assetManager.get(mapName, TiledMap.class));
         System.out.println("Loaded map: " + mapName);
         mapManager.loadEntities();
@@ -165,7 +146,6 @@ public class GameScene extends Scene {
     @Override
     public void dispose() {
         super.dispose();
-        shapeRenderer.dispose();
         mapManager.dispose();
         foodQueueSystem.dispose(); 
         eventManager.removeObserver(interactionManager);

@@ -8,12 +8,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Preferences;
 
 public class OutputManager implements EventObserver{
     private AssetManager assetManager;
     private HashMap<Event, String> soundMap;
     private HashMap<Event, String> musicMap;
     private Music curMusic;
+
+    private float musicVolume = 1.0f;
+    private float soundVolume = 1.0f;
 
     private void playMusic(Event event){
         String targetMusicPath = musicMap.get(event);
@@ -29,11 +33,20 @@ public class OutputManager implements EventObserver{
         if (curMusic != null) curMusic.stop();
         curMusic = targetMusic;
         curMusic.setLooping(true);
+        curMusic.setVolume(musicVolume);
         curMusic.play();
     }
 
+    private void loadPreferences(){
+        Preferences prefs = Gdx.app.getPreferences("GameSettings");
+        musicVolume = prefs.getFloat("musicVolume", 1.0f);
+        soundVolume = prefs.getFloat("soundVolume", 1.0f);
+
+        if (curMusic != null) curMusic.setVolume(musicVolume);
+    }
+
     private void playSound(Event event){
-        assetManager.get(soundMap.get(event), Sound.class).play(1.0f);
+        assetManager.get(soundMap.get(event), Sound.class).play(soundVolume);
     }
 
     public void registerSound(Event event, String filePath){
@@ -53,11 +66,18 @@ public class OutputManager implements EventObserver{
         soundMap = new HashMap<Event, String>();
         musicMap = new HashMap<Event, String>();
         this.assetManager = assetManager;
+
+        loadPreferences();
     }
 
     @Override
     public void onNotify(Event event, Boolean up){
         if (up != null && up) return;
+
+        if (event == Event.SettingsChanged) {
+            loadPreferences();
+            return;
+        }
 
         if (soundMap.containsKey(event)) playSound(event);
         if (musicMap.containsKey(event)) playMusic(event);
