@@ -10,6 +10,7 @@ import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.ICollidable;
 import github.com_1009project.logicEngine.Ingredient;
 import github.com_1009project.logicEngine.Station;
+import github.com_1009project.logicEngine.FoodState;
 
 /**
  * A counter surface where finished (Cooked) ingredients can be placed and stacked.
@@ -37,13 +38,27 @@ public class Counter extends Station implements ICollidable {
         return ingredientStack.size() < MAX_STACK_SIZE;
     }
 
+    public boolean checkCooked() {
+        for (Ingredient ingredient : ingredientStack) {
+            if (ingredient.getState() != FoodState.Cooked) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Place an ingredient on top of the stack.
      */
-    public void placeIngredient(Ingredient ingredient) {
-        ingredientStack.add(ingredient);
-        repositionStack();
-        ingredient.setActive(true);
+    public boolean placeIngredient(Ingredient ingredient) {
+        if (checkCooked()){
+            ingredientStack.add(ingredient);
+            repositionStack();
+            ingredient.setActive(true);
+            return true;
+        } 
+        return false;
+
     }
 
     /**

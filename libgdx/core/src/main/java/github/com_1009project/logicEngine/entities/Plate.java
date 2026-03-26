@@ -40,7 +40,7 @@ public class Plate extends Ingredient {
     private static final float STACK_OFFSET_Y = 10f;
 
     public Plate(float x, float y, float w, float h, Texture texture, AssetManager assetManager) {
-        super("Plate", FoodState.Raw, x, y, w, h, texture);
+        super("Plate", FoodState.Cooked, x, y, w, h, texture);
         this.assetManager = assetManager;
         this.completed    = false;
         this.matchedRecipe = null;
@@ -57,6 +57,7 @@ public class Plate extends Ingredient {
     public boolean addIngredient(Ingredient ingredient) {
         if (completed) return false;
 
+        if (ingredient.getState() != FoodState.Cooked) return false;
         FoodItem foodItem = toFoodItem(ingredient);
         if (foodItem == null) return false;
 
