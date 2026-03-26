@@ -1,16 +1,12 @@
 package github.com_1009project.logicEngine.scenes;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import github.com_1009project.abstractEngine.CameraManager;
 import github.com_1009project.abstractEngine.CollisionManager;
@@ -23,220 +19,188 @@ import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
+import github.com_1009project.abstractEngine.UILayer;
+import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.logicEngine.FoodQueueSystem;
 import github.com_1009project.logicEngine.InteractionManager;
 import github.com_1009project.logicEngine.entities.Player;
-import github.com_1009project.abstractEngine.UIFactory;
-import github.com_1009project.abstractEngine.UILayer;
-import github.com_1009project.abstractEngine.Event;
-
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class GameScene extends Scene {
 
-    private CameraManager camera;
-    private MapManager mapManager;
-    private CollisionManager collisionManager;
-    private InteractionManager interactionManager;
-    private EntityRenderer entityRenderer;
-    private MapEntityLoader mapEntityLoader;
+    // Engine systems
+    private final CameraManager      camera;
+    private final MapManager         mapManager;
+    private final CollisionManager   collisionManager;
+    private final InteractionManager interactionManager;
+    private final EntityRenderer     entityRenderer;
+    private final FoodQueueSystem    foodQueueSystem;
+    private final SceneController    sceneController;
+    private final ShapeRenderer      shapeRenderer;
     private Player player;
-    private FoodQueueSystem foodQueueSystem;
-    private static final float ROUND_DURATION = 300f; // 5 minutes
-    private float timeRemaining;
-    private boolean roundOver = false;
-    private Label timerLabel; 
-    private ProgressBar timerBar;
-    private SceneController sceneController;
+
+    // Post-round helpers
+    private RoundTimer     roundTimer;
+    private TimesUpOverlay timesUpOverlay;
+    private ResultsOverlay resultsOverlay;
+
+    // Scene state
+    private static final float ROUND_DURATION = 180f; // 3 minutes
+    private static final float TIMES_UP_DELAY = 3.0f; // seconds before results appear
+
     private enum GameState { PLAYING, TIMES_UP, RESULTS }
     private GameState currentState;
-    private float postGameTimer;
-    private ShapeRenderer shapeRenderer;
-    private UILayer uiLayer;
-    private Skin skin;
-    private Label timesUpLabel;
-    private Table resultsTable;
+    private float     postGameTimer;
 
-    public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
-                     EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
+    // Shared UI resources
+    private final UILayer uiLayer;
+    private final Skin    skin;
+
+    // Constructor
+    public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
+                     EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
+                     EventManager eventManager, InputManager inputManager,
+                     SpriteBatch batch, SceneManager sceneManager, int width, int height) {
         super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+
         this.entityRenderer = entityRenderer;
-        this.mapEntityLoader = mapEntityLoader;
+        this.shapeRenderer  = new ShapeRenderer();
+
         this.camera = new CameraManager(width, height);
         this.camera.setBounds(4000, 4000);
+
         this.collisionManager = new CollisionManager(64);
+
         this.mapManager = new MapManager(mapEntityLoader);
         this.mapManager.setScale(4.0f);
+
         this.foodQueueSystem = new FoodQueueSystem(batch, assetManager, eventManager);
         this.foodQueueSystem.create();
+
+        this.interactionManager = new InteractionManager(
+                entityRegistry, assetManager,
+                foodQueueSystem.getFoodQueue(), eventManager);
+        eventManager.addObserver(interactionManager);
+
         this.sceneController = new SceneController(sceneManager, eventManager);
 
-        // Create the interaction manager, wired to the food queue for order submission
-        this.interactionManager = new InteractionManager(entityRegistry, assetManager, foodQueueSystem.getFoodQueue(), eventManager);
-        eventManager.addObserver(interactionManager);
+        // Shared UI resources
+        this.uiLayer = new UILayer(batch);
+        layers.add(uiLayer);
+
+        this.skin = assetManager.isLoaded("menu/uiskin.json")
+                ? assetManager.get("menu/uiskin.json", Skin.class)
+                : new Skin(Gdx.files.internal("menu/uiskin.json"));
 
         init();
     }
 
+    // Lifecycle
     @Override
     public void init() {
-        timeRemaining = ROUND_DURATION;
-        currentState = GameState.PLAYING;
+        currentState  = GameState.PLAYING;
         postGameTimer = 0f;
 
-        shapeRenderer = new ShapeRenderer();
-        uiLayer = new UILayer(batch);
-        layers.add(uiLayer);
- 
-        if (assetManager.isLoaded("menu/uiskin.json")) {
-            this.skin = assetManager.get("menu/uiskin.json", Skin.class);
-        } else {
-            // Fallback in case it wasn't loaded yet
-            this.skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
-        }
-        UIFactory factory = new UIFactory(uiLayer, skin, eventManager);
- 
-        float sw = Gdx.graphics.getWidth();
-        float sh = Gdx.graphics.getHeight();
-        timerLabel = factory.createTimerLabel(ROUND_DURATION, sw / 2f - 100f, 50f);
-        timerBar   = factory.createTimerBar(ROUND_DURATION);
-
-        timesUpLabel = new Label("TIME'S UP!", skin, "default");
-        timesUpLabel.setFontScale(4.0f);
-        timesUpLabel.setColor(Color.RED);
-        timesUpLabel.layout();
-        timesUpLabel.setPosition((sw - timesUpLabel.getPrefWidth()) / 2f, sh / 2f);
-        timesUpLabel.setVisible(false);
-        uiLayer.getStage().addActor(timesUpLabel);
+        // Each helper creates its own Stage actors into the shared uiLayer
+        roundTimer     = new RoundTimer(ROUND_DURATION, uiLayer, skin, eventManager);
+        timesUpOverlay = new TimesUpOverlay(uiLayer, skin);
+        resultsOverlay = new ResultsOverlay(uiLayer, skin, sceneManager);
 
         loadMap("maps/kitchen.tmx");
-    };
+    }
 
     @Override
     public void onEnter() {
         super.onEnter();
-        eventManager.eventTrigger(Event.GameStart);
+
+        if (currentState == GameState.PLAYING) {
+            // Normal first entry — start the game music
+            eventManager.eventTrigger(Event.GameStart);
+        } else {
+            // Returning from a sub-scene (e.g. Settings) while results are showing.
+            // Settings replaced the input processor; restore it to the results stage.
+            resultsOverlay.restoreInputProcessor();
+        }
     }
 
     @Override
     public void update(float delta) {
-        if (currentState == GameState.PLAYING) {
-            // Normal game loop
-            entityRegistry.update(delta);
-            collisionManager.updateCollision(entityRegistry.getCollidableEntities());
-            camera.cameraUpdate(delta);
-            foodQueueSystem.update(delta);
-            interactionManager.update(delta);
-            
-            timeRemaining -= delta;
+        switch (currentState) {
 
-            if (timeRemaining <= 0) {
-                timeRemaining = 0;
-                currentState = GameState.TIMES_UP;
-                timesUpLabel.setVisible(true); // Show the pop-up text
-                timesUpLabel.setFontScale(5.0f);
-            }
+            case PLAYING:
+                entityRegistry.update(delta);
+                collisionManager.updateCollision(entityRegistry.getCollidableEntities());
+                camera.cameraUpdate(delta);
+                foodQueueSystem.update(delta);
+                interactionManager.update(delta);
+                roundTimer.update(delta);
 
-            timerLabel.setText(formatTime(timeRemaining));
-            timerLabel.setColor(timeRemaining <= 30f ? Color.RED : Color.WHITE);
-            timerBar.setValue(timeRemaining);
+                if (roundTimer.isExpired()) {
+                    currentState = GameState.TIMES_UP;
+                    timesUpOverlay.show();
+                    sceneController.setEnabled(false);
+                }
+                break;
 
-        } else if (currentState == GameState.TIMES_UP) {
-            // Wait a few seconds before showing results
-            postGameTimer += delta;
-            if (postGameTimer >= 3.0f) { // 3 second delay
-                currentState = GameState.RESULTS;
-                timesUpLabel.setVisible(false);
-                showResultsUI();
-            }
-        } 
-        // If state is RESULTS, we don't need to do anything in update; Scene2D handles UI clicks automatically.
+            case TIMES_UP:
+                postGameTimer += delta;
+                if (postGameTimer >= TIMES_UP_DELAY) {
+                    currentState = GameState.RESULTS;
+                    timesUpOverlay.hide();
+                    resultsOverlay.show(foodQueueSystem.getFoodQueue().getClearedCount());
+                }
+                break;
+
+            case RESULTS:
+                // Scene2D handles button input automatically — nothing to update here
+                break;
+        }
     }
 
     @Override
     public void render() {
+        // World geometry
         mapManager.render(camera.getCamera());
         batch.setProjectionMatrix(camera.getCamera().combined);
         batch.begin();
         entityRenderer.render(batch);
         batch.end();
-        super.render();
+
+        // Food-queue HUD 
         foodQueueSystem.render(Gdx.graphics.getDeltaTime());
 
+        // Dim overlay 
         if (currentState != GameState.PLAYING) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0f, 0f, 0f, 0.65f); // 65% opacity black
+            shapeRenderer.setColor(0f, 0f, 0f, 0.65f);
             shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
         }
-        super.render(); // Render UI on top of everything else
-    }
-    private void showResultsUI() {
-        if (skin == null || skin == null) return; // Safety check
 
-        Table resultsTable = new Table();
-        resultsTable.setFillParent(true);
-        resultsTable.center();
-        
-        // Calculate score and stars
-        int score = foodQueueSystem.getFoodQueue().getClearedCount();
-        int stars = Math.min(score, 3); 
-
-        Label titleLabel = new Label("ROUND COMPLETE", skin, "default");
-        titleLabel.setFontScale(2.5f);
-        titleLabel.setColor(Color.GOLD);
-
-        Label scoreLabel = new Label("Dishes Served: " + score, skin);
-        scoreLabel.setFontScale(1.5f);
-
-        Label starsLabel = new Label("Rating: " + stars + " Stars", skin);
-        starsLabel.setFontScale(1.5f);
-        starsLabel.setColor(stars > 0 ? Color.YELLOW : Color.GRAY);
-
-        TextButton retryBtn = new TextButton("Retry", skin, "warm-resume");
-        retryBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sceneManager.unloadScene(1);
-                sceneManager.loadScene(1);
-            }
-        });
-
-        TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
-        settingsBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sceneManager.loadScene(2);
-            }
-        });
-
-        TextButton exitBtn = new TextButton("Main Menu", skin, "warm-quit");
-        exitBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sceneManager.unloadScene(1);
-                sceneManager.loadScene(0);
-            }
-        });
-
-        // Add to table
-        resultsTable.add(titleLabel).padBottom(30).row();
-        resultsTable.add(scoreLabel).padBottom(10).row();
-        resultsTable.add(starsLabel).padBottom(40).row();
-        resultsTable.add(retryBtn).width(250).height(60).padBottom(10).row();
-        resultsTable.add(settingsBtn).width(250).height(60).padBottom(10).row();
-        resultsTable.add(exitBtn).width(250).height(60).row();
-
-        uiLayer.getStage().addActor(resultsTable);
+        // UI stage 
+        super.render();
     }
 
+    // Resize
+    public void resize(int width, int height) {
+        camera.resize(width, height);
+        mapManager.resize(width, height);
+    }
+
+    // Disposal
+    @Override
+    public void dispose() {
+        super.dispose();
+        mapManager.dispose();
+        foodQueueSystem.dispose();
+        eventManager.removeObserver(interactionManager);
+        sceneController.dispose(eventManager);
+        shapeRenderer.dispose();
+    }
+
+    // Private helpers
     private void loadMap(String mapName) {
         entityRegistry.disposeAll();
         mapManager.setMap(assetManager.get(mapName, TiledMap.class));
@@ -250,26 +214,5 @@ public class GameScene extends Scene {
             }
         }
         camera.setTarget(player);
-    }
-
-    private String formatTime(float seconds) {
-        int m = (int) (seconds / 60);
-        int s = (int) (seconds % 60);
-        return String.format("%02d:%02d", m, s);
-    }
-
-    public void resize(int width, int height) {
-        camera.resize(width, height);
-        mapManager.resize(width, height);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        mapManager.dispose();
-        foodQueueSystem.dispose(); 
-        eventManager.removeObserver(interactionManager);
-        sceneController.dispose(eventManager);
-        if (shapeRenderer != null) shapeRenderer.dispose();
     }
 }

@@ -6,16 +6,22 @@ import github.com_1009project.abstractEngine.EventObserver;
 import github.com_1009project.abstractEngine.SceneManager;
 
 public class SceneController implements EventObserver {
-    private SceneManager sceneManager;
+
+    private final SceneManager sceneManager;
+    private boolean enabled = true;
 
     public SceneController(SceneManager sceneManager, EventManager eventManager) {
         this.sceneManager = sceneManager;
         eventManager.addObserver(this);
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public void onNotify(Event event, Boolean up) {
-        if (up == null) return;
+        if (!enabled || up == null) return;
 
         if (event == Event.GamePause && !up) {
             sceneManager.loadScene(99);
