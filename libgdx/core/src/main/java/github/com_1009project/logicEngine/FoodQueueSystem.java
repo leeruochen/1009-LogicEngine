@@ -89,9 +89,6 @@ public class FoodQueueSystem {
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
-    /** UILayer manages its own viewport — no resize needed. */
-    public void resize(int width, int height) { }
-
     /** Frees all owned resources. */
     public void dispose() {
         foodQueueUI.dispose();

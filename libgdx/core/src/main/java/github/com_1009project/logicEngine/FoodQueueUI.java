@@ -17,14 +17,14 @@ import java.util.List;
 
 public class FoodQueueUI {
 
-    private static final float card_x       = 20f;
-    private static final float card_y       = 800f;
-    private static final float card_width       = 160f;
-    private static final float card_height   = 130f;
-    private static final float card_gap     = 12f;
+    private static final float card_x = 20f;
+    private static final float card_y = 800f;
+    private static final float card_width = 160f;
+    private static final float card_height = 130f;
+    private static final float card_gap = 12f;
     private static final float BURGER_IMG_WIDTH = 80f;
     private static final float BURGER_IMG_HEIGHT = 60f;
-    private static final float ICON_SIZE    = 22f;
+    private static final float ICON_SIZE = 22f;
 
     private final UIFactory       uiFactory;
     private final UILayer         uiLayer;
