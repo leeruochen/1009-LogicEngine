@@ -9,17 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import github.com_1009project.abstractEngine.EntityRegistry;
+import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
-import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class MainMenuScene extends Scene {

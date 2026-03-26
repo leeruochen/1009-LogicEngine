@@ -1,11 +1,12 @@
 package github.com_1009project.logicEngine.helpers;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+
 import github.com_1009project.logicEngine.FoodQueueSystem;
 
 public final class GameAssets {

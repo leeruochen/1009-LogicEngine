@@ -2,14 +2,15 @@ package github.com_1009project.logicEngine.helpers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EntityRenderer;
 import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.MapEntityLoader;
-import github.com_1009project.abstractEngine.SceneManager;
-import github.com_1009project.abstractEngine.OutputManager;
 import github.com_1009project.abstractEngine.MovementManager;
+import github.com_1009project.abstractEngine.OutputManager;
+import github.com_1009project.abstractEngine.SceneManager;
 
 public class GameContext {
     private final AssetManager assetManager;

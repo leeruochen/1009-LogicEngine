@@ -1,11 +1,11 @@
 package github.com_1009project.logicEngine.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Gdx;
 
 import github.com_1009project.abstractEngine.DynamicEntity;
 import github.com_1009project.abstractEngine.Entity;

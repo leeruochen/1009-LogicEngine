@@ -3,10 +3,10 @@ package github.com_1009project.logicEngine.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import github.com_1009project.abstractEngine.IUpdatable;
 import github.com_1009project.logicEngine.FoodState;
 import github.com_1009project.logicEngine.Ingredient;
 import github.com_1009project.logicEngine.Station;
-import github.com_1009project.abstractEngine.IUpdatable;
 
 /**
  * A station that cooks Patties over time.

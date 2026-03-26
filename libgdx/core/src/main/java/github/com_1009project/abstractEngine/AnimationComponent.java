@@ -1,11 +1,11 @@
 package github.com_1009project.abstractEngine;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AnimationComponent {
     private Map<String, Animation<TextureRegion>> animations;
