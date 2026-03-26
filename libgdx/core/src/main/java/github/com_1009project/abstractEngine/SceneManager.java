@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SceneManager {
