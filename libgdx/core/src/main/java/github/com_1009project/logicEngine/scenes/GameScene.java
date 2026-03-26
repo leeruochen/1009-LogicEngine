@@ -46,7 +46,7 @@ public class GameScene extends Scene {
     private MapEntityLoader mapEntityLoader;
     private Player player;
     private FoodQueueSystem foodQueueSystem;
-    private static final float ROUND_DURATION = 60f; // 5 minutes
+    private static final float ROUND_DURATION = 300f; // 5 minutes
     private float timeRemaining;
     private boolean roundOver = false;
     private Label timerLabel; 
