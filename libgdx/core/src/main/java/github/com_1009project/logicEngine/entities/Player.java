@@ -11,7 +11,6 @@ import github.com_1009project.abstractEngine.DynamicEntity;
 import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.ICollidable;
 import github.com_1009project.abstractEngine.IRenderable;
-import github.com_1009project.abstractEngine.AnimationComponent;
 import github.com_1009project.logicEngine.Ingredient;
 
 /**
@@ -20,8 +19,6 @@ import github.com_1009project.logicEngine.Ingredient;
  */
 public class Player extends DynamicEntity implements ICollidable, IRenderable {
     public boolean hasCollided = false;
-    private AnimationComponent animationComponent;
-
     /** The ingredient (or Plate) currently held by the player. Null = empty hands. */
     private Ingredient heldItem;
 
@@ -44,12 +41,12 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         this.setInputEnabled(true);
         this.setMovementComponent(1000f, 0.85f);
         this.setPersistent(true);
-        this.animationComponent = new AnimationComponent("IDLE");
-        this.animationComponent.addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
-        this.animationComponent.addAnimation("RUN", runSheet, 8, 1, 0.05f);
-        this.animationComponent.addAnimation("CHOP2", chopSheet2, 4, 1, 0.1f);
-        this.animationComponent.addAnimation("DEATH", deathSheet, 8, 1, 0.1f);
-        this.animationComponent.setState("IDLE");
+        this.createAnimationComponent("IDLE");
+        this.getAnimationComponent().addAnimation("IDLE", idleSheet, 4, 1, 0.3f);
+        this.getAnimationComponent().addAnimation("RUN", runSheet, 8, 1, 0.05f);
+        this.getAnimationComponent().addAnimation("CHOP2", chopSheet2, 4, 1, 0.1f);
+        this.getAnimationComponent().addAnimation("DEATH", deathSheet, 8, 1, 0.1f);
+        this.getAnimationComponent().setState("IDLE");
     }
 
     @Override
@@ -60,7 +57,7 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
         if (isChopping) {
             vel.setZero();
             this.chopTimer += deltaTime;
-            this.animationComponent.setState("CHOP2");
+            this.getAnimationComponent().setState("CHOP2");
         } else {
             if (vel.len() > playerMaxSpd) {
                 vel.setLength(playerMaxSpd);
@@ -69,9 +66,9 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
             this.getPosition().add(vel.x * deltaTime, vel.y * deltaTime);
 
             if (vel.x != 0 || vel.y != 0) {
-                this.animationComponent.setState("RUN");
+                this.getAnimationComponent().setState("RUN");
             } else {
-                this.animationComponent.setState("IDLE");
+                this.getAnimationComponent().setState("IDLE");
             }
         }
 
@@ -84,7 +81,7 @@ public class Player extends DynamicEntity implements ICollidable, IRenderable {
 
     @Override
     public void render(SpriteBatch batch) {
-        TextureRegion currentFrame = this.animationComponent.getCurrentFrame(Gdx.graphics.getDeltaTime(), true);
+        TextureRegion currentFrame = this.getAnimationComponent().getCurrentFrame(Gdx.graphics.getDeltaTime(), true);
         batch.draw(currentFrame, this.getPosition().x, this.getPosition().y, this.getSize().x, this.getSize().y);
 
         // Render held item above the player

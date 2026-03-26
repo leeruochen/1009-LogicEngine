@@ -30,7 +30,6 @@ public class CameraManager {
     public CameraManager(int width, int height) {
         camera = new OrthographicCamera();
         // set camera's viewport size
-        camera.setToOrtho(false, width, height);
         viewport = new FitViewport(width, height, camera);
         viewport.apply(true);
     }
@@ -102,6 +101,10 @@ public class CameraManager {
     // returns the camera instance
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public void setViewport(int width, int height) {
+        this.viewport = new FitViewport(width, height, camera);
     }
 
     public Viewport getViewport() {

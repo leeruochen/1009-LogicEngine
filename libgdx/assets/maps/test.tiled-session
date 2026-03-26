@@ -1,8 +1,8 @@
 {
     "activeFile": "kitchen.tmx",
     "expandedProjectPaths": [
-        ".",
-        "Tiled_files"
+        "Tiled_files",
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {

@@ -12,6 +12,7 @@ public abstract class Entity {
     private Vector2 size;
     private float rotation; 
     private CollisionComponent collisionComponent;
+    private AnimationComponent animationComponent;
     private boolean isPersistent;
     private boolean inputEnabled;
 
@@ -24,6 +25,8 @@ public abstract class Entity {
         this.active = true; 
         this.inputEnabled = false;
         this.collisionComponent = null;
+        this.animationComponent = null;
+        this.isPersistent = false;
     }
 
     // collision component creation
@@ -39,11 +42,15 @@ public abstract class Entity {
         }
     }
 
+    public void createAnimationComponent(String initialState) { this.animationComponent = new AnimationComponent(initialState);}
+    public boolean hasAnimation() { return this.animationComponent != null;}
+
     // check if entity is collidable and active
     public boolean isCollidable() { return this.collisionComponent != null && this.collisionComponent.isActive();}
 
     // Getters and Setters
     public CollisionComponent getCollisionComponent() {return this.collisionComponent;}
+    public AnimationComponent getAnimationComponent() {return this.animationComponent;}
     public void setPosition(float x, float y) {this.position.set(x, y);}
     public Vector2 getPosition() { return position;}
     public void setSize(float width, float height) {this.size.set(width, height);}
