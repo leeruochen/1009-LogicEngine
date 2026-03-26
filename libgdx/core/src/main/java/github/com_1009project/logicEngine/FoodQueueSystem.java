@@ -15,19 +15,6 @@ import github.com_1009project.abstractEngine.EventManager;
 import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.abstractEngine.UILayer;
 
-/**
- * Self-contained food queue system.
- *
- * Builds its own minimal Skin inline — no external atlas or JSON file needed.
- *
- * GameMaster lifecycle calls:
- *   FoodQueueSystem.queueAssets(assetManager)  — inside loadAssets()
- *   foodQueueSystem.create()                   — after finishLoading()
- *   foodQueueSystem.update(deltaTime)          — every frame
- *   foodQueueSystem.render(deltaTime)          — every frame, after world render
- *   foodQueueSystem.resize(w, h)              — on screen resize
- *   foodQueueSystem.dispose()                 — on shutdown
- */
 public class FoodQueueSystem {
 
     private final SpriteBatch  batch;

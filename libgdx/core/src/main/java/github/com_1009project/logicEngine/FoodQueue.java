@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class FoodQueue {
 
-    public static final int   MAX_QUEUE_SIZE   = 5;
+    public static final int   MAX_QUEUE_SIZE   = 3;
     public static final float SPAWN_INTERVAL   = 20f;
     public static final float ORDER_TIME_LIMIT = 60f;
 
