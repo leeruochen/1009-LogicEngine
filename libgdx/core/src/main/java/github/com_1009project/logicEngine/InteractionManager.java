@@ -234,9 +234,11 @@ public class InteractionManager implements EventObserver {
                 }
                 else {
                     // Empty counter or plate is complete → place plate down
-                    player.dropItem();
-                    counter.placeIngredient(held);
-                    Gdx.app.log("Interact", "Placed plate on counter");
+                    if (counter.placeIngredient(held)) {
+                        player.dropItem();
+                        Gdx.app.log("Interact", "Placed plate on counter");
+                    }
+                    // Handle case where ingredient cannot be placed
                 }
             }
 
@@ -258,9 +260,10 @@ public class InteractionManager implements EventObserver {
 
                 // 5c. Normal placement: place finished ingredient or bun on counter
                 if (counter.canAccept(held) && player.isHolding()) {
-                    player.dropItem();
-                    counter.placeIngredient(held);
-                    Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
+                    if (counter.placeIngredient(held)){
+                        player.dropItem();
+                        Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
+                    };
                 }
             }
         }
