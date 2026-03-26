@@ -7,7 +7,7 @@ package github.com_1009project.logicEngine;
 public class FoodOrder {
 
     /** Default time (seconds) a customer will wait before the order expires. */
-    public static final float DEFAULT_ORDER_TIME = 30f;
+    public static final float DEFAULT_ORDER_TIME = 60f;
 
     private final BurgerRecipe recipe;
     private final float maxTime;
