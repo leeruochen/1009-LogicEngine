@@ -15,16 +15,6 @@ import github.com_1009project.abstractEngine.UILayer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Renders the food order queue HUD through UIFactory and UILayer.
- *
- * Each order card:
- *   ┌──────────────────────┐
- *   │   [burger image]     │
- *   │ [i][i][i][i][i]      │  ingredient icons
- *   │ [======timer=======] │  green → yellow → red
- *   └──────────────────────┘
- */
 public class FoodQueueUI {
 
     // ── Layout ────────────────────────────────────────────────────────────────
