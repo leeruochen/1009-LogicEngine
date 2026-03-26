@@ -60,7 +60,7 @@ public class MainMenuScene extends Scene {
         uiLayer.getStage().addActor(table);
 
         Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.WHITE);
-        Label title = new Label("UnderCooked", titleStyle);
+        Label title = new Label("OverBaked", titleStyle);
 
         // play button
         TextButton playBtn = new TextButton("Play", skin, "warm-resume");
