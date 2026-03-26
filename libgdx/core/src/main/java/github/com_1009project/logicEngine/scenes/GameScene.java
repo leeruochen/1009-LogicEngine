@@ -24,18 +24,26 @@ import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.logicEngine.FoodQueueSystem;
 import github.com_1009project.logicEngine.InteractionManager;
 import github.com_1009project.logicEngine.entities.Player;
+import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class GameScene extends Scene {
-
     // Engine systems
     private final CameraManager      camera;
     private final MapManager         mapManager;
     private final CollisionManager   collisionManager;
     private final InteractionManager interactionManager;
-    private final EntityRenderer     entityRenderer;
     private final FoodQueueSystem    foodQueueSystem;
     private final SceneController    sceneController;
     private final ShapeRenderer      shapeRenderer;
+    private final EntityRenderer     entityRenderer;
+    private final AssetManager       assetManager;
+    private final EventManager       eventManager;
+    private final SceneManager       sceneManager;
+    private final SpriteBatch        batch;
+    private final EntityRegistry     entityRegistry;
+    private final MapEntityLoader    mapEntityLoader;
+    private final InputManager       inputManager;
+
     private Player player;
 
     // Post-round helpers
@@ -56,13 +64,17 @@ public class GameScene extends Scene {
     private final Skin    skin;
 
     // Constructor
-    public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
-                     EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
-                     EventManager eventManager, InputManager inputManager,
-                     SpriteBatch batch, SceneManager sceneManager, int width, int height) {
-        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+    public GameScene(int id, int width, int height, GameContext gameContext) {
+        super(id);
 
-        this.entityRenderer = entityRenderer;
+        this.entityRenderer = gameContext.getEntityRenderer();
+        this.assetManager    = gameContext.getAssetManager();
+        this.eventManager    = gameContext.getEventManager();
+        this.sceneManager    = gameContext.getSceneManager();
+        this.entityRegistry  = gameContext.getEntityRegistry();
+        this.batch           = gameContext.getSpriteBatch();
+        this.inputManager    = gameContext.getInputManager();
+        this.mapEntityLoader = gameContext.getMapEntityLoader();
         this.shapeRenderer  = new ShapeRenderer();
 
         this.camera = new CameraManager(width, height);
@@ -87,8 +99,8 @@ public class GameScene extends Scene {
         this.uiLayer = new UILayer(batch);
         layers.add(uiLayer);
 
-        this.skin = assetManager.isLoaded("menu/uiskin.json")
-                ? assetManager.get("menu/uiskin.json", Skin.class)
+        this.skin = gameContext.getAssetManager().isLoaded("menu/uiskin.json")
+                ? gameContext.getAssetManager().get("menu/uiskin.json", Skin.class)
                 : new Skin(Gdx.files.internal("menu/uiskin.json"));
 
         init();
@@ -214,5 +226,10 @@ public class GameScene extends Scene {
             }
         }
         camera.setTarget(player);
+    }
+
+    @Override
+    public InputManager getSceneInputProcessor() {
+        return inputManager;
     }
 }

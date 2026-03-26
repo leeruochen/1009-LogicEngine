@@ -9,30 +9,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class Scene {
     private int id;
     protected List<Layer> layers = new ArrayList<>();;
-    protected AssetManager assetManager;
-    protected EntityRegistry entityRegistry;
-    protected EventManager eventManager;
-    protected InputManager inputManager;
-    protected SpriteBatch batch;
-    protected SceneManager sceneManager;
 
-    public Scene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
+    public Scene(int id) {
         this.id = id;
-        this.assetManager = assetManager;
-        this.entityRegistry = entityRegistry;
-        this.eventManager = eventManager;
-        this.inputManager = inputManager;
-        this.batch = batch;
-        this.sceneManager = sceneManager;
     }
+    
     public int getId() {
         return id;
     }
+
     public abstract void init();
 
     public void onEnter() {
@@ -44,19 +35,23 @@ public abstract class Scene {
         // Look for the UILayer and add its stage first
         // This ensures that clicking a button "traps" the touch so it doesn't move the player
         for (Layer layer : layers) {
-            if (layer instanceof UILayer) {
-                Stage stage = ((UILayer) layer).getStage();
-                if (stage != null) {
-                    multiplexer.addProcessor(stage);
+            InputProcessor processor = layer.getInputProcessor();
+                if (processor != null) {
+                    multiplexer.addProcessor(processor);
                 }  
-            }
         }
-        // Add your InputManager so keyboard movement works
-        if (inputManager != null) {
-            multiplexer.addProcessor(inputManager);
+
+        InputProcessor sceneInput = getSceneInputProcessor();
+        if (sceneInput != null) {
+            multiplexer.addProcessor(sceneInput);
         }
+
         // Tell LibGDX to listen to the multiplexer
         Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    public InputProcessor getSceneInputProcessor() {
+        return null; 
     }
 
     public void onExit() {

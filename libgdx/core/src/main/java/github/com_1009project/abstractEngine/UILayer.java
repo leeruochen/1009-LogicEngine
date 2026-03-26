@@ -3,6 +3,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.InputProcessor;
 
 public class UILayer extends Layer {
     private Stage stage;
@@ -33,6 +34,10 @@ public class UILayer extends Layer {
     }
     // optional can remove if not needed
     public Stage getStage() {
+        return stage;
+    }
+    @Override
+    public InputProcessor getInputProcessor() {
         return stage;
     }
 }

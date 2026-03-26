@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.InputProcessor;
 
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.Event;
@@ -19,14 +20,27 @@ import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
+import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class SettingsScene extends Scene {
 
     private Skin skin;
     private Preferences prefs;
+    private final AssetManager assetManager;
+    private final EntityRegistry entityRegistry;
+    private final EventManager eventManager;
+    private final InputManager inputManager;
+    private final SpriteBatch batch;
+    private final SceneManager sceneManager;
 
-    public SettingsScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+    public SettingsScene(int id, GameContext gameContext) {
+        super(id);
+        this.assetManager = gameContext.getAssetManager();
+        this.entityRegistry = gameContext.getEntityRegistry();
+        this.eventManager = gameContext.getEventManager();
+        this.inputManager = gameContext.getInputManager();
+        this.batch = gameContext.getSpriteBatch();
+        this.sceneManager = gameContext.getSceneManager();
         init();
     }
 
@@ -79,6 +93,11 @@ public class SettingsScene extends Scene {
             }
         });
         table.add(backBtn).colspan(2).padTop(60).width(200).height(50);
+    }
+
+    @Override
+    public InputProcessor getSceneInputProcessor() {
+        return inputManager;
     }
 
     @Override

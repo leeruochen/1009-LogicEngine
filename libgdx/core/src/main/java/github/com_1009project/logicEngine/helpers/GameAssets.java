@@ -71,6 +71,7 @@ public final class GameAssets {
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.projectFilePath = "maps/test.tiled-project";
         assetManager.load("maps/kitchen.tmx", TiledMap.class, params);
+        assetManager.update();
         assetManager.finishLoading();
     }
 }

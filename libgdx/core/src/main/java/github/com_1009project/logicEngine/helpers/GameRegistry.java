@@ -1,13 +1,20 @@
 package github.com_1009project.logicEngine.helpers;
 
+import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import github.com_1009project.abstractEngine.*;
 import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.logicEngine.factories.*;
+import github.com_1009project.logicEngine.scenes.*;
 
 public final class GameRegistry {
-    public static void registerEntities(EntityRegistry entityRegistry, MapEntityLoader mapEntityLoader, AssetManager assetManager) {
+    public static void registerEntities(GameContext gameContext) {
+        EntityRegistry entityRegistry = gameContext.getEntityRegistry();
+        MapEntityLoader mapEntityLoader = gameContext.getMapEntityLoader();
+        AssetManager assetManager = gameContext.getAssetManager();
+
         // register factories for entities
         entityRegistry.registerFactory(Bun.class, new BunFactory(assetManager));
         entityRegistry.registerFactory(Cheese.class, new CheeseFactory(assetManager));
@@ -56,5 +63,38 @@ public final class GameRegistry {
         outputManager.registerSound(Event.PlayerInteractSound, "sounds/Place.mp3");
         outputManager.registerSound(Event.IngredientTake, "sounds/IngredientTake.mp3");
         outputManager.registerSound(Event.Bin, "sounds/Bin.mp3");
+    }
+
+    public static void registerScenes(GameContext gameContext, int width, int height) {
+        gameContext.getSceneManager().registerScene(0, () -> new MainMenuScene(0, gameContext));
+        gameContext.getSceneManager().registerScene(1, () -> new GameScene(1, width, height, gameContext));
+        gameContext.getSceneManager().registerScene(2, () -> new SettingsScene(2, gameContext));
+        gameContext.getSceneManager().registerScene(3, () -> new TutorialScene(3, gameContext));
+        gameContext.getSceneManager().registerScene(99, () -> new PauseScene(99, gameContext));
+    }
+
+    public static void registerInput(InputManager inputManager) {
+        inputManager.mapKey(Input.Keys.W, Event.PlayerUp);
+		inputManager.mapKey(Input.Keys.S, Event.PlayerDown);
+		inputManager.mapKey(Input.Keys.A, Event.PlayerLeft);
+		inputManager.mapKey(Input.Keys.D, Event.PlayerRight);
+		inputManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
+		inputManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
+        inputManager.mapKey(Input.Keys.E, Event.PlayerInteract);
+        inputManager.mapKey(Input.Keys.F, Event.PlayerChop);
+        inputManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
+    }
+
+    public static void registerEventObservers(GameContext gameContext) {
+        gameContext.getEventManager().addObserver(gameContext.getMovementManager());
+        gameContext.getEventManager().addObserver(gameContext.getOutputManager());
+    }
+
+    public static void registerAll(GameContext gameContext, int width, int height) {
+        registerScenes(gameContext, width, height);
+        registerInput(gameContext.getInputManager());
+        registerAudio(gameContext.getOutputManager());
+        registerEntities(gameContext);
+        registerEventObservers(gameContext);
     }
 }

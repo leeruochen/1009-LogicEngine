@@ -17,15 +17,27 @@ import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
+import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class PauseScene extends Scene {
 
     private ShapeRenderer shapeRenderer;
     private Skin skin;
+    private EventManager eventManager;
+    private SceneManager sceneManager;
+    private InputManager inputManager;
+    private EntityRegistry entityRegistry;
+    private AssetManager assetManager;
+    private SpriteBatch batch;
 
-    public PauseScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
-                      EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+    public PauseScene(int id, GameContext gameContext) {
+        super(id);
+        this.assetManager = gameContext.getAssetManager();
+        this.entityRegistry = gameContext.getEntityRegistry();
+        this.eventManager = gameContext.getEventManager();
+        this.inputManager = gameContext.getInputManager();
+        this.batch = gameContext.getSpriteBatch();
+        this.sceneManager = gameContext.getSceneManager();
         init();
     }
 
@@ -104,5 +116,10 @@ public class PauseScene extends Scene {
         super.dispose();
         shapeRenderer.dispose();
         skin.dispose();
+    }
+
+    @Override
+    public InputManager getSceneInputProcessor() {
+        return inputManager;
     }
 }

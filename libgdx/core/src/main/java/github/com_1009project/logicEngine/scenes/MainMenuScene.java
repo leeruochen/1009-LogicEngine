@@ -19,16 +19,28 @@ import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
 import github.com_1009project.abstractEngine.Event;
+import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class MainMenuScene extends Scene {
 
     private Texture background;
     private Skin skin;
     private BitmapFont titleFont;
+    private EventManager eventManager;
+    private SceneManager sceneManager;
+    private InputManager inputManager;
+    private EntityRegistry entityRegistry;
+    private AssetManager assetManager;
+    private SpriteBatch batch;
 
-    public MainMenuScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
-                         EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+    public MainMenuScene(int id, GameContext gameContext) {
+        super(id);
+        this.assetManager = gameContext.getAssetManager();
+        this.entityRegistry = gameContext.getEntityRegistry();
+        this.eventManager = gameContext.getEventManager();
+        this.inputManager = gameContext.getInputManager();
+        this.sceneManager = gameContext.getSceneManager();
+        this.batch = gameContext.getSpriteBatch();
         init();
     }
 
@@ -93,7 +105,6 @@ public class MainMenuScene extends Scene {
         super.onEnter();
         eventManager.eventTrigger(Event.MenuEnter);
     }
-    
 
     @Override
     public void render() {
@@ -110,5 +121,10 @@ public class MainMenuScene extends Scene {
         super.dispose();
         skin.dispose();
         titleFont.dispose();
+    }
+
+    @Override
+    public InputManager getSceneInputProcessor() {
+        return inputManager;
     }
 }

@@ -23,6 +23,7 @@ import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
 import github.com_1009project.logicEngine.scenes.KeyDisplay;
+import github.com_1009project.logicEngine.helpers.GameContext;
 
 public class TutorialScene extends Scene {
 
@@ -35,6 +36,16 @@ public class TutorialScene extends Scene {
     private GlyphLayout   layout;
     private Skin          skin;
 
+    // managers
+    private final AssetManager assetManager;
+    private final EntityRegistry entityRegistry;
+    private final EventManager eventManager;
+    private final InputManager inputManager;
+    private final SceneManager sceneManager;
+    
+    // spritebatch
+    private final SpriteBatch batch;
+
     // Key displays
     private KeyDisplay[] keys;
 
@@ -44,9 +55,14 @@ public class TutorialScene extends Scene {
     private static final Color COL_HEADER = new Color(0.22f, 0.12f, 0.05f, 1.00f);
     private static final Color COL_CREAM  = new Color(1.00f, 0.92f, 0.70f, 1.00f);
 
-    public TutorialScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
-                         EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
+    public TutorialScene(int id, GameContext gameContext) {
+        super(id);
+        this.assetManager = gameContext.getAssetManager();
+        this.entityRegistry = gameContext.getEntityRegistry();
+        this.eventManager = gameContext.getEventManager();
+        this.inputManager = gameContext.getInputManager();
+        this.batch = gameContext.getSpriteBatch();
+        this.sceneManager = gameContext.getSceneManager();
         init();
     }
 
@@ -252,5 +268,10 @@ public class TutorialScene extends Scene {
         keyFont.dispose();
         descFont.dispose();
         skin.dispose();
+    }
+
+    @Override
+    public InputManager getSceneInputProcessor() {
+        return inputManager;
     }
 }
