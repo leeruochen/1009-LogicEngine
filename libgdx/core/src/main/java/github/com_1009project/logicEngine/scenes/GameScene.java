@@ -66,7 +66,7 @@ public class GameScene extends Scene {
         this.shapeRenderer  = new ShapeRenderer();
 
         this.camera = new CameraManager(width, height);
-        this.camera.setBounds(4000, 4000);
+        this.camera.setBounds(2112, 2176);
 
         this.collisionManager = new CollisionManager(64);
 
