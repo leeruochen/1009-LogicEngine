@@ -9,20 +9,20 @@ class OrderCardEntry {
     private static final float URGENCY_HIGH   = 0.6f;
     private static final float URGENCY_MEDIUM = 0.3f;
 
-    final int         orderId;
-    final Table       card;
-    final ProgressBar timerBar;
+    private final int         orderID;
+    private final Table       card;
+    private final ProgressBar timerBar;
 
     // Pre-built drawables for each urgency level — swapped wholesale each frame
     private final NinePatchDrawable fillGreen;
     private final NinePatchDrawable fillYellow;
     private final NinePatchDrawable fillRed;
 
-    OrderCardEntry(int orderId, Table card, ProgressBar timerBar,
+    public OrderCardEntry(int orderID, Table card, ProgressBar timerBar,
                    NinePatchDrawable fillGreen,
                    NinePatchDrawable fillYellow,
                    NinePatchDrawable fillRed) {
-        this.orderId    = orderId;
+        this.orderID    = orderID;
         this.card       = card;
         this.timerBar   = timerBar;
         this.fillGreen  = fillGreen;
@@ -30,7 +30,7 @@ class OrderCardEntry {
         this.fillRed    = fillRed;
     }
 
-    void updateTimer(float timerProgress, float urgency) {
+    public void updateTimer(float timerProgress, float urgency) {
         timerBar.setValue(timerProgress * 100f);
 
         NinePatchDrawable fill;
@@ -42,11 +42,15 @@ class OrderCardEntry {
         timerBar.getStyle().knobBefore = fill;
     }
 
-    void removeFromStage() { 
+    public void removeFromStage() { 
     	card.remove(); 
     }
 
-    void setPosition(float x, float y) { 
+    public void setPosition(float x, float y) { 
     	card.setPosition(x, y); 
+    }
+    
+    public int getOrderID() {
+    	return orderID;
     }
 }

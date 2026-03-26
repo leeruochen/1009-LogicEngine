@@ -66,9 +66,6 @@ public class FoodQueue {
     /**
      * Resolves {@code assembled} to a recipe (order-independent), then removes
      * the earliest matching order from the queue.
-     *
-     * @param assembled ingredients the player collected, in any order
-     * @return true if a matching order was found and cleared
      */
     public boolean submitOrder(List<FoodItem> assembled) {
         BurgerRecipe resolved = BurgerRecipe.fromIngredients(assembled);

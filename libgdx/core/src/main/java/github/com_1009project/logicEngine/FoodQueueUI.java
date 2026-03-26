@@ -15,19 +15,8 @@ import github.com_1009project.abstractEngine.UILayer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Renders the food order queue HUD through UIFactory and UILayer.
- *
- * Each order card:
- *   ┌──────────────────────┐
- *   │   [burger image]     │
- *   │ [i][i][i][i][i]      │  ingredient icons
- *   │ [======timer=======] │  green → yellow → red
- *   └──────────────────────┘
- */
 public class FoodQueueUI {
 
-    // ── Layout ────────────────────────────────────────────────────────────────
     private static final float card_x       = 20f;
     private static final float card_y       = 800f;
     private static final float card_width       = 160f;
@@ -77,7 +66,7 @@ public class FoodQueueUI {
 
     private void removeStaleCards(List<FoodOrder> liveOrders) {
         for (int i = cardEntries.size() - 1; i >= 0; i--) {
-            if (!isOrderPresent(cardEntries.get(i).orderId, liveOrders)) {
+            if (!isOrderPresent(cardEntries.get(i).getOrderID(), liveOrders)) {
                 cardEntries.get(i).removeFromStage();
                 cardEntries.remove(i);
             }
@@ -154,7 +143,7 @@ public class FoodQueueUI {
 
     private OrderCardEntry findEntry(int orderId) {
         for (OrderCardEntry e : cardEntries) {
-            if (e.orderId == orderId) return e;
+            if (e.getOrderID() == orderId) return e;
         }
         return null;
     }
