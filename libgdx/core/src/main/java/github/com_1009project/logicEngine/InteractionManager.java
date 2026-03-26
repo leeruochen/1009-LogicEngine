@@ -236,9 +236,10 @@ public class InteractionManager implements EventObserver {
             }
 
             // 5b. If counter has a Plate on top → add held ingredient directly to the plate
-            else if (counter.hasIngredients()) {
+            if (counter.hasIngredients()) {
                 List<Ingredient> stack = counter.getIngredientStack();
                 Ingredient topItem = stack.get(stack.size() - 1);
+                Gdx.app.log("Interact", "Top item is: " + topItem.getName());
                 if (topItem instanceof Plate) {
                     Plate plate = (Plate) topItem;
                     if (!plate.isComplete() && isFinishedIngredient(held)) {
@@ -250,7 +251,7 @@ public class InteractionManager implements EventObserver {
             }
 
             // 5c. Normal placement: place finished ingredient or bun on counter
-            else if (counter.canAccept(held)) {
+            if (counter.canAccept(held) && player.isHolding()) {
                 player.dropItem();
                 counter.placeIngredient(held);
                 Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
