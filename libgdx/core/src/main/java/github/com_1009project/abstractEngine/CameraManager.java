@@ -3,12 +3,15 @@ package github.com_1009project.abstractEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 //https://libgdx.com/wiki/graphics/2d/orthographic-camera
 
 public class CameraManager {
     // camera instance for managing view and movement
     private OrthographicCamera camera = null;
+    private Viewport viewport;
     private Entity target;
 
     // interpolation factor for smooth camera movement, can be adjusted for faster or slower following
@@ -28,6 +31,8 @@ public class CameraManager {
         camera = new OrthographicCamera();
         // set camera's viewport size
         camera.setToOrtho(false, width, height);
+        viewport = new FitViewport(width, height, camera);
+        viewport.apply(true);
     }
 
     // allows setting the target entity for the camera to follow
@@ -91,13 +96,15 @@ public class CameraManager {
     }
 
     public void resize(int width, int height) {
-        // update camera viewport on window resize
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        viewport.update(width, height, true);
     }
 
     // returns the camera instance
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public Viewport getViewport() {
+        return viewport;
     }
 }

@@ -138,7 +138,7 @@ public class GameMaster extends ApplicationAdapter{
 
         // set up camera with max world bounds
         camera = new CameraManager(width, height);
-        camera.setBounds(4000, 4000);
+        camera.setBounds(2112, 2176);
 
         // load assets
         loadAssets();
