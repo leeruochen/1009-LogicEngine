@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.Scene;
 import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.abstractEngine.UILayer;
@@ -26,8 +27,8 @@ public class MainMenuScene extends Scene {
     private BitmapFont titleFont;
 
     public MainMenuScene(int id, AssetManager assetManager, EntityRegistry entityRegistry,
-                         EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
-        super(id, assetManager, entityRegistry, eventManager, batch, sceneManager);
+                         EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
+        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
         init();
     }
 

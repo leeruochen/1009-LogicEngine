@@ -21,6 +21,7 @@ import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EntityRenderer;
 import github.com_1009project.abstractEngine.Event;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.SceneManager;
@@ -43,6 +44,7 @@ public class GameMaster extends ApplicationAdapter{
     private MapEntityLoader mapEntityLoader;
     private SceneManager sm;
     private EventManager eventManager;
+    private InputManager inputManager;
     private MovementManager movementManager;
     private UIFactory uf;
     private CollisionManager collisionManager;
@@ -66,6 +68,7 @@ public class GameMaster extends ApplicationAdapter{
     public void create() {
         assetManager = new AssetManager();
         eventManager = new EventManager();
+        inputManager = new InputManager(eventManager);
         batch = new SpriteBatch();
 
         entityRegistry = new EntityRegistry();
@@ -116,11 +119,11 @@ public class GameMaster extends ApplicationAdapter{
         movementManager = new MovementManager(entityRegistry);
 
         sm = new SceneManager(entityRegistry, eventManager, batch);
-        sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityRegistry, eventManager, batch, sm));
-        sm.registerScene(1, () -> new GameScene(1, assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        sm.registerScene(2, () -> new SettingsScene(2, assetManager, entityRegistry, eventManager, batch, sm));
-        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityRegistry, eventManager, batch, sm));
-        sm.registerScene(99, () -> new PauseScene(99, assetManager, entityRegistry, eventManager, batch, sm));
+        sm.registerScene(0, () -> new MainMenuScene(0, assetManager, entityRegistry, eventManager, inputManager, batch, sm));
+        sm.registerScene(1, () -> new GameScene(1, assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, inputManager, batch, sm, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        sm.registerScene(2, () -> new SettingsScene(2, assetManager, entityRegistry, eventManager, inputManager, batch, sm));
+        sm.registerScene(3, () -> new TutorialScene(3, assetManager, entityRegistry, eventManager, inputManager, batch, sm));
+        sm.registerScene(99, () -> new PauseScene(99, assetManager, entityRegistry, eventManager, inputManager, batch, sm));
 
         outputManager = new OutputManager(assetManager, "GameSettings");
         outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");
@@ -146,16 +149,16 @@ public class GameMaster extends ApplicationAdapter{
 		eventManager.addObserver(movementManager);
         eventManager.addObserver(outputManager); // add OutputManager as an observer to handle audio events
 
-		//key mappings for eventManager
-		eventManager.mapKey(Input.Keys.W, Event.PlayerUp);
-		eventManager.mapKey(Input.Keys.S, Event.PlayerDown);
-		eventManager.mapKey(Input.Keys.A, Event.PlayerLeft);
-		eventManager.mapKey(Input.Keys.D, Event.PlayerRight);
-		eventManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
-		eventManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
-        eventManager.mapKey(Input.Keys.E, Event.PlayerInteract);
-        eventManager.mapKey(Input.Keys.F, Event.PlayerChop);
-        eventManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
+		//key mappings for inputManager
+		inputManager.mapKey(Input.Keys.W, Event.PlayerUp);
+		inputManager.mapKey(Input.Keys.S, Event.PlayerDown);
+		inputManager.mapKey(Input.Keys.A, Event.PlayerLeft);
+		inputManager.mapKey(Input.Keys.D, Event.PlayerRight);
+		inputManager.mapKey(Input.Keys.RIGHT, Event.PlayerRight);
+		inputManager.mapKey(Input.Keys.LEFT, Event.PlayerLeft);
+        inputManager.mapKey(Input.Keys.E, Event.PlayerInteract);
+        inputManager.mapKey(Input.Keys.F, Event.PlayerChop);
+        inputManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
 		
 		sm.loadScene(0);
     }
@@ -249,5 +252,6 @@ public class GameMaster extends ApplicationAdapter{
         batch.dispose();
         sm.dispose();
         eventManager.dispose();
+        inputManager.dispose();
     }
 }

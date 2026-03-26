@@ -18,6 +18,7 @@ import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EntityRenderer;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.InputManager;
 import github.com_1009project.abstractEngine.MapEntityLoader;
 import github.com_1009project.abstractEngine.MapManager;
 import github.com_1009project.abstractEngine.Scene;
@@ -61,8 +62,8 @@ public class GameScene extends Scene {
     private Table resultsTable;
 
     public GameScene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EntityRenderer entityRenderer, MapEntityLoader mapEntityLoader,
-                     EventManager eventManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
-        super(id, assetManager, entityRegistry, eventManager, batch, sceneManager);
+                     EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager, int width, int height) {
+        super(id, assetManager, entityRegistry, eventManager, inputManager, batch, sceneManager);
         this.entityRenderer = entityRenderer;
         this.mapEntityLoader = mapEntityLoader;
         this.camera = new CameraManager(width, height);

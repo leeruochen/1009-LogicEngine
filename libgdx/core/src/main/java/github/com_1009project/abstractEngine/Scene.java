@@ -17,14 +17,16 @@ public abstract class Scene {
     protected AssetManager assetManager;
     protected EntityRegistry entityRegistry;
     protected EventManager eventManager;
+    protected InputManager inputManager;
     protected SpriteBatch batch;
     protected SceneManager sceneManager;
 
-    public Scene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EventManager eventManager, SpriteBatch batch, SceneManager sceneManager) {
+    public Scene(int id, AssetManager assetManager, EntityRegistry entityRegistry, EventManager eventManager, InputManager inputManager, SpriteBatch batch, SceneManager sceneManager) {
         this.id = id;
         this.assetManager = assetManager;
         this.entityRegistry = entityRegistry;
         this.eventManager = eventManager;
+        this.inputManager = inputManager;
         this.batch = batch;
         this.sceneManager = sceneManager;
     }
@@ -49,9 +51,9 @@ public abstract class Scene {
                 }  
             }
         }
-        // Add your EventManager so keyboard movement works
-        if (eventManager != null) {
-            multiplexer.addProcessor(eventManager);
+        // Add your InputManager so keyboard movement works
+        if (inputManager != null) {
+            multiplexer.addProcessor(inputManager);
         }
         // Tell LibGDX to listen to the multiplexer
         Gdx.input.setInputProcessor(multiplexer);
