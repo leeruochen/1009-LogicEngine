@@ -1,7 +1,5 @@
 package github.com_1009project.logicEngine.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import github.com_1009project.abstractEngine.Entity;
 
 // simple collision box entity
