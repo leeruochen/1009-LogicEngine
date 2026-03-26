@@ -227,7 +227,12 @@ public class InteractionManager implements EventObserver {
                     if (!(topItem instanceof Plate)){
                         List<Ingredient> items = counter.removeAllIngredients();
                         for (Ingredient item : items) {
-                            plate.addIngredient(item);
+                            if (item.getState() == FoodState.Cooked){
+                                plate.addIngredient(item);
+                            }
+                            else{
+                                counter.placeIngredient(item);
+                            }
                         }
                         Gdx.app.log("Interact", "Loaded " + items.size() + " items onto plate. Total: " + plate.getItemCount());
                     }
