@@ -222,12 +222,17 @@ public class InteractionManager implements EventObserver {
             if (held instanceof Plate) {
                 Plate plate = (Plate) held;
                 if (counter.hasIngredients() && !plate.isComplete()) {
-                    List<Ingredient> items = counter.removeAllIngredients();
-                    for (Ingredient item : items) {
-                        plate.addIngredient(item);
+                    List<Ingredient> stack = counter.getIngredientStack();
+                    Ingredient topItem = stack.get(stack.size() - 1);
+                    if (!(topItem instanceof Plate)){
+                        List<Ingredient> items = counter.removeAllIngredients();
+                        for (Ingredient item : items) {
+                            plate.addIngredient(item);
+                        }
+                        Gdx.app.log("Interact", "Loaded " + items.size() + " items onto plate. Total: " + plate.getItemCount());
                     }
-                    Gdx.app.log("Interact", "Loaded " + items.size() + " items onto plate. Total: " + plate.getItemCount());
-                } else {
+                }
+                else {
                     // Empty counter or plate is complete → place plate down
                     player.dropItem();
                     counter.placeIngredient(held);
@@ -235,26 +240,28 @@ public class InteractionManager implements EventObserver {
                 }
             }
 
-            // 5b. If counter has a Plate on top → add held ingredient directly to the plate
-            if (counter.hasIngredients()) {
-                List<Ingredient> stack = counter.getIngredientStack();
-                Ingredient topItem = stack.get(stack.size() - 1);
-                Gdx.app.log("Interact", "Top item is: " + topItem.getName());
-                if (topItem instanceof Plate) {
-                    Plate plate = (Plate) topItem;
-                    if (!plate.isComplete() && isFinishedIngredient(held)) {
-                        player.dropItem();
-                        plate.addIngredient(held);
-                        Gdx.app.log("Interact", "Added " + held.getName() + " to plate on counter. Total: " + plate.getItemCount());
+            else{
+                // 5b. If counter has a Plate on top → add held ingredient directly to the plate
+                if (counter.hasIngredients()) {
+                    List<Ingredient> stack = counter.getIngredientStack();
+                    Ingredient topItem = stack.get(stack.size() - 1);
+                    Gdx.app.log("Interact", "Top item is: " + topItem.getName());
+                    if (topItem instanceof Plate) {
+                        Plate plate = (Plate) topItem;
+                        if (!plate.isComplete() && isFinishedIngredient(held)) {
+                            player.dropItem();
+                            plate.addIngredient(held);
+                            Gdx.app.log("Interact", "Added " + held.getName() + " to plate on counter. Total: " + plate.getItemCount());
+                        }
                     }
                 }
-            }
 
-            // 5c. Normal placement: place finished ingredient or bun on counter
-            if (counter.canAccept(held) && player.isHolding()) {
-                player.dropItem();
-                counter.placeIngredient(held);
-                Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
+                // 5c. Normal placement: place finished ingredient or bun on counter
+                if (counter.canAccept(held) && player.isHolding()) {
+                    player.dropItem();
+                    counter.placeIngredient(held);
+                    Gdx.app.log("Interact", "Placed " + held.getName() + " on counter");
+                }
             }
         }
 
