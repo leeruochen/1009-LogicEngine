@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -36,6 +37,10 @@ public class SceneManager {
             sceneHistory.push(currentScene.getId());
         }
         switchScene(id);
+
+        currentScene = scenes.get(id);
+        currentScene.onEnter();
+        currentScene.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void loadPreviousScene() {
@@ -43,6 +48,9 @@ public class SceneManager {
             int previousSceneId = sceneHistory.pop();
             switchScene(previousSceneId);
         }
+
+        currentScene.onEnter();
+        currentScene.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void clearHistory() {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EventManager;
@@ -50,42 +51,32 @@ public class PauseScene extends Scene {
 
         skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
 
-        float cx = Gdx.graphics.getWidth()  / 2f;
-        float cy = Gdx.graphics.getHeight() / 2f;
+        Table table = new Table();
+        table.setFillParent(true);
+        uiLayer.getStage().addActor(table);
 
         // "PAUSED" title using warm label style
         Label title = new Label("PAUSED", skin, "warm");
-        title.setPosition(cx - title.getPrefWidth() / 2f, cy + 80f);
-        uiLayer.getStage().addActor(title);
 
         // Resume button — warm orange
         TextButton resumeBtn = new TextButton("Resume", skin, "warm-resume");
-        resumeBtn.setSize(220f, 50f);
-        resumeBtn.setPosition(cx - 110f, cy);
         resumeBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.loadPreviousScene();
             }
         });
-        uiLayer.getStage().addActor(resumeBtn);
 
         // settings
         TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
-        settingsBtn.setSize(220f, 50f);
-        settingsBtn.setPosition(cx - 110f, cy - 70f);
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.loadScene(2);
             }
         });
-        uiLayer.getStage().addActor(settingsBtn);
-
         // Quit button — warm red
         TextButton quitBtn = new TextButton("Exit to Menu", skin, "warm-quit");
-        quitBtn.setSize(220f, 50f);
-        quitBtn.setPosition(cx - 110f, cy - 140f);
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -94,7 +85,11 @@ public class PauseScene extends Scene {
                 sceneManager.loadScene(0);
             }
         });
-        uiLayer.getStage().addActor(quitBtn);
+
+        table.add(title).padBottom(60f).row();
+        table.add(resumeBtn).size(220f, 50f).padBottom(20f).row();
+        table.add(settingsBtn).size(220f, 50f).padBottom(20f).row();
+        table.add(quitBtn).size(220f, 50f);
     }
 
     @Override
@@ -121,5 +116,11 @@ public class PauseScene extends Scene {
     @Override
     public InputManager getSceneInputProcessor() {
         return inputManager;
+    }
+    
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        shapeRenderer.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 }

@@ -73,4 +73,10 @@ public abstract class Scene {
             layer.dispose();
         }
     }
+
+    public void resize(int width, int height) {
+        for (Layer layer : layers) {
+            layer.resize(width, height);
+        }
+    }
 }

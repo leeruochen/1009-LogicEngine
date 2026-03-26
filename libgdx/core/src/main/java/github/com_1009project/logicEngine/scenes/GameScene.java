@@ -197,6 +197,7 @@ public class GameScene extends Scene {
 
     // Resize
     public void resize(int width, int height) {
+        super.resize(width, height);
         camera.resize(width, height);
         mapManager.resize(width, height);
     }

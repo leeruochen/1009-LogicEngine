@@ -9,4 +9,5 @@ public abstract class Layer {
     public InputProcessor getInputProcessor() {
         return null;
     }
+    public void resize(int width, int height) {}
 }

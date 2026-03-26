@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.EventManager;
@@ -54,50 +55,44 @@ public class MainMenuScene extends Scene {
         skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
         titleFont = new BitmapFont(Gdx.files.internal("menu/title.fnt"), Gdx.files.internal("menu/title.png"), false);
 
-        float cx = Gdx.graphics.getWidth()  / 2f;
-        float cy = Gdx.graphics.getHeight() / 2f;
+        Table table = new Table();
+        table.setFillParent(true);
+        uiLayer.getStage().addActor(table);
 
         Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.WHITE);
         Label title = new Label("UnderCooked", titleStyle);
-        title.setPosition(cx - title.getPrefWidth() / 2f, cy + 120f);
-        uiLayer.getStage().addActor(title);
 
         // play button
         TextButton playBtn = new TextButton("Play", skin, "warm-resume");
-        playBtn.setSize(260f, 60f);
-        playBtn.setPosition(cx - 130f, cy);
-
         playBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.loadScene(3); // load tutorial scene
             }
         });
-        uiLayer.getStage().addActor(playBtn);
 
         // settings button
         TextButton settingsBtn = new TextButton("Settings", skin, "warm-resume");
-        settingsBtn.setSize(260f, 60f);
-        settingsBtn.setPosition(cx - 130f, cy - 80f);
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sceneManager.loadScene(2); // load settings scene
             }
         });
-        uiLayer.getStage().addActor(settingsBtn);
 
         // quit button
         TextButton quitBtn = new TextButton("Quit", skin, "warm-quit");
-        quitBtn.setSize(260f, 60f);
-        quitBtn.setPosition(cx - 130f, cy - 160f);
         quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
-        uiLayer.getStage().addActor(quitBtn);
+
+        table.add(title).padBottom(80f).row();
+        table.add(playBtn).size(260f, 60f).padBottom(20f).row();
+        table.add(settingsBtn).size(260f, 60f).padBottom(20f).row();
+        table.add(quitBtn).size(260f, 60f);
     }
 
     @Override

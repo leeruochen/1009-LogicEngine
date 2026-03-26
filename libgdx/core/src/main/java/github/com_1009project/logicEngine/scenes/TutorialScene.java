@@ -12,7 +12,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import github.com_1009project.abstractEngine.BackgroundLayer;
 import github.com_1009project.abstractEngine.EntityRegistry;
@@ -35,6 +38,7 @@ public class TutorialScene extends Scene {
     private BitmapFont    descFont;
     private GlyphLayout   layout;
     private Skin          skin;
+    private Viewport      viewport;
 
     // managers
     private final AssetManager assetManager;
@@ -72,6 +76,8 @@ public class TutorialScene extends Scene {
         // background
         layers.add(new BackgroundLayer(batch, assetManager, "imgs/bg_frames", 52, 0.1f));
 
+        viewport = new ExtendViewport(1280, 720);
+
         // shared rendering tools
         shapeRenderer = new ShapeRenderer();
         fontBatch     = new SpriteBatch();
@@ -86,8 +92,8 @@ public class TutorialScene extends Scene {
     }
     // Set up the KeyDisplay objects, which know how to draw themselves and track their own pressed state.
     private void buildKeys() {
-        float sw = Gdx.graphics.getWidth();
-        float sh = Gdx.graphics.getHeight();
+        float sw = viewport.getWorldWidth();
+        float sh = viewport.getWorldHeight();
         float ks = KeyDisplay.KEY_SIZE;
         float kg = KeyDisplay.KEY_GAP;
 
@@ -108,16 +114,14 @@ public class TutorialScene extends Scene {
     private void buildButtons() {
         UILayer uiLayer = new UILayer(batch);
         layers.add(uiLayer);
-
         skin = new Skin(Gdx.files.internal("menu/uiskin.json"));
 
-        float sw  = Gdx.graphics.getWidth();
-        float cx  = sw / 2f;
-        float btnY = Gdx.graphics.getHeight() * 0.06f;
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center().bottom().padBottom(40f);
+        uiLayer.getStage().addActor(table);
 
         TextButton startBtn = new TextButton("Start Game", skin, "warm-resume");
-        startBtn.setSize(220f, 55f);
-        startBtn.setPosition(cx - 110f + 80f, btnY);
         startBtn.addListener(new ClickListener() {
             @Override public void clicked(InputEvent e, float x, float y) {
                 sceneManager.loadScene(1);
@@ -125,16 +129,15 @@ public class TutorialScene extends Scene {
         });
 
         TextButton backBtn = new TextButton("Back", skin, "warm-quit");
-        backBtn.setSize(120f, 55f);
-        backBtn.setPosition(cx - 110f + 80f - 140f, btnY);
         backBtn.addListener(new ClickListener() {
             @Override public void clicked(InputEvent e, float x, float y) {
                 sceneManager.loadPreviousScene();
             }
         });
 
-        uiLayer.getStage().addActor(startBtn);
-        uiLayer.getStage().addActor(backBtn);
+        uiLayer.getStage().addActor(table);
+        table.add(startBtn).size(220f, 55f).padBottom(20f).row();
+        table.add(backBtn).size(120f, 55f);
     }
 
     @Override
@@ -147,9 +150,14 @@ public class TutorialScene extends Scene {
 
     @Override
     public void render() {
-        float sw = Gdx.graphics.getWidth();
-        float sh = Gdx.graphics.getHeight();
+        float sw = viewport.getWorldWidth();
+        float sh = viewport.getWorldHeight();
         float cx = sw / 2f;
+
+        viewport.apply();
+
+        shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
+        fontBatch.setProjectionMatrix(viewport.getCamera().combined);
 
         // background layer
         for (Layer layer : layers) {
@@ -273,5 +281,12 @@ public class TutorialScene extends Scene {
     @Override
     public InputManager getSceneInputProcessor() {
         return inputManager;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        viewport.update(width, height, true);
+        buildKeys();
     }
 }

@@ -77,8 +77,8 @@ public class GameMaster extends ApplicationAdapter{
 
     @Override
     public void resize(int width, int height) {
-        if (sceneManager.getCurrentScene() instanceof GameScene) {
-            ((GameScene) sceneManager.getCurrentScene()).resize(width, height);
+        if (sceneManager.getCurrentScene() != null) {
+            sceneManager.getCurrentScene().resize(width, height);
         }
     }
 
