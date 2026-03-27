@@ -1,5 +1,8 @@
 package github.com_1009project.abstractEngine;
 
+// The EventManager class is responsible for managing events in the game. It allows different systems and components to communicate with each other by sending and receiving events.
+// The EventManager maintains a list of observers that are interested in receiving events. When an event is triggered, the EventManager notifies all registered observers by calling their onNotify method with the relevant event information.
+
 import com.badlogic.gdx.utils.Array;
 
 public class EventManager {

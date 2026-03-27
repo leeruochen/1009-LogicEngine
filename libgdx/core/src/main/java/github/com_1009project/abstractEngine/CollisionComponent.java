@@ -3,6 +3,10 @@ package github.com_1009project.abstractEngine;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+// The CollisionComponent class is responsible for managing the collision bounds of an entity. It defines a rectangular area that can be used for collision detection and response.
+// The component can be activated or deactivated, allowing for dynamic control over whether an entity participates in collision detection. 
+// It also supports offsets to adjust the position of the collision bounds relative to the entity's position, which can be useful for creating more precise collision areas (e.g., for a player character where the visual sprite may not perfectly align with the collision area).
+
 public class CollisionComponent {
     // bounding rectangle for collision detection
     private Rectangle bounds;

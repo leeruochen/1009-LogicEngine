@@ -1,4 +1,3 @@
-
 package github.com_1009project.abstractEngine;
 
 import java.util.ArrayList;
@@ -7,6 +6,8 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+
+// The Scene class represents a scene in the game, which can contain multiple layers.
 
 public abstract class Scene {
     private int id;

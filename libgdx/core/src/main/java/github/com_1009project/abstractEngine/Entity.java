@@ -2,6 +2,8 @@ package github.com_1009project.abstractEngine;
 
 import com.badlogic.gdx.math.Vector2;
 
+// The Entity class is the base class for all game objects in the engine. It contains common properties such as position, size, rotation, and components for collision and animation.
+
 public abstract class Entity {
     // properties fields to be used by subclasses
     private static int idCounter = 0;

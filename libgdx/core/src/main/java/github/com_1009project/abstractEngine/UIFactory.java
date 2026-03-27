@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+// The UIFactory class is a utility class responsible for creating various UI elements such as buttons, labels, progress bars, and tables. 
+// It uses a Skin for styling and an EventManager to handle events triggered by UI interactions. The created UI elements are added to a specified UILayer for rendering on the screen.
+
 public class UIFactory {
 
     private final Skin         skin;

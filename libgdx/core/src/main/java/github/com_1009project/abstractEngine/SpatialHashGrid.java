@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
 
+// The SpatialHashGrid class is a data structure used for efficient spatial partitioning and collision detection in a 2D game world. It divides the game world into a grid of cells, where each cell can contain multiple entities.
+
 public class SpatialHashGrid {
     // size of each cell in the grid
     private int cellSize;

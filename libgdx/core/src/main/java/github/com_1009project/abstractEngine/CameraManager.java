@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+// The CameraManager class is responsible for managing the camera in the game.
 //https://libgdx.com/wiki/graphics/2d/orthographic-camera
 
 public class CameraManager {

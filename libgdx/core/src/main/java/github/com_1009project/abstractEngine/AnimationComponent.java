@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+// This component manages animations for an entity. It allows you to define multiple animations (e.g., idle, walk, run) and switch between them based on the entity's state.
+// Each animation is defined by a sprite sheet, the number of columns and rows in the sheet, and the frame duration. 
+// The component keeps track of the current animation state and the time spent in that state to determine which frame to display.
+// utilizes libgdx's Animation class to handle frame timing and looping.
+
 public class AnimationComponent {
     private Map<String, Animation<TextureRegion>> animations;
     private String currentState;

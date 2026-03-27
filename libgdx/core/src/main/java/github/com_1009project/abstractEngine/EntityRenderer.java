@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+// The EntityRenderer class is responsible for rendering all active renderable entities in the game. 
+// It retrieves the list of renderable entities from the EntityRegistry, sorts them by their Y position to ensure correct rendering order (entities with higher Y values are rendered behind those with lower Y values), and calls their render method using the provided SpriteBatch.
+
 public class EntityRenderer {
 
     private final EntityRegistry registry;

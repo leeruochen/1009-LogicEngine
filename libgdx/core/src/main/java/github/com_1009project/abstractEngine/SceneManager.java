@@ -8,18 +8,17 @@ import java.util.function.Supplier;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+// The SceneManager class is responsible for managing different scenes in the game. It allows for registering scenes with unique IDs, loading scenes, switching between scenes, and maintaining a history of previously loaded scenes. 
+// The SceneManager uses a Map to store registered scenes and their corresponding suppliers, which are used to create new instances of scenes when needed.
+
 public class SceneManager {
     private Map<Integer, Scene> scenes = new HashMap<>();
     private Map<Integer, Supplier<Scene>> sceneSuppliers = new HashMap<>();
     private Scene currentScene;
-    private EntityRegistry entityRegistry;
-    private EventManager eventManager;
     private SpriteBatch batch;
     private Stack<Integer> sceneHistory = new Stack<>();
 
-    public SceneManager(EntityRegistry entityRegistry, EventManager eventManager, SpriteBatch batch) {
-        this.entityRegistry = entityRegistry;
-        this.eventManager = eventManager;
+    public SceneManager(SpriteBatch batch) {
         this.batch = batch;
     }
 

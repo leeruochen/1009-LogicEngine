@@ -2,6 +2,8 @@ package github.com_1009project.abstractEngine;
 
 import com.badlogic.gdx.math.Vector2;
 
+// The PlayerMovement class is responsible for handling player input and updating the player's movement based on that input.
+
 public class PlayerMovement {
 	
     protected void handlePlayerInput(DynamicEntity entity, Event event, boolean isUp) {

@@ -18,7 +18,6 @@ import github.com_1009project.abstractEngine.SceneManager;
 import github.com_1009project.logicEngine.helpers.GameAssets;
 import github.com_1009project.logicEngine.helpers.GameContext;
 import github.com_1009project.logicEngine.helpers.GameRegistry;
-import github.com_1009project.logicEngine.scenes.GameScene;
 
 public class GameMaster extends ApplicationAdapter{
     private SceneManager sceneManager;
@@ -43,6 +42,7 @@ public class GameMaster extends ApplicationAdapter{
         eventManager = new EventManager();
         inputManager = new InputManager(eventManager);
         batch = new SpriteBatch();
+        sceneManager = new SceneManager(batch);
 
         // setup systems
         EntityRegistry entityRegistry = new EntityRegistry();
@@ -50,9 +50,6 @@ public class GameMaster extends ApplicationAdapter{
         MapEntityLoader mapEntityLoader = new MapEntityLoader(entityRegistry);
         MovementManager movementManager = new MovementManager(entityRegistry);
         OutputManager outputManager = new OutputManager(assetManager, "GameSettings", Event.SettingsChanged);
-
-        // scene manager (also needs entity registry and event manager)
-        sceneManager = new SceneManager(entityRegistry, eventManager, batch);
 
         // create game context
         GameContext gameContext = new GameContext(assetManager, entityRegistry, entityRenderer, mapEntityLoader, eventManager, inputManager, batch, sceneManager, outputManager, movementManager);

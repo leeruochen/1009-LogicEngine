@@ -1,5 +1,7 @@
 package github.com_1009project.abstractEngine;
 
+// The Ifactory interface defines a contract for creating entities in the game. It provides a method for creating an entity with basic parameters (position and size) and an optional method for creating an entity with additional parameters (texture and type).
+
 import com.badlogic.gdx.graphics.Texture;
 
 public interface Ifactory<T extends Entity> {

@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
+// The MapEntityLoader class is responsible for creating entities from map objects defined in a TiledMap.
+
 public class MapEntityLoader implements MapEntity {
 
     private final EntityRegistry registry;

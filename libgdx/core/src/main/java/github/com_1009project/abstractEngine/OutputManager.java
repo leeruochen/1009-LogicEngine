@@ -8,6 +8,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+// The OutputManager class is responsible for managing audio output in the game, including both music and sound effects. 
+// It maintains mappings of game events to corresponding music and sound file paths, allowing it to play the appropriate audio when specific events occur. 
+// The OutputManager also handles loading user preferences for audio volume and updating the currently playing music accordingly. 
+// It implements the EventObserver interface to listen for relevant events and trigger audio playback or preference updates as needed.
+
 public class OutputManager implements EventObserver{
     private AssetManager assetManager;
     private HashMap<Event, String> soundMap;

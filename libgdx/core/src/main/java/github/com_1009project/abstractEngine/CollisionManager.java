@@ -5,6 +5,8 @@ import java.util.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+// The CollisionManager class is responsible for managing the collision bounds of an entity. It defines a rectangular area that can be used for collision detection and response.
+
 public class CollisionManager implements Disposable {
     // spatial hash grid for efficient collision detection
     private SpatialHashGrid grid;

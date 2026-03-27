@@ -2,6 +2,8 @@ package github.com_1009project.abstractEngine;
 
 import com.badlogic.gdx.math.Vector2;
 
+// A DynamicEntity is an entity that can move and has physics properties. It extends the base Entity class and implements the IUpdatable and Moveable interfaces.
+
 public abstract class DynamicEntity extends Entity implements IUpdatable, Moveable {
 
     private Vector2 previousPosition;

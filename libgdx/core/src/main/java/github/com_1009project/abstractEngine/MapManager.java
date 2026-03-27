@@ -9,6 +9,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 //https://libgdx.com/wiki/graphics/2d/tile-maps
 
+// The MapManager class is responsible for managing the tile map in the game. It handles loading the map, rendering it, and creating entities based on the map's objects. 
+// The MapManager uses an OrthogonalTiledMapRenderer to render the map and can render it using either a static camera or a dynamic camera that follows the player. 
+// It also provides a method to load entities from the map objects, allowing for dynamic creation of game entities based on the data defined in the map.
+
 public class MapManager implements Disposable {
 
     private MapEntity entityManager;
