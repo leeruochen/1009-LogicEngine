@@ -1,13 +1,50 @@
 package github.com_1009project.logicEngine.helpers;
 
 import com.badlogic.gdx.Input;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import github.com_1009project.abstractEngine.*;
-import github.com_1009project.logicEngine.entities.*;
-import github.com_1009project.logicEngine.factories.*;
-import github.com_1009project.logicEngine.scenes.*;
+
+import github.com_1009project.abstractEngine.EntityRegistry;
+import github.com_1009project.abstractEngine.Event;
+import github.com_1009project.abstractEngine.Ifactory;
+import github.com_1009project.abstractEngine.InputManager;
+import github.com_1009project.abstractEngine.MapEntityLoader;
+import github.com_1009project.abstractEngine.OutputManager;
+import github.com_1009project.logicEngine.entities.Bun;
+import github.com_1009project.logicEngine.entities.Cheese;
+import github.com_1009project.logicEngine.entities.ChoppingStation;
+import github.com_1009project.logicEngine.entities.CollisionBox;
+import github.com_1009project.logicEngine.entities.Counter;
+import github.com_1009project.logicEngine.entities.CounterSubmission;
+import github.com_1009project.logicEngine.entities.IngredientBox;
+import github.com_1009project.logicEngine.entities.Lettuce;
+import github.com_1009project.logicEngine.entities.Patty;
+import github.com_1009project.logicEngine.entities.Plate;
+import github.com_1009project.logicEngine.entities.PlateBox;
+import github.com_1009project.logicEngine.entities.Player;
+import github.com_1009project.logicEngine.entities.RubbishBin;
+import github.com_1009project.logicEngine.entities.Stove;
+import github.com_1009project.logicEngine.entities.Tomato;
+import github.com_1009project.logicEngine.factories.BunFactory;
+import github.com_1009project.logicEngine.factories.CheeseFactory;
+import github.com_1009project.logicEngine.factories.ChoppingStationFactory;
+import github.com_1009project.logicEngine.factories.CollisionBoxFactory;
+import github.com_1009project.logicEngine.factories.CounterFactory;
+import github.com_1009project.logicEngine.factories.CounterSubmissionFactory;
+import github.com_1009project.logicEngine.factories.IngredientBoxFactory;
+import github.com_1009project.logicEngine.factories.LettuceFactory;
+import github.com_1009project.logicEngine.factories.PattyFactory;
+import github.com_1009project.logicEngine.factories.PlateBoxFactory;
+import github.com_1009project.logicEngine.factories.PlateFactory;
+import github.com_1009project.logicEngine.factories.PlayerFactory;
+import github.com_1009project.logicEngine.factories.RubbishBinFactory;
+import github.com_1009project.logicEngine.factories.StoveFactory;
+import github.com_1009project.logicEngine.factories.TomatoFactory;
+import github.com_1009project.logicEngine.scenes.GameScene;
+import github.com_1009project.logicEngine.scenes.MainMenuScene;
+import github.com_1009project.logicEngine.scenes.PauseScene;
+import github.com_1009project.logicEngine.scenes.SettingsScene;
+import github.com_1009project.logicEngine.scenes.TutorialScene;
 
 public final class GameRegistry {
     public static void registerEntities(GameContext gameContext) {

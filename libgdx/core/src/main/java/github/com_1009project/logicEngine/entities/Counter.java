@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.ICollidable;
+import github.com_1009project.logicEngine.FoodState;
 import github.com_1009project.logicEngine.Ingredient;
 import github.com_1009project.logicEngine.Station;
-import github.com_1009project.logicEngine.FoodState;
 
 /**
  * A counter surface where finished (Cooked) ingredients can be placed and stacked.

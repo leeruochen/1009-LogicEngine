@@ -1,5 +1,8 @@
 package github.com_1009project.logicEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,9 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import github.com_1009project.abstractEngine.UIFactory;
 import github.com_1009project.abstractEngine.UILayer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FoodQueueUI {
 

@@ -1,10 +1,11 @@
 package github.com_1009project.abstractEngine;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SpatialHashGrid {
     // size of each cell in the grid

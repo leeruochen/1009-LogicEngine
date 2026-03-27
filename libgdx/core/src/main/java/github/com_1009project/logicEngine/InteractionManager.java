@@ -10,9 +10,22 @@ import com.badlogic.gdx.math.Vector2;
 import github.com_1009project.abstractEngine.Entity;
 import github.com_1009project.abstractEngine.EntityRegistry;
 import github.com_1009project.abstractEngine.Event;
-import github.com_1009project.abstractEngine.EventObserver;
-import github.com_1009project.logicEngine.entities.*;
 import github.com_1009project.abstractEngine.EventManager;
+import github.com_1009project.abstractEngine.EventObserver;
+import github.com_1009project.logicEngine.entities.Bun;
+import github.com_1009project.logicEngine.entities.Cheese;
+import github.com_1009project.logicEngine.entities.ChoppingStation;
+import github.com_1009project.logicEngine.entities.Counter;
+import github.com_1009project.logicEngine.entities.CounterSubmission;
+import github.com_1009project.logicEngine.entities.IngredientBox;
+import github.com_1009project.logicEngine.entities.Lettuce;
+import github.com_1009project.logicEngine.entities.Patty;
+import github.com_1009project.logicEngine.entities.Plate;
+import github.com_1009project.logicEngine.entities.PlateBox;
+import github.com_1009project.logicEngine.entities.Player;
+import github.com_1009project.logicEngine.entities.RubbishBin;
+import github.com_1009project.logicEngine.entities.Stove;
+import github.com_1009project.logicEngine.entities.Tomato;
 
 /**
  * Handles all player-station interactions driven by the PlayerInteract and PlayerChop events.

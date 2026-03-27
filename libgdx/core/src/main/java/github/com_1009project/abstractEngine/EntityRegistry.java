@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 public class EntityRegistry implements MovementEntity {
 
     private final List<Entity> entities = new ArrayList<>(); // master list

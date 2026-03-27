@@ -1,10 +1,9 @@
 package github.com_1009project.logicEngine.factories;
 
-import github.com_1009project.abstractEngine.Ifactory;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
+import github.com_1009project.abstractEngine.Ifactory;
 import github.com_1009project.logicEngine.entities.Bun;
 
 public class BunFactory implements Ifactory<Bun> {

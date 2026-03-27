@@ -1,10 +1,8 @@
 package github.com_1009project.logicEngine.factories;
 
-import github.com_1009project.abstractEngine.Ifactory;
-
-
 import com.badlogic.gdx.graphics.Texture;
 
+import github.com_1009project.abstractEngine.Ifactory;
 import github.com_1009project.logicEngine.entities.IngredientBox;
 
 public class IngredientBoxFactory implements Ifactory<IngredientBox> {
