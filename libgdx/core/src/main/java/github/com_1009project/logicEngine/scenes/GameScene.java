@@ -26,6 +26,11 @@ import github.com_1009project.logicEngine.InteractionManager;
 import github.com_1009project.logicEngine.entities.Player;
 import github.com_1009project.logicEngine.helpers.GameContext;
 
+// This class is the main game scene, where the player plays the game. 
+// It contains the main game loop, which updates and renders all game systems and entities. 
+// It also handles the round timer, times-up overlay, and results overlay. 
+// It is loaded when the player starts the game from the main menu.
+
 public class GameScene extends Scene {
     // Engine systems
     private final CameraManager      camera;

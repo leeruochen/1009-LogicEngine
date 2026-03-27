@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import github.com_1009project.logicEngine.FoodQueueSystem;
 
+// This class is a helper class to load all game assets, such as textures, sounds, music, and maps. It is called in the GameMaster create method to load all assets at the start of the game.
+
 public final class GameAssets {
     public static void loadAll(AssetManager assetManager){
         // load textures

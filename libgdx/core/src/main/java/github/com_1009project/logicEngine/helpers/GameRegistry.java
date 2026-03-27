@@ -46,7 +46,13 @@ import github.com_1009project.logicEngine.scenes.PauseScene;
 import github.com_1009project.logicEngine.scenes.SettingsScene;
 import github.com_1009project.logicEngine.scenes.TutorialScene;
 
+// This class is a helper class to register all entities, factories, scenes, input mappings, and audio for the game. 
+// It is called in the GameMaster create method to register everything at the start of the game. 
+// It is also called whenever we need to re-register everything, such as when we change settings that affect entities or output.
+
 public final class GameRegistry {
+
+    // register all entities and factories, as well as map entity type aliases for map loading
     public static void registerEntities(GameContext gameContext) {
         EntityRegistry entityRegistry = gameContext.getEntityRegistry();
         MapEntityLoader mapEntityLoader = gameContext.getMapEntityLoader();
@@ -91,6 +97,7 @@ public final class GameRegistry {
         }
     }
 
+    // register all audio for the game, mapping them to events that trigger them
     public static void registerAudio(OutputManager outputManager) {
         outputManager.registerMusic(Event.GameStart, "sounds/LevelMusic.mp3");
         outputManager.registerMusic(Event.MenuEnter, "sounds/MainMenuMusic.mp3");
@@ -102,6 +109,7 @@ public final class GameRegistry {
         outputManager.registerSound(Event.Bin, "sounds/Bin.mp3");
     }
 
+    // register all scenes for the game, mapping them to scene IDs that can be used to load them
     public static void registerScenes(GameContext gameContext, int width, int height) {
         gameContext.getSceneManager().registerScene(0, () -> new MainMenuScene(0, gameContext));
         gameContext.getSceneManager().registerScene(1, () -> new GameScene(1, width, height, gameContext));
@@ -110,6 +118,7 @@ public final class GameRegistry {
         gameContext.getSceneManager().registerScene(99, () -> new PauseScene(99, gameContext));
     }
 
+    // register all input mappings for the game, mapping keys to events that trigger them
     public static void registerInput(InputManager inputManager) {
         inputManager.mapKey(Input.Keys.W, Event.PlayerUp);
 		inputManager.mapKey(Input.Keys.S, Event.PlayerDown);
@@ -122,11 +131,13 @@ public final class GameRegistry {
         inputManager.mapKey(Input.Keys.ESCAPE, Event.GamePause);
     }
 
+    // register any event observers for the game, such as systems that need to listen to events
     public static void registerEventObservers(GameContext gameContext) {
         gameContext.getEventManager().addObserver(gameContext.getMovementManager());
         gameContext.getEventManager().addObserver(gameContext.getOutputManager());
     }
 
+    // register all entities, factories, scenes, input mappings, and audio for the game
     public static void registerAll(GameContext gameContext, int width, int height) {
         registerScenes(gameContext, width, height);
         registerInput(gameContext.getInputManager());

@@ -12,6 +12,10 @@ import github.com_1009project.abstractEngine.MovementManager;
 import github.com_1009project.abstractEngine.OutputManager;
 import github.com_1009project.abstractEngine.SceneManager;
 
+// This class is a helper class to store all the main managers and variables that are used throughout the game. 
+// It is passed to all scenes and entities that need access to these managers and variables, so that we don't have to pass them individually. 
+// It is created in the GameMaster create method and passed to the GameRegistry to register all entities and factories, and then passed to all scenes when they are created.
+
 public class GameContext {
     private final AssetManager assetManager;
     private final EntityRegistry entityRegistry;

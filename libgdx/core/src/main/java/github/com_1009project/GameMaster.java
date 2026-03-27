@@ -67,6 +67,7 @@ public class GameMaster extends ApplicationAdapter{
 		sceneManager.loadScene(0);
     }
 
+    // render loop, updates and renders the current scene
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -75,6 +76,7 @@ public class GameMaster extends ApplicationAdapter{
         sceneManager.renderScene();
     }
 
+    // resize method, called when the window is resized, resizes the current scene
     @Override
     public void resize(int width, int height) {
         if (sceneManager.getCurrentScene() != null) {
@@ -82,6 +84,7 @@ public class GameMaster extends ApplicationAdapter{
         }
     }
 
+    // dispose method, called when the application is closed, disposes of all resources
     @Override
     public void dispose() {
         assetManager.dispose();
