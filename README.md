@@ -49,3 +49,15 @@ The underlying engine was built with a strict adherence to **SOLID Principles** 
 │       ├── abstractEngine        # Abstract Engine files (Core Framework)
 │       ├── logicEngine           # Logic Engine files (OverBaked Game)
 │       ├── GameMaster.java       # Main game lifecycle
+
+to run
+
+```bash
+
+git clone https://github.com/leeruochen/1009-LogicEngine
+cd 1009-LogicEngine
+./gradlew lwjgl3:run
+
+or however you run gradle builds
+
+```
